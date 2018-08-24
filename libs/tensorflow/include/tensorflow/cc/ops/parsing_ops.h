@@ -36,6 +36,7 @@ namespace ops {
 /// * use_quote_delim: If false, treats double quotation marks as regular
 /// characters inside of the string fields (ignoring RFC 4180, Section 2,
 /// Bullet 5).
+/// * na_value: Additional string to recognize as NA/NaN.
 ///
 /// Returns:
 /// * `OutputList`: Each tensor will have the same shape as records.
@@ -46,7 +47,7 @@ class DecodeCSV {
     /// char delimiter to separate fields in a record.
     ///
     /// Defaults to ","
-    Attrs FieldDelim(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs FieldDelim(StringPiece x) {
       Attrs ret = *this;
       ret.field_delim_ = x;
       return ret;
@@ -57,14 +58,32 @@ class DecodeCSV {
     /// Bullet 5).
     ///
     /// Defaults to true
-    Attrs UseQuoteDelim(bool x) {
+    TF_MUST_USE_RESULT Attrs UseQuoteDelim(bool x) {
       Attrs ret = *this;
       ret.use_quote_delim_ = x;
       return ret;
     }
 
+    /// Additional string to recognize as NA/NaN.
+    ///
+    /// Defaults to ""
+    TF_MUST_USE_RESULT Attrs NaValue(StringPiece x) {
+      Attrs ret = *this;
+      ret.na_value_ = x;
+      return ret;
+    }
+
+    /// Defaults to []
+    TF_MUST_USE_RESULT Attrs SelectCols(const gtl::ArraySlice<int>& x) {
+      Attrs ret = *this;
+      ret.select_cols_ = x;
+      return ret;
+    }
+
     StringPiece field_delim_ = ",";
     bool use_quote_delim_ = true;
+    StringPiece na_value_ = "";
+    gtl::ArraySlice<int> select_cols_ = {};
   };
   DecodeCSV(const ::tensorflow::Scope& scope, ::tensorflow::Input records,
           ::tensorflow::InputList record_defaults);
@@ -80,8 +99,64 @@ class DecodeCSV {
   static Attrs UseQuoteDelim(bool x) {
     return Attrs().UseQuoteDelim(x);
   }
+  static Attrs NaValue(StringPiece x) {
+    return Attrs().NaValue(x);
+  }
+  static Attrs SelectCols(const gtl::ArraySlice<int>& x) {
+    return Attrs().SelectCols(x);
+  }
 
   ::tensorflow::OutputList output;
+};
+
+/// Decompress strings.
+///
+/// This op decompresses each element of the `bytes` input `Tensor`, which
+/// is assumed to be compressed using the given `compression_type`.
+///
+/// The `output` is a string `Tensor` of the same shape as `bytes`,
+/// each element containing the decompressed data from the corresponding
+/// element in `bytes`.
+///
+/// Arguments:
+/// * scope: A Scope object
+/// * bytes: A Tensor of string which is compressed.
+///
+/// Optional attributes (see `Attrs`):
+/// * compression_type: A scalar containing either (i) the empty string (no
+/// compression), (ii) "ZLIB", or (iii) "GZIP".
+///
+/// Returns:
+/// * `Output`: A Tensor with the same shape as input `bytes`, uncompressed
+/// from bytes.
+class DecodeCompressed {
+ public:
+  /// Optional attribute setters for DecodeCompressed
+  struct Attrs {
+    /// A scalar containing either (i) the empty string (no
+    /// compression), (ii) "ZLIB", or (iii) "GZIP".
+    ///
+    /// Defaults to ""
+    TF_MUST_USE_RESULT Attrs CompressionType(StringPiece x) {
+      Attrs ret = *this;
+      ret.compression_type_ = x;
+      return ret;
+    }
+
+    StringPiece compression_type_ = "";
+  };
+  DecodeCompressed(const ::tensorflow::Scope& scope, ::tensorflow::Input bytes);
+  DecodeCompressed(const ::tensorflow::Scope& scope, ::tensorflow::Input bytes,
+                 const DecodeCompressed::Attrs& attrs);
+  operator ::tensorflow::Output() const { return output; }
+  operator ::tensorflow::Input() const { return output; }
+  ::tensorflow::Node* node() const { return output.node(); }
+
+  static Attrs CompressionType(StringPiece x) {
+    return Attrs().CompressionType(x);
+  }
+
+  ::tensorflow::Output output;
 };
 
 /// Convert JSON-encoded Example records to binary protocol buffer strings.
@@ -136,7 +211,7 @@ class DecodeRaw {
     /// `uint8`.
     ///
     /// Defaults to true
-    Attrs LittleEndian(bool x) {
+    TF_MUST_USE_RESULT Attrs LittleEndian(bool x) {
       Attrs ret = *this;
       ret.little_endian_ = x;
       return ret;
@@ -222,6 +297,61 @@ class ParseExample {
   ::tensorflow::OutputList dense_values;
 };
 
+/// Transforms a tf.Example proto (as a string) into typed tensors.
+///
+/// Arguments:
+/// * scope: A Scope object
+/// * serialized: A vector containing a batch of binary serialized Example protos.
+/// * dense_defaults: A list of Tensors (some may be empty), whose length matches
+/// the length of `dense_keys`. dense_defaults[j] provides default values
+/// when the example's feature_map lacks dense_key[j].  If an empty Tensor is
+/// provided for dense_defaults[j], then the Feature dense_keys[j] is required.
+/// The input type is inferred from dense_defaults[j], even when it's empty.
+/// If dense_defaults[j] is not empty, and dense_shapes[j] is fully defined,
+/// then the shape of dense_defaults[j] must match that of dense_shapes[j].
+/// If dense_shapes[j] has an undefined major dimension (variable strides dense
+/// feature), dense_defaults[j] must contain a single element:
+/// the padding element.
+/// * num_sparse: The number of sparse features to be parsed from the example. This
+/// must match the lengths of `sparse_keys` and `sparse_types`.
+/// * sparse_keys: A list of `num_sparse` strings.
+/// The keys expected in the Examples' features associated with sparse values.
+/// * dense_keys: The keys expected in the Examples' features associated with dense
+/// values.
+/// * sparse_types: A list of `num_sparse` types; the data types of data in each
+/// Feature given in sparse_keys.
+/// Currently the ParseSingleExample op supports DT_FLOAT (FloatList),
+/// DT_INT64 (Int64List), and DT_STRING (BytesList).
+/// * dense_shapes: The shapes of data in each Feature given in dense_keys.
+/// The length of this list must match the length of `dense_keys`.  The
+/// number of elements in the Feature corresponding to dense_key[j] must
+/// always equal dense_shapes[j].NumEntries().  If dense_shapes[j] ==
+/// (D0, D1, ..., DN) then the shape of output Tensor dense_values[j]
+/// will be (D0, D1, ..., DN): In the case dense_shapes[j] = (-1, D1,
+/// ..., DN), the shape of the output Tensor dense_values[j] will be (M,
+/// D1, .., DN), where M is the number of blocks of elements of length
+/// D1 * .... * DN, in the input.
+///
+/// Returns:
+/// * `OutputList` sparse_indices
+/// * `OutputList` sparse_values
+/// * `OutputList` sparse_shapes
+/// * `OutputList` dense_values
+class ParseSingleExample {
+ public:
+  ParseSingleExample(const ::tensorflow::Scope& scope, ::tensorflow::Input
+                   serialized, ::tensorflow::InputList dense_defaults, int64
+                   num_sparse, const gtl::ArraySlice<string>& sparse_keys,
+                   const gtl::ArraySlice<string>& dense_keys, const
+                   DataTypeSlice& sparse_types, const
+                   gtl::ArraySlice<PartialTensorShape>& dense_shapes);
+
+  ::tensorflow::OutputList sparse_indices;
+  ::tensorflow::OutputList sparse_values;
+  ::tensorflow::OutputList sparse_shapes;
+  ::tensorflow::OutputList dense_values;
+};
+
 /// Transforms a scalar brain.SequenceExample proto (as strings) into typed tensors.
 ///
 /// Arguments:
@@ -296,14 +426,14 @@ class ParseSingleSequenceExample {
     /// DT_INT64 (Int64List), and DT_STRING (BytesList).
     ///
     /// Defaults to []
-    Attrs ContextSparseTypes(const DataTypeSlice& x) {
+    TF_MUST_USE_RESULT Attrs ContextSparseTypes(const DataTypeSlice& x) {
       Attrs ret = *this;
       ret.context_sparse_types_ = x;
       return ret;
     }
 
     /// Defaults to []
-    Attrs FeatureListDenseTypes(const DataTypeSlice& x) {
+    TF_MUST_USE_RESULT Attrs FeatureListDenseTypes(const DataTypeSlice& x) {
       Attrs ret = *this;
       ret.feature_list_dense_types_ = x;
       return ret;
@@ -316,7 +446,7 @@ class ParseSingleSequenceExample {
     /// The shape of context_dense_values[j] will match context_dense_shapes[j].
     ///
     /// Defaults to []
-    Attrs ContextDenseShapes(const gtl::ArraySlice<PartialTensorShape>& x) {
+    TF_MUST_USE_RESULT Attrs ContextDenseShapes(const gtl::ArraySlice<PartialTensorShape>& x) {
       Attrs ret = *this;
       ret.context_dense_shapes_ = x;
       return ret;
@@ -328,7 +458,7 @@ class ParseSingleSequenceExample {
     /// DT_INT64 (Int64List), and DT_STRING (BytesList).
     ///
     /// Defaults to []
-    Attrs FeatureListSparseTypes(const DataTypeSlice& x) {
+    TF_MUST_USE_RESULT Attrs FeatureListSparseTypes(const DataTypeSlice& x) {
       Attrs ret = *this;
       ret.feature_list_sparse_types_ = x;
       return ret;
@@ -341,7 +471,7 @@ class ParseSingleSequenceExample {
     /// feature_list_dense_shapes[j].NumEntries().
     ///
     /// Defaults to []
-    Attrs FeatureListDenseShapes(const gtl::ArraySlice<PartialTensorShape>& x) {
+    TF_MUST_USE_RESULT Attrs FeatureListDenseShapes(const gtl::ArraySlice<PartialTensorShape>& x) {
       Attrs ret = *this;
       ret.feature_list_dense_shapes_ = x;
       return ret;
@@ -420,6 +550,24 @@ class ParseTensor {
   ::tensorflow::Output output;
 };
 
+/// Transforms a Tensor into a serialized TensorProto proto.
+///
+/// Arguments:
+/// * scope: A Scope object
+/// * tensor: A Tensor of type `T`.
+///
+/// Returns:
+/// * `Output`: A serialized TensorProto proto of the input tensor.
+class SerializeTensor {
+ public:
+  SerializeTensor(const ::tensorflow::Scope& scope, ::tensorflow::Input tensor);
+  operator ::tensorflow::Output() const { return serialized; }
+  operator ::tensorflow::Input() const { return serialized; }
+  ::tensorflow::Node* node() const { return serialized.node(); }
+
+  ::tensorflow::Output serialized;
+};
+
 /// Converts each string in the input Tensor to the specified numeric type.
 ///
 /// (Note that int32 overflow results in an error while float overflow
@@ -440,7 +588,7 @@ class StringToNumber {
     /// The numeric type to interpret each string in `string_tensor` as.
     ///
     /// Defaults to DT_FLOAT
-    Attrs OutType(DataType x) {
+    TF_MUST_USE_RESULT Attrs OutType(DataType x) {
       Attrs ret = *this;
       ret.out_type_ = x;
       return ret;

@@ -42,7 +42,7 @@ class Multinomial {
     /// generator is seeded by the given seed.  Otherwise, a random seed is used.
     ///
     /// Defaults to 0
-    Attrs Seed(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed(int64 x) {
       Attrs ret = *this;
       ret.seed_ = x;
       return ret;
@@ -51,14 +51,22 @@ class Multinomial {
     /// A second seed to avoid seed collision.
     ///
     /// Defaults to 0
-    Attrs Seed2(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed2(int64 x) {
       Attrs ret = *this;
       ret.seed2_ = x;
       return ret;
     }
 
+    /// Defaults to DT_INT64
+    TF_MUST_USE_RESULT Attrs OutputDtype(DataType x) {
+      Attrs ret = *this;
+      ret.output_dtype_ = x;
+      return ret;
+    }
+
     int64 seed_ = 0;
     int64 seed2_ = 0;
+    DataType output_dtype_ = DT_INT64;
   };
   Multinomial(const ::tensorflow::Scope& scope, ::tensorflow::Input logits,
             ::tensorflow::Input num_samples);
@@ -73,6 +81,9 @@ class Multinomial {
   }
   static Attrs Seed2(int64 x) {
     return Attrs().Seed2(x);
+  }
+  static Attrs OutputDtype(DataType x) {
+    return Attrs().OutputDtype(x);
   }
 
   ::tensorflow::Output output;
@@ -110,7 +121,7 @@ class ParameterizedTruncatedNormal {
     /// random seed.
     ///
     /// Defaults to 0
-    Attrs Seed(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed(int64 x) {
       Attrs ret = *this;
       ret.seed_ = x;
       return ret;
@@ -119,7 +130,7 @@ class ParameterizedTruncatedNormal {
     /// A second seed to avoid seed collision.
     ///
     /// Defaults to 0
-    Attrs Seed2(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed2(int64 x) {
       Attrs ret = *this;
       ret.seed2_ = x;
       return ret;
@@ -185,7 +196,7 @@ class RandomGamma {
     /// random seed.
     ///
     /// Defaults to 0
-    Attrs Seed(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed(int64 x) {
       Attrs ret = *this;
       ret.seed_ = x;
       return ret;
@@ -194,7 +205,7 @@ class RandomGamma {
     /// A second seed to avoid seed collision.
     ///
     /// Defaults to 0
-    Attrs Seed2(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed2(int64 x) {
       Attrs ret = *this;
       ret.seed2_ = x;
       return ret;
@@ -249,18 +260,17 @@ class RandomGamma {
 /// Returns:
 /// * `Output`: A tensor with shape `shape + shape(rate)`. Each slice
 /// `[:, ..., :, i0, i1, ...iN]` contains the samples drawn for
-/// `rate[i0, i1, ...iN]`. The dtype of the output matches the dtype of
-/// rate.
-class RandomPoisson {
+/// `rate[i0, i1, ...iN]`.
+class RandomPoissonV2 {
  public:
-  /// Optional attribute setters for RandomPoisson
+  /// Optional attribute setters for RandomPoissonV2
   struct Attrs {
     /// If either `seed` or `seed2` are set to be non-zero, the random number
     /// generator is seeded by the given seed.  Otherwise, it is seeded by a
     /// random seed.
     ///
     /// Defaults to 0
-    Attrs Seed(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed(int64 x) {
       Attrs ret = *this;
       ret.seed_ = x;
       return ret;
@@ -269,19 +279,27 @@ class RandomPoisson {
     /// A second seed to avoid seed collision.
     ///
     /// Defaults to 0
-    Attrs Seed2(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed2(int64 x) {
       Attrs ret = *this;
       ret.seed2_ = x;
       return ret;
     }
 
+    /// Defaults to DT_INT64
+    TF_MUST_USE_RESULT Attrs Dtype(DataType x) {
+      Attrs ret = *this;
+      ret.dtype_ = x;
+      return ret;
+    }
+
     int64 seed_ = 0;
     int64 seed2_ = 0;
+    DataType dtype_ = DT_INT64;
   };
-  RandomPoisson(const ::tensorflow::Scope& scope, ::tensorflow::Input shape,
-              ::tensorflow::Input rate);
-  RandomPoisson(const ::tensorflow::Scope& scope, ::tensorflow::Input shape,
-              ::tensorflow::Input rate, const RandomPoisson::Attrs& attrs);
+  RandomPoissonV2(const ::tensorflow::Scope& scope, ::tensorflow::Input shape,
+                ::tensorflow::Input rate);
+  RandomPoissonV2(const ::tensorflow::Scope& scope, ::tensorflow::Input shape,
+                ::tensorflow::Input rate, const RandomPoissonV2::Attrs& attrs);
   operator ::tensorflow::Output() const { return output; }
   operator ::tensorflow::Input() const { return output; }
   ::tensorflow::Node* node() const { return output.node(); }
@@ -291,6 +309,9 @@ class RandomPoisson {
   }
   static Attrs Seed2(int64 x) {
     return Attrs().Seed2(x);
+  }
+  static Attrs Dtype(DataType x) {
+    return Attrs().Dtype(x);
   }
 
   ::tensorflow::Output output;
@@ -330,7 +351,7 @@ class RandomShuffle {
     /// random seed.
     ///
     /// Defaults to 0
-    Attrs Seed(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed(int64 x) {
       Attrs ret = *this;
       ret.seed_ = x;
       return ret;
@@ -339,7 +360,7 @@ class RandomShuffle {
     /// A second seed to avoid seed collision.
     ///
     /// Defaults to 0
-    Attrs Seed2(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed2(int64 x) {
       Attrs ret = *this;
       ret.seed2_ = x;
       return ret;
@@ -391,7 +412,7 @@ class RandomNormal {
     /// random seed.
     ///
     /// Defaults to 0
-    Attrs Seed(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed(int64 x) {
       Attrs ret = *this;
       ret.seed_ = x;
       return ret;
@@ -400,7 +421,7 @@ class RandomNormal {
     /// A second seed to avoid seed collision.
     ///
     /// Defaults to 0
-    Attrs Seed2(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed2(int64 x) {
       Attrs ret = *this;
       ret.seed2_ = x;
       return ret;
@@ -454,7 +475,7 @@ class RandomUniform {
     /// random seed.
     ///
     /// Defaults to 0
-    Attrs Seed(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed(int64 x) {
       Attrs ret = *this;
       ret.seed_ = x;
       return ret;
@@ -463,7 +484,7 @@ class RandomUniform {
     /// A second seed to avoid seed collision.
     ///
     /// Defaults to 0
-    Attrs Seed2(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed2(int64 x) {
       Attrs ret = *this;
       ret.seed2_ = x;
       return ret;
@@ -523,7 +544,7 @@ class RandomUniformInt {
     /// random seed.
     ///
     /// Defaults to 0
-    Attrs Seed(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed(int64 x) {
       Attrs ret = *this;
       ret.seed_ = x;
       return ret;
@@ -532,7 +553,7 @@ class RandomUniformInt {
     /// A second seed to avoid seed collision.
     ///
     /// Defaults to 0
-    Attrs Seed2(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed2(int64 x) {
       Attrs ret = *this;
       ret.seed2_ = x;
       return ret;
@@ -589,7 +610,7 @@ class TruncatedNormal {
     /// random seed.
     ///
     /// Defaults to 0
-    Attrs Seed(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed(int64 x) {
       Attrs ret = *this;
       ret.seed_ = x;
       return ret;
@@ -598,7 +619,7 @@ class TruncatedNormal {
     /// A second seed to avoid seed collision.
     ///
     /// Defaults to 0
-    Attrs Seed2(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed2(int64 x) {
       Attrs ret = *this;
       ret.seed2_ = x;
       return ret;

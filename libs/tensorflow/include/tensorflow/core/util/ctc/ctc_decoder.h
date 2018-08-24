@@ -1,3 +1,4 @@
+// LINT.IfChange
 /* Copyright 2016 The TensorFlow Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,6 +16,9 @@ limitations under the License.
 
 #ifndef TENSORFLOW_CORE_UTIL_CTC_CTC_DECODER_H_
 #define TENSORFLOW_CORE_UTIL_CTC_CTC_DECODER_H_
+
+#include <memory>
+#include <vector>
 
 #include "third_party/eigen3/Eigen/Core"
 #include "tensorflow/core/lib/core/errors.h"
@@ -109,3 +113,4 @@ class CTCGreedyDecoder : public CTCDecoder {
 }  // namespace tensorflow
 
 #endif  // TENSORFLOW_CORE_UTIL_CTC_CTC_DECODER_H_
+// LINT.ThenChange(//tensorflow/contrib/lite/experimental/kernels/ctc_decoder.h)

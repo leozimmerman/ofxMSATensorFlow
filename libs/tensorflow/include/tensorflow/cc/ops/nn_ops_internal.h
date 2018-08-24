@@ -52,7 +52,7 @@ class AvgPoolGrad {
     ///     [batch, in_channels, in_height, in_width].
     ///
     /// Defaults to "NHWC"
-    Attrs DataFormat(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
       Attrs ret = *this;
       ret.data_format_ = x;
       return ret;
@@ -146,7 +146,7 @@ class FractionalAvgPoolGrad {
     /// The result would be [41/3, 26/3] for fractional avg pooling.
     ///
     /// Defaults to false
-    Attrs Overlapping(bool x) {
+    TF_MUST_USE_RESULT Attrs Overlapping(bool x) {
       Attrs ret = *this;
       ret.overlapping_ = x;
       return ret;
@@ -215,7 +215,7 @@ class FractionalMaxPoolGrad {
     /// The result would be [20, 16] for fractional max pooling.
     ///
     /// Defaults to false
-    Attrs Overlapping(bool x) {
+    TF_MUST_USE_RESULT Attrs Overlapping(bool x) {
       Attrs ret = *this;
       ret.overlapping_ = x;
       return ret;
@@ -268,7 +268,7 @@ class LRNGrad {
     /// A depth radius.
     ///
     /// Defaults to 5
-    Attrs DepthRadius(int64 x) {
+    TF_MUST_USE_RESULT Attrs DepthRadius(int64 x) {
       Attrs ret = *this;
       ret.depth_radius_ = x;
       return ret;
@@ -277,7 +277,7 @@ class LRNGrad {
     /// An offset (usually > 0 to avoid dividing by 0).
     ///
     /// Defaults to 1
-    Attrs Bias(float x) {
+    TF_MUST_USE_RESULT Attrs Bias(float x) {
       Attrs ret = *this;
       ret.bias_ = x;
       return ret;
@@ -286,7 +286,7 @@ class LRNGrad {
     /// A scale factor, usually positive.
     ///
     /// Defaults to 1
-    Attrs Alpha(float x) {
+    TF_MUST_USE_RESULT Attrs Alpha(float x) {
       Attrs ret = *this;
       ret.alpha_ = x;
       return ret;
@@ -295,7 +295,7 @@ class LRNGrad {
     /// An exponent.
     ///
     /// Defaults to 0.5
-    Attrs Beta(float x) {
+    TF_MUST_USE_RESULT Attrs Beta(float x) {
       Attrs ret = *this;
       ret.beta_ = x;
       return ret;
@@ -363,7 +363,7 @@ class MaxPoolGrad {
     ///     [batch, in_channels, in_height, in_width].
     ///
     /// Defaults to "NHWC"
-    Attrs DataFormat(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
       Attrs ret = *this;
       ret.data_format_ = x;
       return ret;
@@ -423,7 +423,8 @@ class MaxPoolGradWithArgmax {
 /// Arguments:
 /// * scope: A Scope object
 /// * gradients: The backpropagated gradients to the corresponding Relu6 operation.
-/// * features: The features passed as input to the corresponding Relu6 operation.
+/// * features: The features passed as input to the corresponding Relu6 operation, or
+/// its output; using either one produces the same result.
 ///
 /// Returns:
 /// * `Output`: The gradients:
@@ -460,6 +461,27 @@ class ReluGrad {
   ::tensorflow::Output backprops;
 };
 
+/// Computes gradients for the scaled exponential linear (Selu) operation.
+///
+/// Arguments:
+/// * scope: A Scope object
+/// * gradients: The backpropagated gradients to the corresponding Selu operation.
+/// * outputs: The outputs of the corresponding Selu operation.
+///
+/// Returns:
+/// * `Output`: The gradients: `gradients * (outputs + scale * alpha)`
+/// if outputs < 0, `scale * gradients` otherwise.
+class SeluGrad {
+ public:
+  SeluGrad(const ::tensorflow::Scope& scope, ::tensorflow::Input gradients,
+         ::tensorflow::Input outputs);
+  operator ::tensorflow::Output() const { return backprops; }
+  operator ::tensorflow::Input() const { return backprops; }
+  ::tensorflow::Node* node() const { return backprops.node(); }
+
+  ::tensorflow::Output backprops;
+};
+
 /// Computes softplus gradients for a softplus operation.
 ///
 /// Arguments:
@@ -488,7 +510,7 @@ class SoftplusGrad {
 /// * features: The features passed as input to the corresponding softsign operation.
 ///
 /// Returns:
-/// * `Output`: The gradients: `gradients / (1 + abs(-features)) ** 2`.
+/// * `Output`: The gradients: `gradients / (1 + abs(features)) ** 2`.
 class SoftsignGrad {
  public:
   SoftsignGrad(const ::tensorflow::Scope& scope, ::tensorflow::Input gradients,

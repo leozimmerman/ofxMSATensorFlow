@@ -49,7 +49,7 @@ class ApplyAdadelta {
     /// a lock; otherwise the behavior is undefined, but may exhibit less contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -105,13 +105,21 @@ class ApplyAdagrad {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
     }
 
+    /// Defaults to true
+    TF_MUST_USE_RESULT Attrs UpdateSlots(bool x) {
+      Attrs ret = *this;
+      ret.update_slots_ = x;
+      return ret;
+    }
+
     bool use_locking_ = false;
+    bool update_slots_ = true;
   };
   ApplyAdagrad(const ::tensorflow::Scope& scope, ::tensorflow::Input var,
              ::tensorflow::Input accum, ::tensorflow::Input lr,
@@ -125,6 +133,9 @@ class ApplyAdagrad {
 
   static Attrs UseLocking(bool x) {
     return Attrs().UseLocking(x);
+  }
+  static Attrs UpdateSlots(bool x) {
+    return Attrs().UpdateSlots(x);
   }
 
   ::tensorflow::Output out;
@@ -157,7 +168,7 @@ class ApplyAdagradDA {
     /// a lock; otherwise the behavior is undefined, but may exhibit less contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -189,10 +200,10 @@ class ApplyAdagradDA {
 
 /// Update '*var' according to the Adam algorithm.
 ///
-/// lr_t <- learning_rate * sqrt(1 - beta2^t) / (1 - beta1^t)
-/// m_t <- beta1 * m_{t-1} + (1 - beta1) * g_t
-/// v_t <- beta2 * v_{t-1} + (1 - beta2) * g_t * g_t
-/// variable <- variable - lr_t * m_t / (sqrt(v_t) + epsilon)
+/// $$lr_t := \text{learning_rate} * \sqrt{(1 - beta_2^t) / (1 - beta_1^t)}$$
+/// $$m_t := beta_1 * m_{t-1} + (1 - beta_1) * g$$
+/// $$v_t := beta_2 * v_{t-1} + (1 - beta_2) * g * g$$
+/// $$variable := variable - lr_t * m_t / (\sqrt{v_t} + \epsilon)$$
 ///
 /// Arguments:
 /// * scope: A Scope object
@@ -224,7 +235,7 @@ class ApplyAdam {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -233,7 +244,7 @@ class ApplyAdam {
     /// If `True`, uses the nesterov update.
     ///
     /// Defaults to false
-    Attrs UseNesterov(bool x) {
+    TF_MUST_USE_RESULT Attrs UseNesterov(bool x) {
       Attrs ret = *this;
       ret.use_nesterov_ = x;
       return ret;
@@ -262,6 +273,65 @@ class ApplyAdam {
   }
   static Attrs UseNesterov(bool x) {
     return Attrs().UseNesterov(x);
+  }
+
+  ::tensorflow::Output out;
+};
+
+/// Update '*var' according to the AddSign update.
+///
+/// m_t <- beta1 * m_{t-1} + (1 - beta1) * g
+/// update <- (alpha + sign_decay * sign(g) *sign(m)) * g
+/// variable <- variable - lr_t * update
+///
+/// Arguments:
+/// * scope: A Scope object
+/// * var: Should be from a Variable().
+/// * m: Should be from a Variable().
+/// * lr: Scaling factor. Must be a scalar.
+/// * alpha: Must be a scalar.
+/// * sign_decay: Must be a scalar.
+/// * beta: Must be a scalar.
+/// * grad: The gradient.
+///
+/// Optional attributes (see `Attrs`):
+/// * use_locking: If `True`, updating of the var and m tensors is
+/// protected by a lock; otherwise the behavior is undefined, but may exhibit less
+/// contention.
+///
+/// Returns:
+/// * `Output`: Same as "var".
+class ApplyAddSign {
+ public:
+  /// Optional attribute setters for ApplyAddSign
+  struct Attrs {
+    /// If `True`, updating of the var and m tensors is
+    /// protected by a lock; otherwise the behavior is undefined, but may exhibit less
+    /// contention.
+    ///
+    /// Defaults to false
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
+      Attrs ret = *this;
+      ret.use_locking_ = x;
+      return ret;
+    }
+
+    bool use_locking_ = false;
+  };
+  ApplyAddSign(const ::tensorflow::Scope& scope, ::tensorflow::Input var,
+             ::tensorflow::Input m, ::tensorflow::Input lr, ::tensorflow::Input
+             alpha, ::tensorflow::Input sign_decay, ::tensorflow::Input beta,
+             ::tensorflow::Input grad);
+  ApplyAddSign(const ::tensorflow::Scope& scope, ::tensorflow::Input var,
+             ::tensorflow::Input m, ::tensorflow::Input lr, ::tensorflow::Input
+             alpha, ::tensorflow::Input sign_decay, ::tensorflow::Input beta,
+             ::tensorflow::Input grad, const ApplyAddSign::Attrs& attrs);
+  operator ::tensorflow::Output() const { return out; }
+  operator ::tensorflow::Input() const { return out; }
+  ::tensorflow::Node* node() const { return out.node(); }
+
+  static Attrs UseLocking(bool x) {
+    return Attrs().UseLocking(x);
   }
 
   ::tensorflow::Output out;
@@ -315,7 +385,7 @@ class ApplyCenteredRMSProp {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -343,63 +413,6 @@ class ApplyCenteredRMSProp {
   }
 
   ::tensorflow::Output out;
-};
-
-/// var -= alpha * (delta + lambda * delta * (var - shadow))
-///
-/// Update '*shadow' by changing it to the new value of 'var'
-///
-/// Arguments:
-/// * scope: A Scope object
-/// * var: Should be from a Variable().
-/// * alpha: Scaling factor. Must be a scalar.
-/// * delta: The change.
-/// * lambda: The variance parameter.
-/// * shadow: Same as "var".
-///
-/// Optional attributes (see `Attrs`):
-/// * use_locking: If `True`, the subtraction will be protected by a lock;
-/// otherwise the behavior is undefined, but may exhibit less contention.
-///
-/// Returns:
-/// * the created `Operation`
-class ApplyDelayCompensatedGradientDescent {
- public:
-  /// Optional attribute setters for ApplyDelayCompensatedGradientDescent
-  struct Attrs {
-    /// If `True`, the subtraction will be protected by a lock;
-    /// otherwise the behavior is undefined, but may exhibit less contention.
-    ///
-    /// Defaults to false
-    Attrs UseLocking(bool x) {
-      Attrs ret = *this;
-      ret.use_locking_ = x;
-      return ret;
-    }
-
-    bool use_locking_ = false;
-  };
-  ApplyDelayCompensatedGradientDescent(const ::tensorflow::Scope& scope,
-                                     ::tensorflow::Input var,
-                                     ::tensorflow::Input alpha,
-                                     ::tensorflow::Input delta,
-                                     ::tensorflow::Input lambda,
-                                     ::tensorflow::Input shadow);
-  ApplyDelayCompensatedGradientDescent(const ::tensorflow::Scope& scope,
-                                     ::tensorflow::Input var,
-                                     ::tensorflow::Input alpha,
-                                     ::tensorflow::Input delta,
-                                     ::tensorflow::Input lambda,
-                                     ::tensorflow::Input shadow, const
-                                     ApplyDelayCompensatedGradientDescent::Attrs&
-                                     attrs);
-  operator ::tensorflow::Operation() const { return operation; }
-
-  static Attrs UseLocking(bool x) {
-    return Attrs().UseLocking(x);
-  }
-
-  Operation operation;
 };
 
 /// Update '*var' according to the Ftrl-proximal scheme.
@@ -437,7 +450,7 @@ class ApplyFtrl {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -502,7 +515,7 @@ class ApplyFtrlV2 {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -554,7 +567,7 @@ class ApplyGradientDescent {
     /// otherwise the behavior is undefined, but may exhibit less contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -612,7 +625,7 @@ class ApplyMomentum {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -623,7 +636,7 @@ class ApplyMomentum {
     /// var - lr * momentum * accum.
     ///
     /// Defaults to false
-    Attrs UseNesterov(bool x) {
+    TF_MUST_USE_RESULT Attrs UseNesterov(bool x) {
       Attrs ret = *this;
       ret.use_nesterov_ = x;
       return ret;
@@ -648,6 +661,66 @@ class ApplyMomentum {
   }
   static Attrs UseNesterov(bool x) {
     return Attrs().UseNesterov(x);
+  }
+
+  ::tensorflow::Output out;
+};
+
+/// Update '*var' according to the AddSign update.
+///
+/// m_t <- beta1 * m_{t-1} + (1 - beta1) * g
+/// update <- exp(logbase * sign_decay * sign(g) * sign(m_t)) * g
+/// variable <- variable - lr_t * update
+///
+/// Arguments:
+/// * scope: A Scope object
+/// * var: Should be from a Variable().
+/// * m: Should be from a Variable().
+/// * lr: Scaling factor. Must be a scalar.
+/// * logbase: Must be a scalar.
+/// * sign_decay: Must be a scalar.
+/// * beta: Must be a scalar.
+/// * grad: The gradient.
+///
+/// Optional attributes (see `Attrs`):
+/// * use_locking: If `True`, updating of the var and m tensors is
+/// protected by a lock; otherwise the behavior is undefined, but may exhibit less
+/// contention.
+///
+/// Returns:
+/// * `Output`: Same as "var".
+class ApplyPowerSign {
+ public:
+  /// Optional attribute setters for ApplyPowerSign
+  struct Attrs {
+    /// If `True`, updating of the var and m tensors is
+    /// protected by a lock; otherwise the behavior is undefined, but may exhibit less
+    /// contention.
+    ///
+    /// Defaults to false
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
+      Attrs ret = *this;
+      ret.use_locking_ = x;
+      return ret;
+    }
+
+    bool use_locking_ = false;
+  };
+  ApplyPowerSign(const ::tensorflow::Scope& scope, ::tensorflow::Input var,
+               ::tensorflow::Input m, ::tensorflow::Input lr,
+               ::tensorflow::Input logbase, ::tensorflow::Input sign_decay,
+               ::tensorflow::Input beta, ::tensorflow::Input grad);
+  ApplyPowerSign(const ::tensorflow::Scope& scope, ::tensorflow::Input var,
+               ::tensorflow::Input m, ::tensorflow::Input lr,
+               ::tensorflow::Input logbase, ::tensorflow::Input sign_decay,
+               ::tensorflow::Input beta, ::tensorflow::Input grad, const
+               ApplyPowerSign::Attrs& attrs);
+  operator ::tensorflow::Output() const { return out; }
+  operator ::tensorflow::Input() const { return out; }
+  ::tensorflow::Node* node() const { return out.node(); }
+
+  static Attrs UseLocking(bool x) {
+    return Attrs().UseLocking(x);
   }
 
   ::tensorflow::Output out;
@@ -682,7 +755,7 @@ class ApplyProximalAdagrad {
     /// a lock; otherwise the behavior is undefined, but may exhibit less contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -737,7 +810,7 @@ class ApplyProximalGradientDescent {
     /// otherwise the behavior is undefined, but may exhibit less contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -804,7 +877,7 @@ class ApplyRMSProp {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -864,7 +937,7 @@ class ResourceApplyAdadelta {
     /// a lock; otherwise the behavior is undefined, but may exhibit less contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -919,13 +992,21 @@ class ResourceApplyAdagrad {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
     }
 
+    /// Defaults to true
+    TF_MUST_USE_RESULT Attrs UpdateSlots(bool x) {
+      Attrs ret = *this;
+      ret.update_slots_ = x;
+      return ret;
+    }
+
     bool use_locking_ = false;
+    bool update_slots_ = true;
   };
   ResourceApplyAdagrad(const ::tensorflow::Scope& scope, ::tensorflow::Input var,
                      ::tensorflow::Input accum, ::tensorflow::Input lr,
@@ -938,6 +1019,9 @@ class ResourceApplyAdagrad {
 
   static Attrs UseLocking(bool x) {
     return Attrs().UseLocking(x);
+  }
+  static Attrs UpdateSlots(bool x) {
+    return Attrs().UpdateSlots(x);
   }
 
   Operation operation;
@@ -970,7 +1054,7 @@ class ResourceApplyAdagradDA {
     /// a lock; otherwise the behavior is undefined, but may exhibit less contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -1002,10 +1086,10 @@ class ResourceApplyAdagradDA {
 
 /// Update '*var' according to the Adam algorithm.
 ///
-/// lr_t <- learning_rate * sqrt(1 - beta2^t) / (1 - beta1^t)
-/// m_t <- beta1 * m_{t-1} + (1 - beta1) * g_t
-/// v_t <- beta2 * v_{t-1} + (1 - beta2) * g_t * g_t
-/// variable <- variable - lr_t * m_t / (sqrt(v_t) + epsilon)
+/// $$lr_t := \text{learning_rate} * \sqrt{(1 - beta_2^t) / (1 - beta_1^t)}$$
+/// $$m_t := beta_1 * m_{t-1} + (1 - beta_1) * g$$
+/// $$v_t := beta_2 * v_{t-1} + (1 - beta_2) * g * g$$
+/// $$variable := variable - lr_t * m_t / (\sqrt{v_t} + \epsilon)$$
 ///
 /// Arguments:
 /// * scope: A Scope object
@@ -1037,7 +1121,7 @@ class ResourceApplyAdam {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -1046,7 +1130,7 @@ class ResourceApplyAdam {
     /// If `True`, uses the nesterov update.
     ///
     /// Defaults to false
-    Attrs UseNesterov(bool x) {
+    TF_MUST_USE_RESULT Attrs UseNesterov(bool x) {
       Attrs ret = *this;
       ret.use_nesterov_ = x;
       return ret;
@@ -1075,6 +1159,64 @@ class ResourceApplyAdam {
   }
   static Attrs UseNesterov(bool x) {
     return Attrs().UseNesterov(x);
+  }
+
+  Operation operation;
+};
+
+/// Update '*var' according to the AddSign update.
+///
+/// m_t <- beta1 * m_{t-1} + (1 - beta1) * g
+/// update <- (alpha + sign_decay * sign(g) *sign(m)) * g
+/// variable <- variable - lr_t * update
+///
+/// Arguments:
+/// * scope: A Scope object
+/// * var: Should be from a Variable().
+/// * m: Should be from a Variable().
+/// * lr: Scaling factor. Must be a scalar.
+/// * alpha: Must be a scalar.
+/// * sign_decay: Must be a scalar.
+/// * beta: Must be a scalar.
+/// * grad: The gradient.
+///
+/// Optional attributes (see `Attrs`):
+/// * use_locking: If `True`, updating of the var and m tensors is
+/// protected by a lock; otherwise the behavior is undefined, but may exhibit less
+/// contention.
+///
+/// Returns:
+/// * the created `Operation`
+class ResourceApplyAddSign {
+ public:
+  /// Optional attribute setters for ResourceApplyAddSign
+  struct Attrs {
+    /// If `True`, updating of the var and m tensors is
+    /// protected by a lock; otherwise the behavior is undefined, but may exhibit less
+    /// contention.
+    ///
+    /// Defaults to false
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
+      Attrs ret = *this;
+      ret.use_locking_ = x;
+      return ret;
+    }
+
+    bool use_locking_ = false;
+  };
+  ResourceApplyAddSign(const ::tensorflow::Scope& scope, ::tensorflow::Input var,
+                     ::tensorflow::Input m, ::tensorflow::Input lr,
+                     ::tensorflow::Input alpha, ::tensorflow::Input sign_decay,
+                     ::tensorflow::Input beta, ::tensorflow::Input grad);
+  ResourceApplyAddSign(const ::tensorflow::Scope& scope, ::tensorflow::Input var,
+                     ::tensorflow::Input m, ::tensorflow::Input lr,
+                     ::tensorflow::Input alpha, ::tensorflow::Input sign_decay,
+                     ::tensorflow::Input beta, ::tensorflow::Input grad, const
+                     ResourceApplyAddSign::Attrs& attrs);
+  operator ::tensorflow::Operation() const { return operation; }
+
+  static Attrs UseLocking(bool x) {
+    return Attrs().UseLocking(x);
   }
 
   Operation operation;
@@ -1128,7 +1270,7 @@ class ResourceApplyCenteredRMSProp {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -1193,7 +1335,7 @@ class ResourceApplyFtrl {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -1258,7 +1400,7 @@ class ResourceApplyFtrlV2 {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -1309,7 +1451,7 @@ class ResourceApplyGradientDescent {
     /// otherwise the behavior is undefined, but may exhibit less contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -1367,7 +1509,7 @@ class ResourceApplyMomentum {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -1378,7 +1520,7 @@ class ResourceApplyMomentum {
     /// var - lr * momentum * accum.
     ///
     /// Defaults to false
-    Attrs UseNesterov(bool x) {
+    TF_MUST_USE_RESULT Attrs UseNesterov(bool x) {
       Attrs ret = *this;
       ret.use_nesterov_ = x;
       return ret;
@@ -1401,6 +1543,66 @@ class ResourceApplyMomentum {
   }
   static Attrs UseNesterov(bool x) {
     return Attrs().UseNesterov(x);
+  }
+
+  Operation operation;
+};
+
+/// Update '*var' according to the AddSign update.
+///
+/// m_t <- beta1 * m_{t-1} + (1 - beta1) * g
+/// update <- exp(logbase * sign_decay * sign(g) * sign(m_t)) * g
+/// variable <- variable - lr_t * update
+///
+/// Arguments:
+/// * scope: A Scope object
+/// * var: Should be from a Variable().
+/// * m: Should be from a Variable().
+/// * lr: Scaling factor. Must be a scalar.
+/// * logbase: Must be a scalar.
+/// * sign_decay: Must be a scalar.
+/// * beta: Must be a scalar.
+/// * grad: The gradient.
+///
+/// Optional attributes (see `Attrs`):
+/// * use_locking: If `True`, updating of the var and m tensors is
+/// protected by a lock; otherwise the behavior is undefined, but may exhibit less
+/// contention.
+///
+/// Returns:
+/// * the created `Operation`
+class ResourceApplyPowerSign {
+ public:
+  /// Optional attribute setters for ResourceApplyPowerSign
+  struct Attrs {
+    /// If `True`, updating of the var and m tensors is
+    /// protected by a lock; otherwise the behavior is undefined, but may exhibit less
+    /// contention.
+    ///
+    /// Defaults to false
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
+      Attrs ret = *this;
+      ret.use_locking_ = x;
+      return ret;
+    }
+
+    bool use_locking_ = false;
+  };
+  ResourceApplyPowerSign(const ::tensorflow::Scope& scope, ::tensorflow::Input
+                       var, ::tensorflow::Input m, ::tensorflow::Input lr,
+                       ::tensorflow::Input logbase, ::tensorflow::Input
+                       sign_decay, ::tensorflow::Input beta,
+                       ::tensorflow::Input grad);
+  ResourceApplyPowerSign(const ::tensorflow::Scope& scope, ::tensorflow::Input
+                       var, ::tensorflow::Input m, ::tensorflow::Input lr,
+                       ::tensorflow::Input logbase, ::tensorflow::Input
+                       sign_decay, ::tensorflow::Input beta,
+                       ::tensorflow::Input grad, const
+                       ResourceApplyPowerSign::Attrs& attrs);
+  operator ::tensorflow::Operation() const { return operation; }
+
+  static Attrs UseLocking(bool x) {
+    return Attrs().UseLocking(x);
   }
 
   Operation operation;
@@ -1435,7 +1637,7 @@ class ResourceApplyProximalAdagrad {
     /// a lock; otherwise the behavior is undefined, but may exhibit less contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -1490,7 +1692,7 @@ class ResourceApplyProximalGradientDescent {
     /// otherwise the behavior is undefined, but may exhibit less contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -1560,7 +1762,7 @@ class ResourceApplyRMSProp {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -1614,7 +1816,7 @@ class ResourceSparseApplyAdadelta {
     /// a lock; otherwise the behavior is undefined, but may exhibit less contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -1674,13 +1876,21 @@ class ResourceSparseApplyAdagrad {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
     }
 
+    /// Defaults to true
+    TF_MUST_USE_RESULT Attrs UpdateSlots(bool x) {
+      Attrs ret = *this;
+      ret.update_slots_ = x;
+      return ret;
+    }
+
     bool use_locking_ = false;
+    bool update_slots_ = true;
   };
   ResourceSparseApplyAdagrad(const ::tensorflow::Scope& scope,
                            ::tensorflow::Input var, ::tensorflow::Input accum,
@@ -1695,6 +1905,9 @@ class ResourceSparseApplyAdagrad {
 
   static Attrs UseLocking(bool x) {
     return Attrs().UseLocking(x);
+  }
+  static Attrs UpdateSlots(bool x) {
+    return Attrs().UpdateSlots(x);
   }
 
   Operation operation;
@@ -1728,7 +1941,7 @@ class ResourceSparseApplyAdagradDA {
     /// a lock; otherwise the behavior is undefined, but may exhibit less contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -1809,7 +2022,7 @@ class ResourceSparseApplyCenteredRMSProp {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -1883,7 +2096,7 @@ class ResourceSparseApplyFtrl {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -1951,7 +2164,7 @@ class ResourceSparseApplyFtrlV2 {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -2018,7 +2231,7 @@ class ResourceSparseApplyMomentum {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -2029,7 +2242,7 @@ class ResourceSparseApplyMomentum {
     /// var - lr * momentum * accum.
     ///
     /// Defaults to false
-    Attrs UseNesterov(bool x) {
+    TF_MUST_USE_RESULT Attrs UseNesterov(bool x) {
       Attrs ret = *this;
       ret.use_nesterov_ = x;
       return ret;
@@ -2093,7 +2306,7 @@ class ResourceSparseApplyProximalAdagrad {
     /// a lock; otherwise the behavior is undefined, but may exhibit less contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -2153,7 +2366,7 @@ class ResourceSparseApplyProximalGradientDescent {
     /// otherwise the behavior is undefined, but may exhibit less contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -2226,7 +2439,7 @@ class ResourceSparseApplyRMSProp {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -2284,7 +2497,7 @@ class SparseApplyAdadelta {
     /// a lock; otherwise the behavior is undefined, but may exhibit less contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -2317,8 +2530,8 @@ class SparseApplyAdadelta {
 /// Update relevant entries in '*var' and '*accum' according to the adagrad scheme.
 ///
 /// That is for rows we have grad for, we update var and accum as follows:
-/// accum += grad * grad
-/// var -= lr * grad * (1 / sqrt(accum))
+/// $$accum += grad * grad$$
+/// $$var -= lr * grad * (1 / sqrt(accum))$$
 ///
 /// Arguments:
 /// * scope: A Scope object
@@ -2344,13 +2557,21 @@ class SparseApplyAdagrad {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
     }
 
+    /// Defaults to true
+    TF_MUST_USE_RESULT Attrs UpdateSlots(bool x) {
+      Attrs ret = *this;
+      ret.update_slots_ = x;
+      return ret;
+    }
+
     bool use_locking_ = false;
+    bool update_slots_ = true;
   };
   SparseApplyAdagrad(const ::tensorflow::Scope& scope, ::tensorflow::Input var,
                    ::tensorflow::Input accum, ::tensorflow::Input lr,
@@ -2365,6 +2586,9 @@ class SparseApplyAdagrad {
 
   static Attrs UseLocking(bool x) {
     return Attrs().UseLocking(x);
+  }
+  static Attrs UpdateSlots(bool x) {
+    return Attrs().UpdateSlots(x);
   }
 
   ::tensorflow::Output out;
@@ -2398,7 +2622,7 @@ class SparseApplyAdagradDA {
     /// a lock; otherwise the behavior is undefined, but may exhibit less contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -2445,9 +2669,9 @@ class SparseApplyAdagradDA {
 /// mean_grad = decay * mean_grad + (1-decay) * gradient
 /// Delta = learning_rate * gradient / sqrt(mean_square + epsilon - mean_grad ** 2)
 ///
-/// ms <- rho * ms_{t-1} + (1-rho) * grad * grad
-/// mom <- momentum * mom_{t-1} + lr * grad / sqrt(ms + epsilon)
-/// var <- var - mom
+/// $$ms <- rho * ms_{t-1} + (1-rho) * grad * grad$$
+/// $$mom <- momentum * mom_{t-1} + lr * grad / sqrt(ms + epsilon)$$
+/// $$var <- var - mom$$
 ///
 /// Arguments:
 /// * scope: A Scope object
@@ -2477,7 +2701,7 @@ class SparseApplyCenteredRMSProp {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -2514,11 +2738,11 @@ class SparseApplyCenteredRMSProp {
 /// Update relevant entries in '*var' according to the Ftrl-proximal scheme.
 ///
 /// That is for rows we have grad for, we update var, accum and linear as follows:
-/// accum_new = accum + grad * grad
-/// linear += grad + (accum_new^(-lr_power) - accum^(-lr_power)) / lr * var
-/// quadratic = 1.0 / (accum_new^(lr_power) * lr) + 2 * l2
-/// var = (sign(linear) * l1 - linear) / quadratic if |linear| > l1 else 0.0
-/// accum = accum_new
+/// $$accum_new = accum + grad * grad$$
+/// $$linear += grad + (accum_{new}^{-lr_{power}} - accum^{-lr_{power}} / lr * var$$
+/// $$quadratic = 1.0 / (accum_{new}^{lr_{power}} * lr) + 2 * l2$$
+/// $$var = (sign(linear) * l1 - linear) / quadratic\ if\ |linear| > l1\ else\ 0.0$$
+/// $$accum = accum_{new}$$
 ///
 /// Arguments:
 /// * scope: A Scope object
@@ -2548,7 +2772,7 @@ class SparseApplyFtrl {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -2617,7 +2841,7 @@ class SparseApplyFtrlV2 {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -2655,8 +2879,8 @@ class SparseApplyFtrlV2 {
 ///
 /// That is for rows we have grad for, we update var and accum as follows:
 ///
-/// accum = accum * momentum + grad
-/// var -= lr * accum
+/// $$accum = accum * momentum + grad$$
+/// $$var -= lr * accum$$
 ///
 /// Arguments:
 /// * scope: A Scope object
@@ -2686,7 +2910,7 @@ class SparseApplyMomentum {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -2697,7 +2921,7 @@ class SparseApplyMomentum {
     /// var - lr * momentum * accum.
     ///
     /// Defaults to false
-    Attrs UseNesterov(bool x) {
+    TF_MUST_USE_RESULT Attrs UseNesterov(bool x) {
       Attrs ret = *this;
       ret.use_nesterov_ = x;
       return ret;
@@ -2732,10 +2956,10 @@ class SparseApplyMomentum {
 /// Sparse update entries in '*var' and '*accum' according to FOBOS algorithm.
 ///
 /// That is for rows we have grad for, we update var and accum as follows:
-/// accum += grad * grad
-/// prox_v = var
-/// prox_v -= lr * grad * (1 / sqrt(accum))
-/// var = sign(prox_v)/(1+lr*l2) * max{|prox_v|-lr*l1,0}
+/// $$accum += grad * grad$$
+/// $$prox_v = var$$
+/// $$prox_v -= lr * grad * (1 / sqrt(accum))$$
+/// $$var = sign(prox_v)/(1+lr*l2) * max{|prox_v|-lr*l1,0}$$
 ///
 /// Arguments:
 /// * scope: A Scope object
@@ -2761,7 +2985,7 @@ class SparseApplyProximalAdagrad {
     /// a lock; otherwise the behavior is undefined, but may exhibit less contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -2794,8 +3018,8 @@ class SparseApplyProximalAdagrad {
 /// Sparse update '*var' as FOBOS algorithm with fixed learning rate.
 ///
 /// That is for rows we have grad for, we update var as follows:
-/// prox_v = var - alpha * grad
-/// var = sign(prox_v)/(1+alpha*l2) * max{|prox_v|-alpha*l1,0}
+/// $$prox_v = var - alpha * grad$$
+/// $$var = sign(prox_v)/(1+alpha*l2) * max{|prox_v|-alpha*l1,0}$$
 ///
 /// Arguments:
 /// * scope: A Scope object
@@ -2820,7 +3044,7 @@ class SparseApplyProximalGradientDescent {
     /// otherwise the behavior is undefined, but may exhibit less contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;
@@ -2860,9 +3084,9 @@ class SparseApplyProximalGradientDescent {
 /// mean_square = decay * mean_square + (1-decay) * gradient ** 2
 /// Delta = learning_rate * gradient / sqrt(mean_square + epsilon)
 ///
-/// ms <- rho * ms_{t-1} + (1-rho) * grad * grad
-/// mom <- momentum * mom_{t-1} + lr * grad / sqrt(ms + epsilon)
-/// var <- var - mom
+/// $$ms <- rho * ms_{t-1} + (1-rho) * grad * grad$$
+/// $$mom <- momentum * mom_{t-1} + lr * grad / sqrt(ms + epsilon)$$
+/// $$var <- var - mom$$
 ///
 /// Arguments:
 /// * scope: A Scope object
@@ -2891,7 +3115,7 @@ class SparseApplyRMSProp {
     /// contention.
     ///
     /// Defaults to false
-    Attrs UseLocking(bool x) {
+    TF_MUST_USE_RESULT Attrs UseLocking(bool x) {
       Attrs ret = *this;
       ret.use_locking_ = x;
       return ret;

@@ -47,7 +47,7 @@ class Enter {
     /// If true, the output is constant within the child frame.
     ///
     /// Defaults to false
-    Attrs IsConstant(bool x) {
+    TF_MUST_USE_RESULT Attrs IsConstant(bool x) {
       Attrs ret = *this;
       ret.is_constant_ = x;
       return ret;
@@ -56,7 +56,7 @@ class Enter {
     /// The number of iterations allowed to run in parallel.
     ///
     /// Defaults to 10
-    Attrs ParallelIterations(int64 x) {
+    TF_MUST_USE_RESULT Attrs ParallelIterations(int64 x) {
       Attrs ret = *this;
       ret.parallel_iterations_ = x;
       return ret;
@@ -128,7 +128,7 @@ class RefEnter {
     /// If true, the output is constant within the child frame.
     ///
     /// Defaults to false
-    Attrs IsConstant(bool x) {
+    TF_MUST_USE_RESULT Attrs IsConstant(bool x) {
       Attrs ret = *this;
       ret.is_constant_ = x;
       return ret;
@@ -137,7 +137,7 @@ class RefEnter {
     /// The number of iterations allowed to run in parallel.
     ///
     /// Defaults to 10
-    Attrs ParallelIterations(int64 x) {
+    TF_MUST_USE_RESULT Attrs ParallelIterations(int64 x) {
       Attrs ret = *this;
       ret.parallel_iterations_ = x;
       return ret;

@@ -40,7 +40,7 @@ class Assert {
     /// Print this many entries of each tensor.
     ///
     /// Defaults to 3
-    Attrs Summarize(int64 x) {
+    TF_MUST_USE_RESULT Attrs Summarize(int64 x) {
       Attrs ret = *this;
       ret.summarize_ = x;
       return ret;
@@ -93,7 +93,7 @@ class AudioSummary {
     /// Max number of batch elements to generate audio for.
     ///
     /// Defaults to 3
-    Attrs MaxOutputs(int64 x) {
+    TF_MUST_USE_RESULT Attrs MaxOutputs(int64 x) {
       Attrs ret = *this;
       ret.max_outputs_ = x;
       return ret;
@@ -173,7 +173,7 @@ class HistogramSummary {
 ///    generated sequentially as '*tag*/image/0', '*tag*/image/1', etc.
 ///
 /// The `bad_color` argument is the color to use in the generated images for
-/// non-finite input values.  It is a `unit8` 1-D tensor of length `channels`.
+/// non-finite input values.  It is a `uint8` 1-D tensor of length `channels`.
 /// Each element must be in the range `[0, 255]` (It represents the value of a
 /// pixel in the output image).  Non-finite values in the input tensor are
 /// replaced by this tensor in the output image.  The default value is the color
@@ -198,7 +198,7 @@ class ImageSummary {
     /// Max number of batch elements to generate images for.
     ///
     /// Defaults to 3
-    Attrs MaxImages(int64 x) {
+    TF_MUST_USE_RESULT Attrs MaxImages(int64 x) {
       Attrs ret = *this;
       ret.max_images_ = x;
       return ret;
@@ -207,7 +207,7 @@ class ImageSummary {
     /// Color to use for pixels with non-finite values.
     ///
     /// Defaults to Tensor<type: uint8 shape: [4] values: 255 0 0...>
-    Attrs BadColor(const TensorProto& x) {
+    TF_MUST_USE_RESULT Attrs BadColor(const TensorProto& x) {
       Attrs ret = *this;
       ret.bad_color_ = x;
       return ret;
@@ -284,7 +284,7 @@ class Print {
     /// A string, prefix of the error message.
     ///
     /// Defaults to ""
-    Attrs Message(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Message(StringPiece x) {
       Attrs ret = *this;
       ret.message_ = x;
       return ret;
@@ -293,7 +293,7 @@ class Print {
     /// Only log `first_n` number of times. -1 disables logging.
     ///
     /// Defaults to -1
-    Attrs FirstN(int64 x) {
+    TF_MUST_USE_RESULT Attrs FirstN(int64 x) {
       Attrs ret = *this;
       ret.first_n_ = x;
       return ret;
@@ -302,7 +302,7 @@ class Print {
     /// Only print this many entries of each tensor.
     ///
     /// Defaults to 3
-    Attrs Summarize(int64 x) {
+    TF_MUST_USE_RESULT Attrs Summarize(int64 x) {
       Attrs ret = *this;
       ret.summarize_ = x;
       return ret;
@@ -380,7 +380,7 @@ class TensorSummary {
     /// A json-encoded SummaryDescription proto.
     ///
     /// Defaults to ""
-    Attrs Description(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Description(StringPiece x) {
       Attrs ret = *this;
       ret.description_ = x;
       return ret;
@@ -389,7 +389,7 @@ class TensorSummary {
     /// An unused list of strings.
     ///
     /// Defaults to []
-    Attrs Labels(const gtl::ArraySlice<string>& x) {
+    TF_MUST_USE_RESULT Attrs Labels(const gtl::ArraySlice<string>& x) {
       Attrs ret = *this;
       ret.labels_ = x;
       return ret;
@@ -398,7 +398,7 @@ class TensorSummary {
     /// An unused string.
     ///
     /// Defaults to ""
-    Attrs DisplayName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs DisplayName(StringPiece x) {
       Attrs ret = *this;
       ret.display_name_ = x;
       return ret;
@@ -449,6 +449,28 @@ class TensorSummaryV2 {
   ::tensorflow::Node* node() const { return summary.node(); }
 
   ::tensorflow::Output summary;
+};
+
+/// Provides the time since epoch in seconds.
+///
+/// Returns the timestamp as a `float64` for seconds since the Unix epoch.
+///
+/// Note: the timestamp is computed when the op is executed, not when it is added
+/// to the graph.
+///
+/// Arguments:
+/// * scope: A Scope object
+///
+/// Returns:
+/// * `Output`: The ts tensor.
+class Timestamp {
+ public:
+  Timestamp(const ::tensorflow::Scope& scope);
+  operator ::tensorflow::Output() const { return ts; }
+  operator ::tensorflow::Input() const { return ts; }
+  ::tensorflow::Node* node() const { return ts.node(); }
+
+  ::tensorflow::Output ts;
 };
 
 /// @}

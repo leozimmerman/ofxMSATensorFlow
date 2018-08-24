@@ -67,7 +67,7 @@ class AudioSpectrogram {
     /// magnitude. Using squared magnitude can avoid extra calculations.
     ///
     /// Defaults to false
-    Attrs MagnitudeSquared(bool x) {
+    TF_MUST_USE_RESULT Attrs MagnitudeSquared(bool x) {
       Attrs ret = *this;
       ret.magnitude_squared_ = x;
       return ret;
@@ -126,7 +126,7 @@ class DecodeWav {
     /// Number of sample channels wanted.
     ///
     /// Defaults to -1
-    Attrs DesiredChannels(int64 x) {
+    TF_MUST_USE_RESULT Attrs DesiredChannels(int64 x) {
       Attrs ret = *this;
       ret.desired_channels_ = x;
       return ret;
@@ -135,7 +135,7 @@ class DecodeWav {
     /// Length of audio requested.
     ///
     /// Defaults to -1
-    Attrs DesiredSamples(int64 x) {
+    TF_MUST_USE_RESULT Attrs DesiredSamples(int64 x) {
       Attrs ret = *this;
       ret.desired_samples_ = x;
       return ret;
@@ -220,7 +220,7 @@ class Mfcc {
     /// ceptstrum.
     ///
     /// Defaults to 4000
-    Attrs UpperFrequencyLimit(float x) {
+    TF_MUST_USE_RESULT Attrs UpperFrequencyLimit(float x) {
       Attrs ret = *this;
       ret.upper_frequency_limit_ = x;
       return ret;
@@ -230,7 +230,7 @@ class Mfcc {
     /// ceptstrum.
     ///
     /// Defaults to 20
-    Attrs LowerFrequencyLimit(float x) {
+    TF_MUST_USE_RESULT Attrs LowerFrequencyLimit(float x) {
       Attrs ret = *this;
       ret.lower_frequency_limit_ = x;
       return ret;
@@ -239,7 +239,7 @@ class Mfcc {
     /// Resolution of the Mel bank used internally.
     ///
     /// Defaults to 40
-    Attrs FilterbankChannelCount(int64 x) {
+    TF_MUST_USE_RESULT Attrs FilterbankChannelCount(int64 x) {
       Attrs ret = *this;
       ret.filterbank_channel_count_ = x;
       return ret;
@@ -248,7 +248,7 @@ class Mfcc {
     /// How many output channels to produce per time slice.
     ///
     /// Defaults to 13
-    Attrs DctCoefficientCount(int64 x) {
+    TF_MUST_USE_RESULT Attrs DctCoefficientCount(int64 x) {
       Attrs ret = *this;
       ret.dct_coefficient_count_ = x;
       return ret;

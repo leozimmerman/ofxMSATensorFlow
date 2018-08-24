@@ -146,7 +146,7 @@ class Barrier {
     /// component_types.
     ///
     /// Defaults to []
-    Attrs Shapes(const gtl::ArraySlice<PartialTensorShape>& x) {
+    TF_MUST_USE_RESULT Attrs Shapes(const gtl::ArraySlice<PartialTensorShape>& x) {
       Attrs ret = *this;
       ret.shapes_ = x;
       return ret;
@@ -156,7 +156,7 @@ class Barrier {
     /// which is the largest capacity of the underlying queue.
     ///
     /// Defaults to -1
-    Attrs Capacity(int64 x) {
+    TF_MUST_USE_RESULT Attrs Capacity(int64 x) {
       Attrs ret = *this;
       ret.capacity_ = x;
       return ret;
@@ -166,7 +166,7 @@ class Barrier {
     /// Otherwise, a default container is used.
     ///
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
@@ -176,7 +176,7 @@ class Barrier {
     /// across multiple sessions.
     ///
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -239,7 +239,7 @@ class BarrierClose {
     /// if no new key is introduced.
     ///
     /// Defaults to false
-    Attrs CancelPendingEnqueues(bool x) {
+    TF_MUST_USE_RESULT Attrs CancelPendingEnqueues(bool x) {
       Attrs ret = *this;
       ret.cancel_pending_enqueues_ = x;
       return ret;
@@ -364,14 +364,14 @@ class BarrierTakeMany {
     /// already closed.
     ///
     /// Defaults to false
-    Attrs AllowSmallBatch(bool x) {
+    TF_MUST_USE_RESULT Attrs AllowSmallBatch(bool x) {
       Attrs ret = *this;
       ret.allow_small_batch_ = x;
       return ret;
     }
 
     /// Defaults to false
-    Attrs WaitForIncomplete(bool x) {
+    TF_MUST_USE_RESULT Attrs WaitForIncomplete(bool x) {
       Attrs ret = *this;
       ret.wait_for_incomplete_ = x;
       return ret;
@@ -382,7 +382,7 @@ class BarrierTakeMany {
     /// Note: This option is not supported yet.
     ///
     /// Defaults to -1
-    Attrs TimeoutMs(int64 x) {
+    TF_MUST_USE_RESULT Attrs TimeoutMs(int64 x) {
       Attrs ret = *this;
       ret.timeout_ms_ = x;
       return ret;
@@ -444,7 +444,7 @@ class ConditionalAccumulator {
     /// Otherwise, a default container is used.
     ///
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
@@ -454,7 +454,7 @@ class ConditionalAccumulator {
     /// given name across multiple sessions.
     ///
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -583,7 +583,8 @@ class DynamicPartition {
 ///
 /// Values are merged in order, so if an index appears in both `indices[m][i]` and
 /// `indices[n][j]` for `(m,i) < (n,j)` the slice `data[n][j]` will appear in the
-/// merged result.
+/// merged result. If you do not need this guarantee, ParallelDynamicStitch might
+/// perform better on some devices.
 ///
 /// For example:
 ///
@@ -666,7 +667,7 @@ class FIFOQueue {
     /// only one element may be dequeued at a time.
     ///
     /// Defaults to []
-    Attrs Shapes(const gtl::ArraySlice<PartialTensorShape>& x) {
+    TF_MUST_USE_RESULT Attrs Shapes(const gtl::ArraySlice<PartialTensorShape>& x) {
       Attrs ret = *this;
       ret.shapes_ = x;
       return ret;
@@ -676,7 +677,7 @@ class FIFOQueue {
     /// Negative numbers mean no limit.
     ///
     /// Defaults to -1
-    Attrs Capacity(int64 x) {
+    TF_MUST_USE_RESULT Attrs Capacity(int64 x) {
       Attrs ret = *this;
       ret.capacity_ = x;
       return ret;
@@ -686,7 +687,7 @@ class FIFOQueue {
     /// Otherwise, a default container is used.
     ///
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
@@ -696,7 +697,7 @@ class FIFOQueue {
     /// across multiple sessions.
     ///
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -801,28 +802,28 @@ class MapClear {
   /// Optional attribute setters for MapClear
   struct Attrs {
     /// Defaults to 0
-    Attrs Capacity(int64 x) {
+    TF_MUST_USE_RESULT Attrs Capacity(int64 x) {
       Attrs ret = *this;
       ret.capacity_ = x;
       return ret;
     }
 
     /// Defaults to 0
-    Attrs MemoryLimit(int64 x) {
+    TF_MUST_USE_RESULT Attrs MemoryLimit(int64 x) {
       Attrs ret = *this;
       ret.memory_limit_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -866,28 +867,28 @@ class MapIncompleteSize {
   /// Optional attribute setters for MapIncompleteSize
   struct Attrs {
     /// Defaults to 0
-    Attrs Capacity(int64 x) {
+    TF_MUST_USE_RESULT Attrs Capacity(int64 x) {
       Attrs ret = *this;
       ret.capacity_ = x;
       return ret;
     }
 
     /// Defaults to 0
-    Attrs MemoryLimit(int64 x) {
+    TF_MUST_USE_RESULT Attrs MemoryLimit(int64 x) {
       Attrs ret = *this;
       ret.memory_limit_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -937,28 +938,28 @@ class MapPeek {
   /// Optional attribute setters for MapPeek
   struct Attrs {
     /// Defaults to 0
-    Attrs Capacity(int64 x) {
+    TF_MUST_USE_RESULT Attrs Capacity(int64 x) {
       Attrs ret = *this;
       ret.capacity_ = x;
       return ret;
     }
 
     /// Defaults to 0
-    Attrs MemoryLimit(int64 x) {
+    TF_MUST_USE_RESULT Attrs MemoryLimit(int64 x) {
       Attrs ret = *this;
       ret.memory_limit_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -1005,28 +1006,28 @@ class MapSize {
   /// Optional attribute setters for MapSize
   struct Attrs {
     /// Defaults to 0
-    Attrs Capacity(int64 x) {
+    TF_MUST_USE_RESULT Attrs Capacity(int64 x) {
       Attrs ret = *this;
       ret.capacity_ = x;
       return ret;
     }
 
     /// Defaults to 0
-    Attrs MemoryLimit(int64 x) {
+    TF_MUST_USE_RESULT Attrs MemoryLimit(int64 x) {
       Attrs ret = *this;
       ret.memory_limit_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -1085,14 +1086,14 @@ class MapStage {
     /// on the container will block when the capacity is reached.
     ///
     /// Defaults to 0
-    Attrs Capacity(int64 x) {
+    TF_MUST_USE_RESULT Attrs Capacity(int64 x) {
       Attrs ret = *this;
       ret.capacity_ = x;
       return ret;
     }
 
     /// Defaults to 0
-    Attrs MemoryLimit(int64 x) {
+    TF_MUST_USE_RESULT Attrs MemoryLimit(int64 x) {
       Attrs ret = *this;
       ret.memory_limit_ = x;
       return ret;
@@ -1102,7 +1103,7 @@ class MapStage {
     /// a default container is used.
     ///
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
@@ -1111,7 +1112,7 @@ class MapStage {
     /// It is necessary to match this name to the matching Unstage Op.
     ///
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -1161,28 +1162,28 @@ class MapUnstage {
   /// Optional attribute setters for MapUnstage
   struct Attrs {
     /// Defaults to 0
-    Attrs Capacity(int64 x) {
+    TF_MUST_USE_RESULT Attrs Capacity(int64 x) {
       Attrs ret = *this;
       ret.capacity_ = x;
       return ret;
     }
 
     /// Defaults to 0
-    Attrs MemoryLimit(int64 x) {
+    TF_MUST_USE_RESULT Attrs MemoryLimit(int64 x) {
       Attrs ret = *this;
       ret.memory_limit_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -1233,28 +1234,28 @@ class MapUnstageNoKey {
   /// Optional attribute setters for MapUnstageNoKey
   struct Attrs {
     /// Defaults to 0
-    Attrs Capacity(int64 x) {
+    TF_MUST_USE_RESULT Attrs Capacity(int64 x) {
       Attrs ret = *this;
       ret.capacity_ = x;
       return ret;
     }
 
     /// Defaults to 0
-    Attrs MemoryLimit(int64 x) {
+    TF_MUST_USE_RESULT Attrs MemoryLimit(int64 x) {
       Attrs ret = *this;
       ret.memory_limit_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -1300,28 +1301,28 @@ class OrderedMapClear {
   /// Optional attribute setters for OrderedMapClear
   struct Attrs {
     /// Defaults to 0
-    Attrs Capacity(int64 x) {
+    TF_MUST_USE_RESULT Attrs Capacity(int64 x) {
       Attrs ret = *this;
       ret.capacity_ = x;
       return ret;
     }
 
     /// Defaults to 0
-    Attrs MemoryLimit(int64 x) {
+    TF_MUST_USE_RESULT Attrs MemoryLimit(int64 x) {
       Attrs ret = *this;
       ret.memory_limit_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -1365,28 +1366,28 @@ class OrderedMapIncompleteSize {
   /// Optional attribute setters for OrderedMapIncompleteSize
   struct Attrs {
     /// Defaults to 0
-    Attrs Capacity(int64 x) {
+    TF_MUST_USE_RESULT Attrs Capacity(int64 x) {
       Attrs ret = *this;
       ret.capacity_ = x;
       return ret;
     }
 
     /// Defaults to 0
-    Attrs MemoryLimit(int64 x) {
+    TF_MUST_USE_RESULT Attrs MemoryLimit(int64 x) {
       Attrs ret = *this;
       ret.memory_limit_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -1437,28 +1438,28 @@ class OrderedMapPeek {
   /// Optional attribute setters for OrderedMapPeek
   struct Attrs {
     /// Defaults to 0
-    Attrs Capacity(int64 x) {
+    TF_MUST_USE_RESULT Attrs Capacity(int64 x) {
       Attrs ret = *this;
       ret.capacity_ = x;
       return ret;
     }
 
     /// Defaults to 0
-    Attrs MemoryLimit(int64 x) {
+    TF_MUST_USE_RESULT Attrs MemoryLimit(int64 x) {
       Attrs ret = *this;
       ret.memory_limit_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -1505,28 +1506,28 @@ class OrderedMapSize {
   /// Optional attribute setters for OrderedMapSize
   struct Attrs {
     /// Defaults to 0
-    Attrs Capacity(int64 x) {
+    TF_MUST_USE_RESULT Attrs Capacity(int64 x) {
       Attrs ret = *this;
       ret.capacity_ = x;
       return ret;
     }
 
     /// Defaults to 0
-    Attrs MemoryLimit(int64 x) {
+    TF_MUST_USE_RESULT Attrs MemoryLimit(int64 x) {
       Attrs ret = *this;
       ret.memory_limit_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -1587,14 +1588,14 @@ class OrderedMapStage {
     /// on the container will block when the capacity is reached.
     ///
     /// Defaults to 0
-    Attrs Capacity(int64 x) {
+    TF_MUST_USE_RESULT Attrs Capacity(int64 x) {
       Attrs ret = *this;
       ret.capacity_ = x;
       return ret;
     }
 
     /// Defaults to 0
-    Attrs MemoryLimit(int64 x) {
+    TF_MUST_USE_RESULT Attrs MemoryLimit(int64 x) {
       Attrs ret = *this;
       ret.memory_limit_ = x;
       return ret;
@@ -1604,7 +1605,7 @@ class OrderedMapStage {
     /// a default container is used.
     ///
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
@@ -1613,7 +1614,7 @@ class OrderedMapStage {
     /// It is necessary to match this name to the matching Unstage Op.
     ///
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -1664,28 +1665,28 @@ class OrderedMapUnstage {
   /// Optional attribute setters for OrderedMapUnstage
   struct Attrs {
     /// Defaults to 0
-    Attrs Capacity(int64 x) {
+    TF_MUST_USE_RESULT Attrs Capacity(int64 x) {
       Attrs ret = *this;
       ret.capacity_ = x;
       return ret;
     }
 
     /// Defaults to 0
-    Attrs MemoryLimit(int64 x) {
+    TF_MUST_USE_RESULT Attrs MemoryLimit(int64 x) {
       Attrs ret = *this;
       ret.memory_limit_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -1736,28 +1737,28 @@ class OrderedMapUnstageNoKey {
   /// Optional attribute setters for OrderedMapUnstageNoKey
   struct Attrs {
     /// Defaults to 0
-    Attrs Capacity(int64 x) {
+    TF_MUST_USE_RESULT Attrs Capacity(int64 x) {
       Attrs ret = *this;
       ret.capacity_ = x;
       return ret;
     }
 
     /// Defaults to 0
-    Attrs MemoryLimit(int64 x) {
+    TF_MUST_USE_RESULT Attrs MemoryLimit(int64 x) {
       Attrs ret = *this;
       ret.memory_limit_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -1833,7 +1834,7 @@ class PaddingFIFOQueue {
     /// different ranks and shapes, but only one element may be dequeued at a time.
     ///
     /// Defaults to []
-    Attrs Shapes(const gtl::ArraySlice<PartialTensorShape>& x) {
+    TF_MUST_USE_RESULT Attrs Shapes(const gtl::ArraySlice<PartialTensorShape>& x) {
       Attrs ret = *this;
       ret.shapes_ = x;
       return ret;
@@ -1843,7 +1844,7 @@ class PaddingFIFOQueue {
     /// Negative numbers mean no limit.
     ///
     /// Defaults to -1
-    Attrs Capacity(int64 x) {
+    TF_MUST_USE_RESULT Attrs Capacity(int64 x) {
       Attrs ret = *this;
       ret.capacity_ = x;
       return ret;
@@ -1853,7 +1854,7 @@ class PaddingFIFOQueue {
     /// Otherwise, a default container is used.
     ///
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
@@ -1863,7 +1864,7 @@ class PaddingFIFOQueue {
     /// across multiple sessions.
     ///
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -1896,6 +1897,86 @@ class PaddingFIFOQueue {
   }
 
   ::tensorflow::Output handle;
+};
+
+/// Interleave the values from the `data` tensors into a single tensor.
+///
+/// Builds a merged tensor such that
+///
+/// ```python
+///     merged[indices[m][i, ..., j], ...] = data[m][i, ..., j, ...]
+/// ```
+///
+/// For example, if each `indices[m]` is scalar or vector, we have
+///
+/// ```python
+///     # Scalar indices:
+///     merged[indices[m], ...] = data[m][...]
+///
+///     # Vector indices:
+///     merged[indices[m][i], ...] = data[m][i, ...]
+/// ```
+///
+/// Each `data[i].shape` must start with the corresponding `indices[i].shape`,
+/// and the rest of `data[i].shape` must be constant w.r.t. `i`.  That is, we
+/// must have `data[i].shape = indices[i].shape + constant`.  In terms of this
+/// `constant`, the output shape is
+///
+///     merged.shape = [max(indices)] + constant
+///
+/// Values may be merged in parallel, so if an index appears in both `indices[m][i]`
+/// and `indices[n][j]`, the result may be invalid. This differs from the normal
+/// DynamicStitch operator that defines the behavior in that case.
+///
+/// For example:
+///
+/// ```python
+///     indices[0] = 6
+///     indices[1] = [4, 1]
+///     indices[2] = [[5, 2], [0, 3]]
+///     data[0] = [61, 62]
+///     data[1] = [[41, 42], [11, 12]]
+///     data[2] = [[[51, 52], [21, 22]], [[1, 2], [31, 32]]]
+///     merged = [[1, 2], [11, 12], [21, 22], [31, 32], [41, 42],
+///               [51, 52], [61, 62]]
+/// ```
+///
+/// This method can be used to merge partitions created by `dynamic_partition`
+/// as illustrated on the following example:
+///
+/// ```python
+///     # Apply function (increments x_i) on elements for which a certain condition
+///     # apply (x_i != -1 in this example).
+///     x=tf.constant([0.1, -1., 5.2, 4.3, -1., 7.4])
+///     condition_mask=tf.not_equal(x,tf.constant(-1.))
+///     partitioned_data = tf.dynamic_partition(
+///         x, tf.cast(condition_mask, tf.int32) , 2)
+///     partitioned_data[1] = partitioned_data[1] + 1.0
+///     condition_indices = tf.dynamic_partition(
+///         tf.range(tf.shape(x)[0]), tf.cast(condition_mask, tf.int32) , 2)
+///     x = tf.dynamic_stitch(condition_indices, partitioned_data)
+///     # Here x=[1.1, -1., 6.2, 5.3, -1, 8.4], the -1. values remain
+///     # unchanged.
+/// ```
+///
+/// <div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;">
+/// <img style="width:100%" src="https://www.tensorflow.org/images/DynamicStitch.png" alt>
+/// </div>
+///
+/// Arguments:
+/// * scope: A Scope object
+///
+/// Returns:
+/// * `Output`: The merged tensor.
+class ParallelDynamicStitch {
+ public:
+  ParallelDynamicStitch(const ::tensorflow::Scope& scope, ::tensorflow::InputList
+                      indices, ::tensorflow::InputList data);
+  operator ::tensorflow::Output() const { return merged; }
+  operator ::tensorflow::Input() const { return merged; }
+  ::tensorflow::Node* node() const { return merged.node(); }
+
+  ::tensorflow::Output merged;
 };
 
 /// A queue that produces elements sorted by the first component value.
@@ -1931,7 +2012,7 @@ class PriorityQueue {
     /// The type of each component in a value.
     ///
     /// Defaults to []
-    Attrs ComponentTypes(const DataTypeSlice& x) {
+    TF_MUST_USE_RESULT Attrs ComponentTypes(const DataTypeSlice& x) {
       Attrs ret = *this;
       ret.component_types_ = x;
       return ret;
@@ -1941,7 +2022,7 @@ class PriorityQueue {
     /// Negative numbers mean no limit.
     ///
     /// Defaults to -1
-    Attrs Capacity(int64 x) {
+    TF_MUST_USE_RESULT Attrs Capacity(int64 x) {
       Attrs ret = *this;
       ret.capacity_ = x;
       return ret;
@@ -1951,7 +2032,7 @@ class PriorityQueue {
     /// Otherwise, a default container is used.
     ///
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
@@ -1961,7 +2042,7 @@ class PriorityQueue {
     /// across multiple sessions.
     ///
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -2023,7 +2104,7 @@ class QueueClose {
     /// blocked on the given queue will be canceled.
     ///
     /// Defaults to false
-    Attrs CancelPendingEnqueues(bool x) {
+    TF_MUST_USE_RESULT Attrs CancelPendingEnqueues(bool x) {
       Attrs ret = *this;
       ret.cancel_pending_enqueues_ = x;
       return ret;
@@ -2081,7 +2162,7 @@ class QueueDequeueMany {
     /// Note: This option is not supported yet.
     ///
     /// Defaults to -1
-    Attrs TimeoutMs(int64 x) {
+    TF_MUST_USE_RESULT Attrs TimeoutMs(int64 x) {
       Attrs ret = *this;
       ret.timeout_ms_ = x;
       return ret;
@@ -2146,7 +2227,7 @@ class QueueDequeueUpTo {
     /// Note: This option is not supported yet.
     ///
     /// Defaults to -1
-    Attrs TimeoutMs(int64 x) {
+    TF_MUST_USE_RESULT Attrs TimeoutMs(int64 x) {
       Attrs ret = *this;
       ret.timeout_ms_ = x;
       return ret;
@@ -2199,7 +2280,7 @@ class QueueDequeue {
     /// Note: This option is not supported yet.
     ///
     /// Defaults to -1
-    Attrs TimeoutMs(int64 x) {
+    TF_MUST_USE_RESULT Attrs TimeoutMs(int64 x) {
       Attrs ret = *this;
       ret.timeout_ms_ = x;
       return ret;
@@ -2256,7 +2337,7 @@ class QueueEnqueueMany {
     /// Note: This option is not supported yet.
     ///
     /// Defaults to -1
-    Attrs TimeoutMs(int64 x) {
+    TF_MUST_USE_RESULT Attrs TimeoutMs(int64 x) {
       Attrs ret = *this;
       ret.timeout_ms_ = x;
       return ret;
@@ -2307,7 +2388,7 @@ class QueueEnqueue {
     /// Note: This option is not supported yet.
     ///
     /// Defaults to -1
-    Attrs TimeoutMs(int64 x) {
+    TF_MUST_USE_RESULT Attrs TimeoutMs(int64 x) {
       Attrs ret = *this;
       ret.timeout_ms_ = x;
       return ret;
@@ -2425,7 +2506,7 @@ class RandomShuffleQueue {
     /// only one element may be dequeued at a time.
     ///
     /// Defaults to []
-    Attrs Shapes(const gtl::ArraySlice<PartialTensorShape>& x) {
+    TF_MUST_USE_RESULT Attrs Shapes(const gtl::ArraySlice<PartialTensorShape>& x) {
       Attrs ret = *this;
       ret.shapes_ = x;
       return ret;
@@ -2435,7 +2516,7 @@ class RandomShuffleQueue {
     /// Negative numbers mean no limit.
     ///
     /// Defaults to -1
-    Attrs Capacity(int64 x) {
+    TF_MUST_USE_RESULT Attrs Capacity(int64 x) {
       Attrs ret = *this;
       ret.capacity_ = x;
       return ret;
@@ -2446,7 +2527,7 @@ class RandomShuffleQueue {
     /// ensures a minimum level of mixing of elements.
     ///
     /// Defaults to 0
-    Attrs MinAfterDequeue(int64 x) {
+    TF_MUST_USE_RESULT Attrs MinAfterDequeue(int64 x) {
       Attrs ret = *this;
       ret.min_after_dequeue_ = x;
       return ret;
@@ -2456,7 +2537,7 @@ class RandomShuffleQueue {
     /// generator is seeded by the given seed.  Otherwise, a random seed is used.
     ///
     /// Defaults to 0
-    Attrs Seed(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed(int64 x) {
       Attrs ret = *this;
       ret.seed_ = x;
       return ret;
@@ -2465,7 +2546,7 @@ class RandomShuffleQueue {
     /// A second seed to avoid seed collision.
     ///
     /// Defaults to 0
-    Attrs Seed2(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed2(int64 x) {
       Attrs ret = *this;
       ret.seed2_ = x;
       return ret;
@@ -2475,7 +2556,7 @@ class RandomShuffleQueue {
     /// Otherwise, a default container is used.
     ///
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
@@ -2485,7 +2566,7 @@ class RandomShuffleQueue {
     /// across multiple sessions.
     ///
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -2545,6 +2626,8 @@ class RandomShuffleQueue {
 /// * file_buffer_size: The randomization shuffling buffer.
 /// * file_parallelism: How many sstables are opened and concurrently iterated over.
 /// * batch_size: The batch size.
+/// * compression_type: The type of compression for the file. Currently ZLIB and
+/// GZIP are supported. Defaults to none.
 ///
 /// Returns:
 /// * `Output`: A tensor of shape [batch_size].
@@ -2555,7 +2638,7 @@ class RecordInput {
     /// Random seeds used to produce randomized records.
     ///
     /// Defaults to 301
-    Attrs FileRandomSeed(int64 x) {
+    TF_MUST_USE_RESULT Attrs FileRandomSeed(int64 x) {
       Attrs ret = *this;
       ret.file_random_seed_ = x;
       return ret;
@@ -2565,7 +2648,7 @@ class RecordInput {
     /// shuffled.
     ///
     /// Defaults to 0
-    Attrs FileShuffleShiftRatio(float x) {
+    TF_MUST_USE_RESULT Attrs FileShuffleShiftRatio(float x) {
       Attrs ret = *this;
       ret.file_shuffle_shift_ratio_ = x;
       return ret;
@@ -2574,7 +2657,7 @@ class RecordInput {
     /// The randomization shuffling buffer.
     ///
     /// Defaults to 10000
-    Attrs FileBufferSize(int64 x) {
+    TF_MUST_USE_RESULT Attrs FileBufferSize(int64 x) {
       Attrs ret = *this;
       ret.file_buffer_size_ = x;
       return ret;
@@ -2583,7 +2666,7 @@ class RecordInput {
     /// How many sstables are opened and concurrently iterated over.
     ///
     /// Defaults to 16
-    Attrs FileParallelism(int64 x) {
+    TF_MUST_USE_RESULT Attrs FileParallelism(int64 x) {
       Attrs ret = *this;
       ret.file_parallelism_ = x;
       return ret;
@@ -2592,9 +2675,19 @@ class RecordInput {
     /// The batch size.
     ///
     /// Defaults to 32
-    Attrs BatchSize(int64 x) {
+    TF_MUST_USE_RESULT Attrs BatchSize(int64 x) {
       Attrs ret = *this;
       ret.batch_size_ = x;
+      return ret;
+    }
+
+    /// The type of compression for the file. Currently ZLIB and
+    /// GZIP are supported. Defaults to none.
+    ///
+    /// Defaults to ""
+    TF_MUST_USE_RESULT Attrs CompressionType(StringPiece x) {
+      Attrs ret = *this;
+      ret.compression_type_ = x;
       return ret;
     }
 
@@ -2603,6 +2696,7 @@ class RecordInput {
     int64 file_buffer_size_ = 10000;
     int64 file_parallelism_ = 16;
     int64 batch_size_ = 32;
+    StringPiece compression_type_ = "";
   };
   RecordInput(const ::tensorflow::Scope& scope, StringPiece file_pattern);
   RecordInput(const ::tensorflow::Scope& scope, StringPiece file_pattern, const
@@ -2625,6 +2719,9 @@ class RecordInput {
   }
   static Attrs BatchSize(int64 x) {
     return Attrs().BatchSize(x);
+  }
+  static Attrs CompressionType(StringPiece x) {
+    return Attrs().CompressionType(x);
   }
 
   ::tensorflow::Output records;
@@ -2724,7 +2821,7 @@ class SparseConditionalAccumulator {
     /// Otherwise, a default container is used.
     ///
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
@@ -2734,7 +2831,7 @@ class SparseConditionalAccumulator {
     /// across multiple sessions.
     ///
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -2791,7 +2888,7 @@ class Stage {
     /// on the container will block when the capacity is reached.
     ///
     /// Defaults to 0
-    Attrs Capacity(int64 x) {
+    TF_MUST_USE_RESULT Attrs Capacity(int64 x) {
       Attrs ret = *this;
       ret.capacity_ = x;
       return ret;
@@ -2801,7 +2898,7 @@ class Stage {
     /// If > 0, inserts will block until sufficient space is available.
     ///
     /// Defaults to 0
-    Attrs MemoryLimit(int64 x) {
+    TF_MUST_USE_RESULT Attrs MemoryLimit(int64 x) {
       Attrs ret = *this;
       ret.memory_limit_ = x;
       return ret;
@@ -2811,7 +2908,7 @@ class Stage {
     /// a default container is used.
     ///
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
@@ -2820,7 +2917,7 @@ class Stage {
     /// It is necessary to match this name to the matching Unstage Op.
     ///
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -2864,28 +2961,28 @@ class StageClear {
   /// Optional attribute setters for StageClear
   struct Attrs {
     /// Defaults to 0
-    Attrs Capacity(int64 x) {
+    TF_MUST_USE_RESULT Attrs Capacity(int64 x) {
       Attrs ret = *this;
       ret.capacity_ = x;
       return ret;
     }
 
     /// Defaults to 0
-    Attrs MemoryLimit(int64 x) {
+    TF_MUST_USE_RESULT Attrs MemoryLimit(int64 x) {
       Attrs ret = *this;
       ret.memory_limit_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -2933,28 +3030,28 @@ class StagePeek {
   /// Optional attribute setters for StagePeek
   struct Attrs {
     /// Defaults to 0
-    Attrs Capacity(int64 x) {
+    TF_MUST_USE_RESULT Attrs Capacity(int64 x) {
       Attrs ret = *this;
       ret.capacity_ = x;
       return ret;
     }
 
     /// Defaults to 0
-    Attrs MemoryLimit(int64 x) {
+    TF_MUST_USE_RESULT Attrs MemoryLimit(int64 x) {
       Attrs ret = *this;
       ret.memory_limit_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -3000,28 +3097,28 @@ class StageSize {
   /// Optional attribute setters for StageSize
   struct Attrs {
     /// Defaults to 0
-    Attrs Capacity(int64 x) {
+    TF_MUST_USE_RESULT Attrs Capacity(int64 x) {
       Attrs ret = *this;
       ret.capacity_ = x;
       return ret;
     }
 
     /// Defaults to 0
-    Attrs MemoryLimit(int64 x) {
+    TF_MUST_USE_RESULT Attrs MemoryLimit(int64 x) {
       Attrs ret = *this;
       ret.memory_limit_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -3116,7 +3213,7 @@ class TensorArrayConcat {
     /// zero-size TensorArrays is an error.
     ///
     /// Defaults to <unknown>
-    Attrs ElementShapeExcept0(PartialTensorShape x) {
+    TF_MUST_USE_RESULT Attrs ElementShapeExcept0(PartialTensorShape x) {
       Attrs ret = *this;
       ret.element_shape_except0_ = x;
       return ret;
@@ -3166,7 +3263,7 @@ class TensorArrayGather {
     /// fully specified, gathering zero-size TensorArrays is an error.
     ///
     /// Defaults to <unknown>
-    Attrs ElementShape(PartialTensorShape x) {
+    TF_MUST_USE_RESULT Attrs ElementShape(PartialTensorShape x) {
       Attrs ret = *this;
       ret.element_shape_ = x;
       return ret;
@@ -3244,6 +3341,37 @@ class TensorArrayGrad {
  public:
   TensorArrayGrad(const ::tensorflow::Scope& scope, ::tensorflow::Input handle,
                 ::tensorflow::Input flow_in, StringPiece source);
+
+  ::tensorflow::Output grad_handle;
+  ::tensorflow::Output flow_out;
+};
+
+/// Creates a TensorArray for storing multiple gradients of values in the given handle.
+///
+/// Similar to TensorArrayGradV3. However it creates an accumulator with an
+/// expanded shape compared to the input TensorArray whose gradient is being
+/// computed. This enables multiple gradients for the same TensorArray to be
+/// calculated using the same accumulator.
+///
+/// Arguments:
+/// * scope: A Scope object
+/// * handle: The handle to the forward TensorArray.
+/// * flow_in: A float scalar that enforces proper chaining of operations.
+/// * shape_to_prepend: An int32 vector representing a shape. Elements in the gradient accumulator will
+/// have shape which is this shape_to_prepend value concatenated with shape of the
+/// elements in the TensorArray corresponding to the input handle.
+/// * source: The gradient source string, used to decide which gradient TensorArray
+/// to return.
+///
+/// Returns:
+/// * `Output` grad_handle
+/// * `Output` flow_out
+class TensorArrayGradWithShape {
+ public:
+  TensorArrayGradWithShape(const ::tensorflow::Scope& scope, ::tensorflow::Input
+                         handle, ::tensorflow::Input flow_in,
+                         ::tensorflow::Input shape_to_prepend, StringPiece
+                         source);
 
   ::tensorflow::Output grad_handle;
   ::tensorflow::Output flow_out;
@@ -3376,6 +3504,12 @@ class TensorArraySplit {
 /// * clear_after_read: If true (default), Tensors in the TensorArray are cleared
 /// after being read.  This disables multiple read semantics but allows early
 /// release of memory.
+/// * identical_element_shapes: If true (default is false), then all
+/// elements in the TensorArray will be expected to have have identical shapes.
+/// This allows certain behaviors, like dynamically checking for
+/// consistent shapes on write, and being able to fill in properly
+/// shaped zero tensors on stack -- even if the element_shape attribute
+/// is not fully defined.
 /// * tensor_array_name: Overrides the name used for the temporary tensor_array
 /// resource. Default value is the name of the 'TensorArray' op (which
 /// is guaranteed unique).
@@ -3392,7 +3526,7 @@ class TensorArray {
     /// fully specified, gathering zero-size TensorArrays is an error.
     ///
     /// Defaults to <unknown>
-    Attrs ElementShape(PartialTensorShape x) {
+    TF_MUST_USE_RESULT Attrs ElementShape(PartialTensorShape x) {
       Attrs ret = *this;
       ret.element_shape_ = x;
       return ret;
@@ -3402,7 +3536,7 @@ class TensorArray {
     /// are allowed to grow the size.  By default, this is not allowed.
     ///
     /// Defaults to false
-    Attrs DynamicSize(bool x) {
+    TF_MUST_USE_RESULT Attrs DynamicSize(bool x) {
       Attrs ret = *this;
       ret.dynamic_size_ = x;
       return ret;
@@ -3413,9 +3547,23 @@ class TensorArray {
     /// release of memory.
     ///
     /// Defaults to true
-    Attrs ClearAfterRead(bool x) {
+    TF_MUST_USE_RESULT Attrs ClearAfterRead(bool x) {
       Attrs ret = *this;
       ret.clear_after_read_ = x;
+      return ret;
+    }
+
+    /// If true (default is false), then all
+    /// elements in the TensorArray will be expected to have have identical shapes.
+    /// This allows certain behaviors, like dynamically checking for
+    /// consistent shapes on write, and being able to fill in properly
+    /// shaped zero tensors on stack -- even if the element_shape attribute
+    /// is not fully defined.
+    ///
+    /// Defaults to false
+    TF_MUST_USE_RESULT Attrs IdenticalElementShapes(bool x) {
+      Attrs ret = *this;
+      ret.identical_element_shapes_ = x;
       return ret;
     }
 
@@ -3424,7 +3572,7 @@ class TensorArray {
     /// is guaranteed unique).
     ///
     /// Defaults to ""
-    Attrs TensorArrayName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs TensorArrayName(StringPiece x) {
       Attrs ret = *this;
       ret.tensor_array_name_ = x;
       return ret;
@@ -3433,6 +3581,7 @@ class TensorArray {
     PartialTensorShape element_shape_ = ::tensorflow::PartialTensorShape() /* unknown */;
     bool dynamic_size_ = false;
     bool clear_after_read_ = true;
+    bool identical_element_shapes_ = false;
     StringPiece tensor_array_name_ = "";
   };
   TensorArray(const ::tensorflow::Scope& scope, ::tensorflow::Input size,
@@ -3448,6 +3597,9 @@ class TensorArray {
   }
   static Attrs ClearAfterRead(bool x) {
     return Attrs().ClearAfterRead(x);
+  }
+  static Attrs IdenticalElementShapes(bool x) {
+    return Attrs().IdenticalElementShapes(x);
   }
   static Attrs TensorArrayName(StringPiece x) {
     return Attrs().TensorArrayName(x);
@@ -3495,28 +3647,28 @@ class Unstage {
   /// Optional attribute setters for Unstage
   struct Attrs {
     /// Defaults to 0
-    Attrs Capacity(int64 x) {
+    TF_MUST_USE_RESULT Attrs Capacity(int64 x) {
       Attrs ret = *this;
       ret.capacity_ = x;
       return ret;
     }
 
     /// Defaults to 0
-    Attrs MemoryLimit(int64 x) {
+    TF_MUST_USE_RESULT Attrs MemoryLimit(int64 x) {
       Attrs ret = *this;
       ret.memory_limit_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;

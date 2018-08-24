@@ -50,7 +50,7 @@ class AvgPool {
     ///     [batch, in_channels, in_height, in_width].
     ///
     /// Defaults to "NHWC"
-    Attrs DataFormat(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
       Attrs ret = *this;
       ret.data_format_ = x;
       return ret;
@@ -106,7 +106,7 @@ class AvgPool3D {
     ///     [batch, in_channels, in_depth, in_height, in_width].
     ///
     /// Defaults to "NDHWC"
-    Attrs DataFormat(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
       Attrs ret = *this;
       ret.data_format_ = x;
       return ret;
@@ -163,7 +163,7 @@ class AvgPool3DGrad {
     ///     [batch, in_channels, in_depth, in_height, in_width].
     ///
     /// Defaults to "NDHWC"
-    Attrs DataFormat(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
       Attrs ret = *this;
       ret.data_format_ = x;
       return ret;
@@ -224,7 +224,7 @@ class BiasAdd {
     ///     dimension.
     ///
     /// Defaults to "NHWC"
-    Attrs DataFormat(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
       Attrs ret = *this;
       ret.data_format_ = x;
       return ret;
@@ -281,7 +281,7 @@ class BiasAddGrad {
     ///     dimension.
     ///
     /// Defaults to "NHWC"
-    Attrs DataFormat(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
       Attrs ret = *this;
       ret.data_format_ = x;
       return ret;
@@ -335,7 +335,7 @@ class BiasAddGrad {
 /// `[filter_height, filter_width, in_channels, out_channels]`
 /// * strides: 1-D tensor of length 4.  The stride of the sliding window for each
 /// dimension of `input`. The dimension order is determined by the value of
-///   `data_format`, see below for details.
+/// `data_format`, see below for details.
 /// * padding: The type of padding algorithm to use.
 ///
 /// Optional attributes (see `Attrs`):
@@ -344,6 +344,11 @@ class BiasAddGrad {
 ///     [batch, height, width, channels].
 /// Alternatively, the format could be "NCHW", the data storage order of:
 ///     [batch, channels, height, width].
+/// * dilations: 1-D tensor of length 4.  The dilation factor for each dimension of
+/// `input`. If set to k > 1, there will be k-1 skipped cells between each
+/// filter element on that dimension. The dimension order is determined by the
+/// value of `data_format`, see above for details. Dilations in the batch and
+/// depth dimensions must be 1.
 ///
 /// Returns:
 /// * `Output`: A 4-D tensor. The dimension order is determined by the value of
@@ -353,7 +358,7 @@ class Conv2D {
   /// Optional attribute setters for Conv2D
   struct Attrs {
     /// Defaults to true
-    Attrs UseCudnnOnGpu(bool x) {
+    TF_MUST_USE_RESULT Attrs UseCudnnOnGpu(bool x) {
       Attrs ret = *this;
       ret.use_cudnn_on_gpu_ = x;
       return ret;
@@ -366,14 +371,33 @@ class Conv2D {
     ///     [batch, channels, height, width].
     ///
     /// Defaults to "NHWC"
-    Attrs DataFormat(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
       Attrs ret = *this;
       ret.data_format_ = x;
       return ret;
     }
 
+    /// 1-D tensor of length 4.  The dilation factor for each dimension of
+    /// `input`. If set to k > 1, there will be k-1 skipped cells between each
+    /// filter element on that dimension. The dimension order is determined by the
+    /// value of `data_format`, see above for details. Dilations in the batch and
+    /// depth dimensions must be 1.
+    ///
+    /// Defaults to [1, 1, 1, 1]
+    TF_MUST_USE_RESULT Attrs Dilations(const gtl::ArraySlice<int>& x) {
+      Attrs ret = *this;
+      ret.dilations_ = x;
+      return ret;
+    }
+
     bool use_cudnn_on_gpu_ = true;
     StringPiece data_format_ = "NHWC";
+    gtl::ArraySlice<int> dilations_ = Default_dilations();
+  private:
+    static gtl::ArraySlice<int> Default_dilations() {
+      static const int kStorage[] = {1, 1, 1, 1};
+      return gtl::ArraySlice<int>(kStorage);
+    }
   };
   Conv2D(const ::tensorflow::Scope& scope, ::tensorflow::Input input,
        ::tensorflow::Input filter, const gtl::ArraySlice<int>& strides,
@@ -390,6 +414,9 @@ class Conv2D {
   }
   static Attrs DataFormat(StringPiece x) {
     return Attrs().DataFormat(x);
+  }
+  static Attrs Dilations(const gtl::ArraySlice<int>& x) {
+    return Attrs().Dilations(x);
   }
 
   ::tensorflow::Output output;
@@ -416,6 +443,11 @@ class Conv2D {
 ///     [batch, in_height, in_width, in_channels].
 /// Alternatively, the format could be "NCHW", the data storage order of:
 ///     [batch, in_channels, in_height, in_width].
+/// * dilations: 1-D tensor of length 4.  The dilation factor for each dimension of
+/// `input`. If set to k > 1, there will be k-1 skipped cells between each filter
+/// element on that dimension. The dimension order is determined by the value of
+/// `data_format`, see above for details. Dilations in the batch and depth
+/// dimensions must be 1.
 ///
 /// Returns:
 /// * `Output`: 4-D with shape
@@ -426,7 +458,7 @@ class Conv2DBackpropFilter {
   /// Optional attribute setters for Conv2DBackpropFilter
   struct Attrs {
     /// Defaults to true
-    Attrs UseCudnnOnGpu(bool x) {
+    TF_MUST_USE_RESULT Attrs UseCudnnOnGpu(bool x) {
       Attrs ret = *this;
       ret.use_cudnn_on_gpu_ = x;
       return ret;
@@ -439,14 +471,33 @@ class Conv2DBackpropFilter {
     ///     [batch, in_channels, in_height, in_width].
     ///
     /// Defaults to "NHWC"
-    Attrs DataFormat(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
       Attrs ret = *this;
       ret.data_format_ = x;
       return ret;
     }
 
+    /// 1-D tensor of length 4.  The dilation factor for each dimension of
+    /// `input`. If set to k > 1, there will be k-1 skipped cells between each filter
+    /// element on that dimension. The dimension order is determined by the value of
+    /// `data_format`, see above for details. Dilations in the batch and depth
+    /// dimensions must be 1.
+    ///
+    /// Defaults to [1, 1, 1, 1]
+    TF_MUST_USE_RESULT Attrs Dilations(const gtl::ArraySlice<int>& x) {
+      Attrs ret = *this;
+      ret.dilations_ = x;
+      return ret;
+    }
+
     bool use_cudnn_on_gpu_ = true;
     StringPiece data_format_ = "NHWC";
+    gtl::ArraySlice<int> dilations_ = Default_dilations();
+  private:
+    static gtl::ArraySlice<int> Default_dilations() {
+      static const int kStorage[] = {1, 1, 1, 1};
+      return gtl::ArraySlice<int>(kStorage);
+    }
   };
   Conv2DBackpropFilter(const ::tensorflow::Scope& scope, ::tensorflow::Input
                      input, ::tensorflow::Input filter_sizes,
@@ -466,6 +517,9 @@ class Conv2DBackpropFilter {
   }
   static Attrs DataFormat(StringPiece x) {
     return Attrs().DataFormat(x);
+  }
+  static Attrs Dilations(const gtl::ArraySlice<int>& x) {
+    return Attrs().Dilations(x);
   }
 
   ::tensorflow::Output output;
@@ -492,6 +546,11 @@ class Conv2DBackpropFilter {
 ///     [batch, in_height, in_width, in_channels].
 /// Alternatively, the format could be "NCHW", the data storage order of:
 ///     [batch, in_channels, in_height, in_width].
+/// * dilations: 1-D tensor of length 4.  The dilation factor for each dimension of
+/// `input`. If set to k > 1, there will be k-1 skipped cells between each filter
+/// element on that dimension. The dimension order is determined by the value of
+/// `data_format`, see above for details. Dilations in the batch and depth
+/// dimensions must be 1.
 ///
 /// Returns:
 /// * `Output`: 4-D with shape `[batch, in_height, in_width, in_channels]`.  Gradient
@@ -501,7 +560,7 @@ class Conv2DBackpropInput {
   /// Optional attribute setters for Conv2DBackpropInput
   struct Attrs {
     /// Defaults to true
-    Attrs UseCudnnOnGpu(bool x) {
+    TF_MUST_USE_RESULT Attrs UseCudnnOnGpu(bool x) {
       Attrs ret = *this;
       ret.use_cudnn_on_gpu_ = x;
       return ret;
@@ -514,14 +573,33 @@ class Conv2DBackpropInput {
     ///     [batch, in_channels, in_height, in_width].
     ///
     /// Defaults to "NHWC"
-    Attrs DataFormat(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
       Attrs ret = *this;
       ret.data_format_ = x;
       return ret;
     }
 
+    /// 1-D tensor of length 4.  The dilation factor for each dimension of
+    /// `input`. If set to k > 1, there will be k-1 skipped cells between each filter
+    /// element on that dimension. The dimension order is determined by the value of
+    /// `data_format`, see above for details. Dilations in the batch and depth
+    /// dimensions must be 1.
+    ///
+    /// Defaults to [1, 1, 1, 1]
+    TF_MUST_USE_RESULT Attrs Dilations(const gtl::ArraySlice<int>& x) {
+      Attrs ret = *this;
+      ret.dilations_ = x;
+      return ret;
+    }
+
     bool use_cudnn_on_gpu_ = true;
     StringPiece data_format_ = "NHWC";
+    gtl::ArraySlice<int> dilations_ = Default_dilations();
+  private:
+    static gtl::ArraySlice<int> Default_dilations() {
+      static const int kStorage[] = {1, 1, 1, 1};
+      return gtl::ArraySlice<int>(kStorage);
+    }
   };
   Conv2DBackpropInput(const ::tensorflow::Scope& scope, ::tensorflow::Input
                     input_sizes, ::tensorflow::Input filter,
@@ -541,6 +619,9 @@ class Conv2DBackpropInput {
   }
   static Attrs DataFormat(StringPiece x) {
     return Attrs().DataFormat(x);
+  }
+  static Attrs Dilations(const gtl::ArraySlice<int>& x) {
+    return Attrs().Dilations(x);
   }
 
   ::tensorflow::Output output;
@@ -569,6 +650,11 @@ class Conv2DBackpropInput {
 ///     [batch, in_depth, in_height, in_width, in_channels].
 /// Alternatively, the format could be "NCDHW", the data storage order is:
 ///     [batch, in_channels, in_depth, in_height, in_width].
+/// * dilations: 1-D tensor of length 5.  The dilation factor for each dimension of
+/// `input`. If set to k > 1, there will be k-1 skipped cells between each
+/// filter element on that dimension. The dimension order is determined by the
+/// value of `data_format`, see above for details. Dilations in the batch and
+/// depth dimensions must be 1.
 ///
 /// Returns:
 /// * `Output`: The output tensor.
@@ -583,13 +669,32 @@ class Conv3D {
     ///     [batch, in_channels, in_depth, in_height, in_width].
     ///
     /// Defaults to "NDHWC"
-    Attrs DataFormat(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
       Attrs ret = *this;
       ret.data_format_ = x;
       return ret;
     }
 
+    /// 1-D tensor of length 5.  The dilation factor for each dimension of
+    /// `input`. If set to k > 1, there will be k-1 skipped cells between each
+    /// filter element on that dimension. The dimension order is determined by the
+    /// value of `data_format`, see above for details. Dilations in the batch and
+    /// depth dimensions must be 1.
+    ///
+    /// Defaults to [1, 1, 1, 1, 1]
+    TF_MUST_USE_RESULT Attrs Dilations(const gtl::ArraySlice<int>& x) {
+      Attrs ret = *this;
+      ret.dilations_ = x;
+      return ret;
+    }
+
     StringPiece data_format_ = "NDHWC";
+    gtl::ArraySlice<int> dilations_ = Default_dilations();
+  private:
+    static gtl::ArraySlice<int> Default_dilations() {
+      static const int kStorage[] = {1, 1, 1, 1, 1};
+      return gtl::ArraySlice<int>(kStorage);
+    }
   };
   Conv3D(const ::tensorflow::Scope& scope, ::tensorflow::Input input,
        ::tensorflow::Input filter, const gtl::ArraySlice<int>& strides,
@@ -603,6 +708,9 @@ class Conv3D {
 
   static Attrs DataFormat(StringPiece x) {
     return Attrs().DataFormat(x);
+  }
+  static Attrs Dilations(const gtl::ArraySlice<int>& x) {
+    return Attrs().Dilations(x);
   }
 
   ::tensorflow::Output output;
@@ -629,6 +737,11 @@ class Conv3D {
 ///     [batch, in_depth, in_height, in_width, in_channels].
 /// Alternatively, the format could be "NCDHW", the data storage order is:
 ///     [batch, in_channels, in_depth, in_height, in_width].
+/// * dilations: 1-D tensor of length 5.  The dilation factor for each dimension of
+/// `input`. If set to k > 1, there will be k-1 skipped cells between each
+/// filter element on that dimension. The dimension order is determined by the
+/// value of `data_format`, see above for details. Dilations in the batch and
+/// depth dimensions must be 1.
 ///
 /// Returns:
 /// * `Output`: The output tensor.
@@ -643,13 +756,32 @@ class Conv3DBackpropFilterV2 {
     ///     [batch, in_channels, in_depth, in_height, in_width].
     ///
     /// Defaults to "NDHWC"
-    Attrs DataFormat(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
       Attrs ret = *this;
       ret.data_format_ = x;
       return ret;
     }
 
+    /// 1-D tensor of length 5.  The dilation factor for each dimension of
+    /// `input`. If set to k > 1, there will be k-1 skipped cells between each
+    /// filter element on that dimension. The dimension order is determined by the
+    /// value of `data_format`, see above for details. Dilations in the batch and
+    /// depth dimensions must be 1.
+    ///
+    /// Defaults to [1, 1, 1, 1, 1]
+    TF_MUST_USE_RESULT Attrs Dilations(const gtl::ArraySlice<int>& x) {
+      Attrs ret = *this;
+      ret.dilations_ = x;
+      return ret;
+    }
+
     StringPiece data_format_ = "NDHWC";
+    gtl::ArraySlice<int> dilations_ = Default_dilations();
+  private:
+    static gtl::ArraySlice<int> Default_dilations() {
+      static const int kStorage[] = {1, 1, 1, 1, 1};
+      return gtl::ArraySlice<int>(kStorage);
+    }
   };
   Conv3DBackpropFilterV2(const ::tensorflow::Scope& scope, ::tensorflow::Input
                        input, ::tensorflow::Input filter_sizes,
@@ -666,6 +798,9 @@ class Conv3DBackpropFilterV2 {
 
   static Attrs DataFormat(StringPiece x) {
     return Attrs().DataFormat(x);
+  }
+  static Attrs Dilations(const gtl::ArraySlice<int>& x) {
+    return Attrs().Dilations(x);
   }
 
   ::tensorflow::Output output;
@@ -692,6 +827,11 @@ class Conv3DBackpropFilterV2 {
 ///     [batch, in_depth, in_height, in_width, in_channels].
 /// Alternatively, the format could be "NCDHW", the data storage order is:
 ///     [batch, in_channels, in_depth, in_height, in_width].
+/// * dilations: 1-D tensor of length 5.  The dilation factor for each dimension of
+/// `input`. If set to k > 1, there will be k-1 skipped cells between each
+/// filter element on that dimension. The dimension order is determined by the
+/// value of `data_format`, see above for details. Dilations in the batch and
+/// depth dimensions must be 1.
 ///
 /// Returns:
 /// * `Output`: The output tensor.
@@ -706,13 +846,32 @@ class Conv3DBackpropInputV2 {
     ///     [batch, in_channels, in_depth, in_height, in_width].
     ///
     /// Defaults to "NDHWC"
-    Attrs DataFormat(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
       Attrs ret = *this;
       ret.data_format_ = x;
       return ret;
     }
 
+    /// 1-D tensor of length 5.  The dilation factor for each dimension of
+    /// `input`. If set to k > 1, there will be k-1 skipped cells between each
+    /// filter element on that dimension. The dimension order is determined by the
+    /// value of `data_format`, see above for details. Dilations in the batch and
+    /// depth dimensions must be 1.
+    ///
+    /// Defaults to [1, 1, 1, 1, 1]
+    TF_MUST_USE_RESULT Attrs Dilations(const gtl::ArraySlice<int>& x) {
+      Attrs ret = *this;
+      ret.dilations_ = x;
+      return ret;
+    }
+
     StringPiece data_format_ = "NDHWC";
+    gtl::ArraySlice<int> dilations_ = Default_dilations();
+  private:
+    static gtl::ArraySlice<int> Default_dilations() {
+      static const int kStorage[] = {1, 1, 1, 1, 1};
+      return gtl::ArraySlice<int>(kStorage);
+    }
   };
   Conv3DBackpropInputV2(const ::tensorflow::Scope& scope, ::tensorflow::Input
                       input_sizes, ::tensorflow::Input filter,
@@ -730,8 +889,124 @@ class Conv3DBackpropInputV2 {
   static Attrs DataFormat(StringPiece x) {
     return Attrs().DataFormat(x);
   }
+  static Attrs Dilations(const gtl::ArraySlice<int>& x) {
+    return Attrs().Dilations(x);
+  }
 
   ::tensorflow::Output output;
+};
+
+/// Returns the dimension index in the destination data format given the one in
+///
+/// the source data format.
+///
+/// Arguments:
+/// * scope: A Scope object
+/// * x: A Tensor with each element as a dimension index in source data format.
+/// Must be in the range [-4, 4).
+///
+/// Optional attributes (see `Attrs`):
+/// * src_format: source data format.
+/// * dst_format: destination data format.
+///
+/// Returns:
+/// * `Output`: A Tensor with each element as a dimension index in destination data format.
+class DataFormatDimMap {
+ public:
+  /// Optional attribute setters for DataFormatDimMap
+  struct Attrs {
+    /// source data format.
+    ///
+    /// Defaults to "NHWC"
+    TF_MUST_USE_RESULT Attrs SrcFormat(StringPiece x) {
+      Attrs ret = *this;
+      ret.src_format_ = x;
+      return ret;
+    }
+
+    /// destination data format.
+    ///
+    /// Defaults to "NCHW"
+    TF_MUST_USE_RESULT Attrs DstFormat(StringPiece x) {
+      Attrs ret = *this;
+      ret.dst_format_ = x;
+      return ret;
+    }
+
+    StringPiece src_format_ = "NHWC";
+    StringPiece dst_format_ = "NCHW";
+  };
+  DataFormatDimMap(const ::tensorflow::Scope& scope, ::tensorflow::Input x);
+  DataFormatDimMap(const ::tensorflow::Scope& scope, ::tensorflow::Input x, const
+                 DataFormatDimMap::Attrs& attrs);
+  operator ::tensorflow::Output() const { return y; }
+  operator ::tensorflow::Input() const { return y; }
+  ::tensorflow::Node* node() const { return y.node(); }
+
+  static Attrs SrcFormat(StringPiece x) {
+    return Attrs().SrcFormat(x);
+  }
+  static Attrs DstFormat(StringPiece x) {
+    return Attrs().DstFormat(x);
+  }
+
+  ::tensorflow::Output y;
+};
+
+/// Returns the permuted vector/tensor in the destination data format given the
+///
+/// one in the source data format.
+///
+/// Arguments:
+/// * scope: A Scope object
+/// * x: Vector of size 4 or Tensor of shape (4, 2) in source data format.
+///
+/// Optional attributes (see `Attrs`):
+/// * src_format: source data format.
+/// * dst_format: destination data format.
+///
+/// Returns:
+/// * `Output`: Vector of size 4 or Tensor of shape (4, 2) in destination data format.
+class DataFormatVecPermute {
+ public:
+  /// Optional attribute setters for DataFormatVecPermute
+  struct Attrs {
+    /// source data format.
+    ///
+    /// Defaults to "NHWC"
+    TF_MUST_USE_RESULT Attrs SrcFormat(StringPiece x) {
+      Attrs ret = *this;
+      ret.src_format_ = x;
+      return ret;
+    }
+
+    /// destination data format.
+    ///
+    /// Defaults to "NCHW"
+    TF_MUST_USE_RESULT Attrs DstFormat(StringPiece x) {
+      Attrs ret = *this;
+      ret.dst_format_ = x;
+      return ret;
+    }
+
+    StringPiece src_format_ = "NHWC";
+    StringPiece dst_format_ = "NCHW";
+  };
+  DataFormatVecPermute(const ::tensorflow::Scope& scope, ::tensorflow::Input x);
+  DataFormatVecPermute(const ::tensorflow::Scope& scope, ::tensorflow::Input x,
+                     const DataFormatVecPermute::Attrs& attrs);
+  operator ::tensorflow::Output() const { return y; }
+  operator ::tensorflow::Input() const { return y; }
+  ::tensorflow::Node* node() const { return y.node(); }
+
+  static Attrs SrcFormat(StringPiece x) {
+    return Attrs().SrcFormat(x);
+  }
+  static Attrs DstFormat(StringPiece x) {
+    return Attrs().DstFormat(x);
+  }
+
+  ::tensorflow::Output y;
 };
 
 /// Computes a 2-D depthwise convolution given 4-D `input` and `filter` tensors.
@@ -767,6 +1042,11 @@ class Conv3DBackpropInputV2 {
 ///     [batch, height, width, channels].
 /// Alternatively, the format could be "NCHW", the data storage order of:
 ///     [batch, channels, height, width].
+/// * dilations: 1-D tensor of length 4.  The dilation factor for each dimension of
+/// `input`. If set to k > 1, there will be k-1 skipped cells between each filter
+/// element on that dimension. The dimension order is determined by the value of
+/// `data_format`, see above for details. Dilations in the batch and depth
+/// dimensions must be 1.
 ///
 /// Returns:
 /// * `Output`: The output tensor.
@@ -781,13 +1061,32 @@ class DepthwiseConv2dNative {
     ///     [batch, channels, height, width].
     ///
     /// Defaults to "NHWC"
-    Attrs DataFormat(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
       Attrs ret = *this;
       ret.data_format_ = x;
       return ret;
     }
 
+    /// 1-D tensor of length 4.  The dilation factor for each dimension of
+    /// `input`. If set to k > 1, there will be k-1 skipped cells between each filter
+    /// element on that dimension. The dimension order is determined by the value of
+    /// `data_format`, see above for details. Dilations in the batch and depth
+    /// dimensions must be 1.
+    ///
+    /// Defaults to [1, 1, 1, 1]
+    TF_MUST_USE_RESULT Attrs Dilations(const gtl::ArraySlice<int>& x) {
+      Attrs ret = *this;
+      ret.dilations_ = x;
+      return ret;
+    }
+
     StringPiece data_format_ = "NHWC";
+    gtl::ArraySlice<int> dilations_ = Default_dilations();
+  private:
+    static gtl::ArraySlice<int> Default_dilations() {
+      static const int kStorage[] = {1, 1, 1, 1};
+      return gtl::ArraySlice<int>(kStorage);
+    }
   };
   DepthwiseConv2dNative(const ::tensorflow::Scope& scope, ::tensorflow::Input
                       input, ::tensorflow::Input filter, const
@@ -802,6 +1101,9 @@ class DepthwiseConv2dNative {
 
   static Attrs DataFormat(StringPiece x) {
     return Attrs().DataFormat(x);
+  }
+  static Attrs Dilations(const gtl::ArraySlice<int>& x) {
+    return Attrs().Dilations(x);
   }
 
   ::tensorflow::Output output;
@@ -831,6 +1133,11 @@ class DepthwiseConv2dNative {
 ///     [batch, height, width, channels].
 /// Alternatively, the format could be "NCHW", the data storage order of:
 ///     [batch, channels, height, width].
+/// * dilations: 1-D tensor of length 4.  The dilation factor for each dimension of
+/// `input`. If set to k > 1, there will be k-1 skipped cells between each filter
+/// element on that dimension. The dimension order is determined by the value of
+/// `data_format`, see above for details. Dilations in the batch and depth
+/// dimensions must be 1.
 ///
 /// Returns:
 /// * `Output`: 4-D with shape
@@ -847,13 +1154,32 @@ class DepthwiseConv2dNativeBackpropFilter {
     ///     [batch, channels, height, width].
     ///
     /// Defaults to "NHWC"
-    Attrs DataFormat(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
       Attrs ret = *this;
       ret.data_format_ = x;
       return ret;
     }
 
+    /// 1-D tensor of length 4.  The dilation factor for each dimension of
+    /// `input`. If set to k > 1, there will be k-1 skipped cells between each filter
+    /// element on that dimension. The dimension order is determined by the value of
+    /// `data_format`, see above for details. Dilations in the batch and depth
+    /// dimensions must be 1.
+    ///
+    /// Defaults to [1, 1, 1, 1]
+    TF_MUST_USE_RESULT Attrs Dilations(const gtl::ArraySlice<int>& x) {
+      Attrs ret = *this;
+      ret.dilations_ = x;
+      return ret;
+    }
+
     StringPiece data_format_ = "NHWC";
+    gtl::ArraySlice<int> dilations_ = Default_dilations();
+  private:
+    static gtl::ArraySlice<int> Default_dilations() {
+      static const int kStorage[] = {1, 1, 1, 1};
+      return gtl::ArraySlice<int>(kStorage);
+    }
   };
   DepthwiseConv2dNativeBackpropFilter(const ::tensorflow::Scope& scope,
                                     ::tensorflow::Input input,
@@ -875,6 +1201,9 @@ class DepthwiseConv2dNativeBackpropFilter {
 
   static Attrs DataFormat(StringPiece x) {
     return Attrs().DataFormat(x);
+  }
+  static Attrs Dilations(const gtl::ArraySlice<int>& x) {
+    return Attrs().Dilations(x);
   }
 
   ::tensorflow::Output output;
@@ -903,6 +1232,11 @@ class DepthwiseConv2dNativeBackpropFilter {
 ///     [batch, height, width, channels].
 /// Alternatively, the format could be "NCHW", the data storage order of:
 ///     [batch, channels, height, width].
+/// * dilations: 1-D tensor of length 4.  The dilation factor for each dimension of
+/// `input`. If set to k > 1, there will be k-1 skipped cells between each filter
+/// element on that dimension. The dimension order is determined by the value of
+/// `data_format`, see above for details. Dilations in the batch and depth
+/// dimensions must be 1.
 ///
 /// Returns:
 /// * `Output`: 4-D with shape according to `data_format`.  For example, if
@@ -920,13 +1254,32 @@ class DepthwiseConv2dNativeBackpropInput {
     ///     [batch, channels, height, width].
     ///
     /// Defaults to "NHWC"
-    Attrs DataFormat(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
       Attrs ret = *this;
       ret.data_format_ = x;
       return ret;
     }
 
+    /// 1-D tensor of length 4.  The dilation factor for each dimension of
+    /// `input`. If set to k > 1, there will be k-1 skipped cells between each filter
+    /// element on that dimension. The dimension order is determined by the value of
+    /// `data_format`, see above for details. Dilations in the batch and depth
+    /// dimensions must be 1.
+    ///
+    /// Defaults to [1, 1, 1, 1]
+    TF_MUST_USE_RESULT Attrs Dilations(const gtl::ArraySlice<int>& x) {
+      Attrs ret = *this;
+      ret.dilations_ = x;
+      return ret;
+    }
+
     StringPiece data_format_ = "NHWC";
+    gtl::ArraySlice<int> dilations_ = Default_dilations();
+  private:
+    static gtl::ArraySlice<int> Default_dilations() {
+      static const int kStorage[] = {1, 1, 1, 1};
+      return gtl::ArraySlice<int>(kStorage);
+    }
   };
   DepthwiseConv2dNativeBackpropInput(const ::tensorflow::Scope& scope,
                                    ::tensorflow::Input input_sizes,
@@ -948,6 +1301,9 @@ class DepthwiseConv2dNativeBackpropInput {
 
   static Attrs DataFormat(StringPiece x) {
     return Attrs().DataFormat(x);
+  }
+  static Attrs Dilations(const gtl::ArraySlice<int>& x) {
+    return Attrs().Dilations(x);
   }
 
   ::tensorflow::Output output;
@@ -1133,7 +1489,7 @@ class FractionalAvgPool {
     /// difference between pseudorandom and random.
     ///
     /// Defaults to false
-    Attrs PseudoRandom(bool x) {
+    TF_MUST_USE_RESULT Attrs PseudoRandom(bool x) {
       Attrs ret = *this;
       ret.pseudo_random_ = x;
       return ret;
@@ -1150,7 +1506,7 @@ class FractionalAvgPool {
     /// The result would be [41/3, 26/3] for fractional avg pooling.
     ///
     /// Defaults to false
-    Attrs Overlapping(bool x) {
+    TF_MUST_USE_RESULT Attrs Overlapping(bool x) {
       Attrs ret = *this;
       ret.overlapping_ = x;
       return ret;
@@ -1161,7 +1517,7 @@ class FractionalAvgPool {
     /// in unit test to make FractionalAvgPool deterministic.
     ///
     /// Defaults to false
-    Attrs Deterministic(bool x) {
+    TF_MUST_USE_RESULT Attrs Deterministic(bool x) {
       Attrs ret = *this;
       ret.deterministic_ = x;
       return ret;
@@ -1172,7 +1528,7 @@ class FractionalAvgPool {
     /// random seed.
     ///
     /// Defaults to 0
-    Attrs Seed(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed(int64 x) {
       Attrs ret = *this;
       ret.seed_ = x;
       return ret;
@@ -1181,7 +1537,7 @@ class FractionalAvgPool {
     /// An second seed to avoid seed collision.
     ///
     /// Defaults to 0
-    Attrs Seed2(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed2(int64 x) {
       Attrs ret = *this;
       ret.seed2_ = x;
       return ret;
@@ -1297,7 +1653,7 @@ class FractionalMaxPool {
     /// difference between pseudorandom and random.
     ///
     /// Defaults to false
-    Attrs PseudoRandom(bool x) {
+    TF_MUST_USE_RESULT Attrs PseudoRandom(bool x) {
       Attrs ret = *this;
       ret.pseudo_random_ = x;
       return ret;
@@ -1314,7 +1670,7 @@ class FractionalMaxPool {
     /// The result would be [20, 16] for fractional max pooling.
     ///
     /// Defaults to false
-    Attrs Overlapping(bool x) {
+    TF_MUST_USE_RESULT Attrs Overlapping(bool x) {
       Attrs ret = *this;
       ret.overlapping_ = x;
       return ret;
@@ -1325,7 +1681,7 @@ class FractionalMaxPool {
     /// in unit test to make FractionalMaxPool deterministic.
     ///
     /// Defaults to false
-    Attrs Deterministic(bool x) {
+    TF_MUST_USE_RESULT Attrs Deterministic(bool x) {
       Attrs ret = *this;
       ret.deterministic_ = x;
       return ret;
@@ -1336,7 +1692,7 @@ class FractionalMaxPool {
     /// random seed.
     ///
     /// Defaults to 0
-    Attrs Seed(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed(int64 x) {
       Attrs ret = *this;
       ret.seed_ = x;
       return ret;
@@ -1345,7 +1701,7 @@ class FractionalMaxPool {
     /// An second seed to avoid seed collision.
     ///
     /// Defaults to 0
-    Attrs Seed2(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed2(int64 x) {
       Attrs ret = *this;
       ret.seed2_ = x;
       return ret;
@@ -1414,7 +1770,7 @@ class FractionalMaxPool {
 /// * `Output` reserve_space_1: A 1D Tensor for the computed batch mean, to be reused
 /// in the gradient computation.
 /// * `Output` reserve_space_2: A 1D Tensor for the computed batch variance (inverted variance
-/// in the cuDNN case), to be used in the gradient computation.
+/// in the cuDNN case), to be reused in the gradient computation.
 class FusedBatchNorm {
  public:
   /// Optional attribute setters for FusedBatchNorm
@@ -1422,7 +1778,7 @@ class FusedBatchNorm {
     /// A small float number added to the variance of x.
     ///
     /// Defaults to 0.0001
-    Attrs Epsilon(float x) {
+    TF_MUST_USE_RESULT Attrs Epsilon(float x) {
       Attrs ret = *this;
       ret.epsilon_ = x;
       return ret;
@@ -1431,7 +1787,7 @@ class FusedBatchNorm {
     /// The data format for x and y. Either "NHWC" (default) or "NCHW".
     ///
     /// Defaults to "NHWC"
-    Attrs DataFormat(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
       Attrs ret = *this;
       ret.data_format_ = x;
       return ret;
@@ -1441,7 +1797,7 @@ class FusedBatchNorm {
     /// or inference.
     ///
     /// Defaults to true
-    Attrs IsTraining(bool x) {
+    TF_MUST_USE_RESULT Attrs IsTraining(bool x) {
       Attrs ret = *this;
       ret.is_training_ = x;
       return ret;
@@ -1486,10 +1842,15 @@ class FusedBatchNorm {
 /// * y_backprop: A 4D Tensor for the gradient with respect to y.
 /// * x: A 4D Tensor for input data.
 /// * scale: A 1D Tensor for scaling factor, to scale the normalized x.
-/// * reserve_space_1: A 1D Tensor for the computed batch mean, to be reused
-/// in the gradient computation.
-/// * reserve_space_2: A 1D Tensor for the computed batch variance (inverted variance
-/// in the cuDNN case), to be used in the gradient computation.
+/// * reserve_space_1: When is_training is True, a 1D Tensor for the computed batch
+/// mean to be reused in gradient computation. When is_training is
+/// False, a 1D Tensor for the population mean to be reused in both
+/// 1st and 2nd order gradient computation.
+/// * reserve_space_2: When is_training is True, a 1D Tensor for the computed batch
+/// variance (inverted variance in the cuDNN case) to be reused in
+/// gradient computation. When is_training is False, a 1D Tensor
+/// for the population variance to be reused in both 1st and 2nd
+/// order gradient computation.
 ///
 /// Optional attributes (see `Attrs`):
 /// * epsilon: A small float number added to the variance of x.
@@ -1512,7 +1873,7 @@ class FusedBatchNormGrad {
     /// A small float number added to the variance of x.
     ///
     /// Defaults to 0.0001
-    Attrs Epsilon(float x) {
+    TF_MUST_USE_RESULT Attrs Epsilon(float x) {
       Attrs ret = *this;
       ret.epsilon_ = x;
       return ret;
@@ -1522,7 +1883,7 @@ class FusedBatchNormGrad {
     /// Either "NHWC" (default) or "NCHW".
     ///
     /// Defaults to "NHWC"
-    Attrs DataFormat(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
       Attrs ret = *this;
       ret.data_format_ = x;
       return ret;
@@ -1532,7 +1893,7 @@ class FusedBatchNormGrad {
     /// or inference.
     ///
     /// Defaults to true
-    Attrs IsTraining(bool x) {
+    TF_MUST_USE_RESULT Attrs IsTraining(bool x) {
       Attrs ret = *this;
       ret.is_training_ = x;
       return ret;
@@ -1567,6 +1928,196 @@ class FusedBatchNormGrad {
   ::tensorflow::Output offset_backprop;
   ::tensorflow::Output reserve_space_3;
   ::tensorflow::Output reserve_space_4;
+};
+
+/// Gradient for batch normalization.
+///
+/// Note that the size of 4D Tensors are defined by either "NHWC" or "NCHW".
+/// The size of 1D Tensors matches the dimension C of the 4D Tensors.
+///
+/// Arguments:
+/// * scope: A Scope object
+/// * y_backprop: A 4D Tensor for the gradient with respect to y.
+/// * x: A 4D Tensor for input data.
+/// * scale: A 1D Tensor for scaling factor, to scale the normalized x.
+/// * reserve_space_1: When is_training is True, a 1D Tensor for the computed batch
+/// mean to be reused in gradient computation. When is_training is
+/// False, a 1D Tensor for the population mean to be reused in both
+/// 1st and 2nd order gradient computation.
+/// * reserve_space_2: When is_training is True, a 1D Tensor for the computed batch
+/// variance (inverted variance in the cuDNN case) to be reused in
+/// gradient computation. When is_training is False, a 1D Tensor
+/// for the population variance to be reused in both 1st and 2nd
+/// order gradient computation.
+///
+/// Optional attributes (see `Attrs`):
+/// * epsilon: A small float number added to the variance of x.
+/// * data_format: The data format for y_backprop, x, x_backprop.
+/// Either "NHWC" (default) or "NCHW".
+/// * is_training: A bool value to indicate the operation is for training (default)
+/// or inference.
+///
+/// Returns:
+/// * `Output` x_backprop: A 4D Tensor for the gradient with respect to x.
+/// * `Output` scale_backprop: A 1D Tensor for the gradient with respect to scale.
+/// * `Output` offset_backprop: A 1D Tensor for the gradient with respect to offset.
+/// * `Output` reserve_space_3: Unused placeholder to match the mean input in FusedBatchNorm.
+/// * `Output` reserve_space_4: Unused placeholder to match the variance input
+/// in FusedBatchNorm.
+class FusedBatchNormGradV2 {
+ public:
+  /// Optional attribute setters for FusedBatchNormGradV2
+  struct Attrs {
+    /// A small float number added to the variance of x.
+    ///
+    /// Defaults to 0.0001
+    TF_MUST_USE_RESULT Attrs Epsilon(float x) {
+      Attrs ret = *this;
+      ret.epsilon_ = x;
+      return ret;
+    }
+
+    /// The data format for y_backprop, x, x_backprop.
+    /// Either "NHWC" (default) or "NCHW".
+    ///
+    /// Defaults to "NHWC"
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
+      Attrs ret = *this;
+      ret.data_format_ = x;
+      return ret;
+    }
+
+    /// A bool value to indicate the operation is for training (default)
+    /// or inference.
+    ///
+    /// Defaults to true
+    TF_MUST_USE_RESULT Attrs IsTraining(bool x) {
+      Attrs ret = *this;
+      ret.is_training_ = x;
+      return ret;
+    }
+
+    float epsilon_ = 0.0001f;
+    StringPiece data_format_ = "NHWC";
+    bool is_training_ = true;
+  };
+  FusedBatchNormGradV2(const ::tensorflow::Scope& scope, ::tensorflow::Input
+                     y_backprop, ::tensorflow::Input x, ::tensorflow::Input
+                     scale, ::tensorflow::Input reserve_space_1,
+                     ::tensorflow::Input reserve_space_2);
+  FusedBatchNormGradV2(const ::tensorflow::Scope& scope, ::tensorflow::Input
+                     y_backprop, ::tensorflow::Input x, ::tensorflow::Input
+                     scale, ::tensorflow::Input reserve_space_1,
+                     ::tensorflow::Input reserve_space_2, const
+                     FusedBatchNormGradV2::Attrs& attrs);
+
+  static Attrs Epsilon(float x) {
+    return Attrs().Epsilon(x);
+  }
+  static Attrs DataFormat(StringPiece x) {
+    return Attrs().DataFormat(x);
+  }
+  static Attrs IsTraining(bool x) {
+    return Attrs().IsTraining(x);
+  }
+
+  ::tensorflow::Output x_backprop;
+  ::tensorflow::Output scale_backprop;
+  ::tensorflow::Output offset_backprop;
+  ::tensorflow::Output reserve_space_3;
+  ::tensorflow::Output reserve_space_4;
+};
+
+/// Batch normalization.
+///
+/// Note that the size of 4D Tensors are defined by either "NHWC" or "NCHW".
+/// The size of 1D Tensors matches the dimension C of the 4D Tensors.
+///
+/// Arguments:
+/// * scope: A Scope object
+/// * x: A 4D Tensor for input data.
+/// * scale: A 1D Tensor for scaling factor, to scale the normalized x.
+/// * offset: A 1D Tensor for offset, to shift to the normalized x.
+/// * mean: A 1D Tensor for population mean. Used for inference only;
+/// must be empty for training.
+/// * variance: A 1D Tensor for population variance. Used for inference only;
+/// must be empty for training.
+///
+/// Optional attributes (see `Attrs`):
+/// * epsilon: A small float number added to the variance of x.
+/// * data_format: The data format for x and y. Either "NHWC" (default) or "NCHW".
+/// * is_training: A bool value to indicate the operation is for training (default)
+/// or inference.
+///
+/// Returns:
+/// * `Output` y: A 4D Tensor for output data.
+/// * `Output` batch_mean: A 1D Tensor for the computed batch mean, to be used by TensorFlow
+/// to compute the running mean.
+/// * `Output` batch_variance: A 1D Tensor for the computed batch variance, to be used by
+/// TensorFlow to compute the running variance.
+/// * `Output` reserve_space_1: A 1D Tensor for the computed batch mean, to be reused
+/// in the gradient computation.
+/// * `Output` reserve_space_2: A 1D Tensor for the computed batch variance (inverted variance
+/// in the cuDNN case), to be reused in the gradient computation.
+class FusedBatchNormV2 {
+ public:
+  /// Optional attribute setters for FusedBatchNormV2
+  struct Attrs {
+    /// A small float number added to the variance of x.
+    ///
+    /// Defaults to 0.0001
+    TF_MUST_USE_RESULT Attrs Epsilon(float x) {
+      Attrs ret = *this;
+      ret.epsilon_ = x;
+      return ret;
+    }
+
+    /// The data format for x and y. Either "NHWC" (default) or "NCHW".
+    ///
+    /// Defaults to "NHWC"
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
+      Attrs ret = *this;
+      ret.data_format_ = x;
+      return ret;
+    }
+
+    /// A bool value to indicate the operation is for training (default)
+    /// or inference.
+    ///
+    /// Defaults to true
+    TF_MUST_USE_RESULT Attrs IsTraining(bool x) {
+      Attrs ret = *this;
+      ret.is_training_ = x;
+      return ret;
+    }
+
+    float epsilon_ = 0.0001f;
+    StringPiece data_format_ = "NHWC";
+    bool is_training_ = true;
+  };
+  FusedBatchNormV2(const ::tensorflow::Scope& scope, ::tensorflow::Input x,
+                 ::tensorflow::Input scale, ::tensorflow::Input offset,
+                 ::tensorflow::Input mean, ::tensorflow::Input variance);
+  FusedBatchNormV2(const ::tensorflow::Scope& scope, ::tensorflow::Input x,
+                 ::tensorflow::Input scale, ::tensorflow::Input offset,
+                 ::tensorflow::Input mean, ::tensorflow::Input variance, const
+                 FusedBatchNormV2::Attrs& attrs);
+
+  static Attrs Epsilon(float x) {
+    return Attrs().Epsilon(x);
+  }
+  static Attrs DataFormat(StringPiece x) {
+    return Attrs().DataFormat(x);
+  }
+  static Attrs IsTraining(bool x) {
+    return Attrs().IsTraining(x);
+  }
+
+  ::tensorflow::Output y;
+  ::tensorflow::Output batch_mean;
+  ::tensorflow::Output batch_variance;
+  ::tensorflow::Output reserve_space_1;
+  ::tensorflow::Output reserve_space_2;
 };
 
 /// Performs a padding as a preprocess during a convolution.
@@ -1636,9 +2187,8 @@ class FusedPadConv2D {
 /// * padding: The type of padding algorithm to use.
 ///
 /// Optional attributes (see `Attrs`):
-/// * resize_align_corners: If true, rescale input by (new_height - 1) / (height - 1),
-/// which exactly aligns the 4 corners of images and resized images. If false, rescale
-/// by new_height / height. Treat similarly the width dimension.
+/// * resize_align_corners: If true, the centers of the 4 corner pixels of the input and output tensors are
+/// aligned, preserving the values at the corner pixels. Defaults to false.
 ///
 /// Returns:
 /// * `Output`: The output tensor.
@@ -1646,12 +2196,11 @@ class FusedResizeAndPadConv2D {
  public:
   /// Optional attribute setters for FusedResizeAndPadConv2D
   struct Attrs {
-    /// If true, rescale input by (new_height - 1) / (height - 1),
-    /// which exactly aligns the 4 corners of images and resized images. If false, rescale
-    /// by new_height / height. Treat similarly the width dimension.
+    /// If true, the centers of the 4 corner pixels of the input and output tensors are
+    /// aligned, preserving the values at the corner pixels. Defaults to false.
     ///
     /// Defaults to false
-    Attrs ResizeAlignCorners(bool x) {
+    TF_MUST_USE_RESULT Attrs ResizeAlignCorners(bool x) {
       Attrs ret = *this;
       ret.resize_align_corners_ = x;
       return ret;
@@ -1716,6 +2265,42 @@ class InTopK {
   ::tensorflow::Output precision;
 };
 
+/// Says whether the targets are in the top `K` predictions.
+///
+/// This outputs a `batch_size` bool array, an entry `out[i]` is `true` if the
+/// prediction for the target class is among the top `k` predictions among
+/// all predictions for example `i`. Note that the behavior of `InTopK` differs
+/// from the `TopK` op in its handling of ties; if multiple classes have the
+/// same prediction value and straddle the top-`k` boundary, all of those
+/// classes are considered to be in the top `k`.
+///
+/// More formally, let
+///
+///   \\(predictions_i\\) be the predictions for all classes for example `i`,
+///   \\(targets_i\\) be the target class for example `i`,
+///   \\(out_i\\) be the output for example `i`,
+///
+/// $$out_i = predictions_{i, targets_i} \in TopKIncludingTies(predictions_i)$$
+///
+/// Arguments:
+/// * scope: A Scope object
+/// * predictions: A `batch_size` x `classes` tensor.
+/// * targets: A `batch_size` vector of class ids.
+/// * k: Number of top elements to look at for computing precision.
+///
+/// Returns:
+/// * `Output`: Computed precision at `k` as a `bool Tensor`.
+class InTopKV2 {
+ public:
+  InTopKV2(const ::tensorflow::Scope& scope, ::tensorflow::Input predictions,
+         ::tensorflow::Input targets, ::tensorflow::Input k);
+  operator ::tensorflow::Output() const { return precision; }
+  operator ::tensorflow::Input() const { return precision; }
+  ::tensorflow::Node* node() const { return precision.node(); }
+
+  ::tensorflow::Output precision;
+};
+
 /// L2 Loss.
 ///
 /// Computes half the L2 norm of a tensor without the `sqrt`:
@@ -1771,7 +2356,7 @@ class LRN {
     /// 0-D.  Half-width of the 1-D normalization window.
     ///
     /// Defaults to 5
-    Attrs DepthRadius(int64 x) {
+    TF_MUST_USE_RESULT Attrs DepthRadius(int64 x) {
       Attrs ret = *this;
       ret.depth_radius_ = x;
       return ret;
@@ -1780,7 +2365,7 @@ class LRN {
     /// An offset (usually positive to avoid dividing by 0).
     ///
     /// Defaults to 1
-    Attrs Bias(float x) {
+    TF_MUST_USE_RESULT Attrs Bias(float x) {
       Attrs ret = *this;
       ret.bias_ = x;
       return ret;
@@ -1789,7 +2374,7 @@ class LRN {
     /// A scale factor, usually positive.
     ///
     /// Defaults to 1
-    Attrs Alpha(float x) {
+    TF_MUST_USE_RESULT Attrs Alpha(float x) {
       Attrs ret = *this;
       ret.alpha_ = x;
       return ret;
@@ -1798,7 +2383,7 @@ class LRN {
     /// An exponent.
     ///
     /// Defaults to 0.5
-    Attrs Beta(float x) {
+    TF_MUST_USE_RESULT Attrs Beta(float x) {
       Attrs ret = *this;
       ret.beta_ = x;
       return ret;
@@ -1884,7 +2469,7 @@ class MaxPool {
     ///     [batch, in_channels, in_height, in_width].
     ///
     /// Defaults to "NHWC"
-    Attrs DataFormat(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
       Attrs ret = *this;
       ret.data_format_ = x;
       return ret;
@@ -1940,7 +2525,7 @@ class MaxPool3D {
     ///     [batch, in_channels, in_depth, in_height, in_width].
     ///
     /// Defaults to "NDHWC"
-    Attrs DataFormat(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
       Attrs ret = *this;
       ret.data_format_ = x;
       return ret;
@@ -1998,7 +2583,7 @@ class MaxPool3DGrad {
     ///     [batch, in_channels, in_depth, in_height, in_width].
     ///
     /// Defaults to "NDHWC"
-    Attrs DataFormat(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
       Attrs ret = *this;
       ret.data_format_ = x;
       return ret;
@@ -2058,7 +2643,7 @@ class MaxPool3DGradGrad {
     ///     [batch, in_channels, in_depth, in_height, in_width].
     ///
     /// Defaults to "NDHWC"
-    Attrs DataFormat(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
       Attrs ret = *this;
       ret.data_format_ = x;
       return ret;
@@ -2118,7 +2703,7 @@ class MaxPoolGradGrad {
     ///     [batch, in_channels, in_height, in_width].
     ///
     /// Defaults to "NHWC"
-    Attrs DataFormat(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
       Attrs ret = *this;
       ret.data_format_ = x;
       return ret;
@@ -2135,6 +2720,66 @@ class MaxPoolGradGrad {
                 ::tensorflow::Input grad, const gtl::ArraySlice<int>& ksize,
                 const gtl::ArraySlice<int>& strides, StringPiece padding, const
                 MaxPoolGradGrad::Attrs& attrs);
+  operator ::tensorflow::Output() const { return output; }
+  operator ::tensorflow::Input() const { return output; }
+  ::tensorflow::Node* node() const { return output.node(); }
+
+  static Attrs DataFormat(StringPiece x) {
+    return Attrs().DataFormat(x);
+  }
+
+  ::tensorflow::Output output;
+};
+
+/// Computes second-order gradients of the maxpooling function.
+///
+/// Arguments:
+/// * scope: A Scope object
+/// * orig_input: The original input tensor.
+/// * orig_output: The original output tensor.
+/// * grad: 4-D.  Gradients of gradients w.r.t. the input of `max_pool`.
+/// * ksize: The size of the window for each dimension of the input tensor.
+/// * strides: The stride of the sliding window for each dimension of the
+/// input tensor.
+/// * padding: The type of padding algorithm to use.
+///
+/// Optional attributes (see `Attrs`):
+/// * data_format: Specify the data format of the input and output data. With the
+/// default format "NHWC", the data is stored in the order of:
+///     [batch, in_height, in_width, in_channels].
+/// Alternatively, the format could be "NCHW", the data storage order of:
+///     [batch, in_channels, in_height, in_width].
+///
+/// Returns:
+/// * `Output`: Gradients of gradients w.r.t. the input to `max_pool`.
+class MaxPoolGradGradV2 {
+ public:
+  /// Optional attribute setters for MaxPoolGradGradV2
+  struct Attrs {
+    /// Specify the data format of the input and output data. With the
+    /// default format "NHWC", the data is stored in the order of:
+    ///     [batch, in_height, in_width, in_channels].
+    /// Alternatively, the format could be "NCHW", the data storage order of:
+    ///     [batch, in_channels, in_height, in_width].
+    ///
+    /// Defaults to "NHWC"
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
+      Attrs ret = *this;
+      ret.data_format_ = x;
+      return ret;
+    }
+
+    StringPiece data_format_ = "NHWC";
+  };
+  MaxPoolGradGradV2(const ::tensorflow::Scope& scope, ::tensorflow::Input
+                  orig_input, ::tensorflow::Input orig_output,
+                  ::tensorflow::Input grad, ::tensorflow::Input ksize,
+                  ::tensorflow::Input strides, StringPiece padding);
+  MaxPoolGradGradV2(const ::tensorflow::Scope& scope, ::tensorflow::Input
+                  orig_input, ::tensorflow::Input orig_output,
+                  ::tensorflow::Input grad, ::tensorflow::Input ksize,
+                  ::tensorflow::Input strides, StringPiece padding, const
+                  MaxPoolGradGradV2::Attrs& attrs);
   operator ::tensorflow::Output() const { return output; }
   operator ::tensorflow::Input() const { return output; }
   ::tensorflow::Node* node() const { return output.node(); }
@@ -2174,6 +2819,120 @@ class MaxPoolGradGradWithArgmax {
   ::tensorflow::Output output;
 };
 
+/// Computes gradients of the maxpooling function.
+///
+/// Arguments:
+/// * scope: A Scope object
+/// * orig_input: The original input tensor.
+/// * orig_output: The original output tensor.
+/// * grad: 4-D.  Gradients w.r.t. the output of `max_pool`.
+/// * ksize: The size of the window for each dimension of the input tensor.
+/// * strides: The stride of the sliding window for each dimension of the
+/// input tensor.
+/// * padding: The type of padding algorithm to use.
+///
+/// Optional attributes (see `Attrs`):
+/// * data_format: Specify the data format of the input and output data. With the
+/// default format "NHWC", the data is stored in the order of:
+///     [batch, in_height, in_width, in_channels].
+/// Alternatively, the format could be "NCHW", the data storage order of:
+///     [batch, in_channels, in_height, in_width].
+///
+/// Returns:
+/// * `Output`: Gradients w.r.t. the input to `max_pool`.
+class MaxPoolGradV2 {
+ public:
+  /// Optional attribute setters for MaxPoolGradV2
+  struct Attrs {
+    /// Specify the data format of the input and output data. With the
+    /// default format "NHWC", the data is stored in the order of:
+    ///     [batch, in_height, in_width, in_channels].
+    /// Alternatively, the format could be "NCHW", the data storage order of:
+    ///     [batch, in_channels, in_height, in_width].
+    ///
+    /// Defaults to "NHWC"
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
+      Attrs ret = *this;
+      ret.data_format_ = x;
+      return ret;
+    }
+
+    StringPiece data_format_ = "NHWC";
+  };
+  MaxPoolGradV2(const ::tensorflow::Scope& scope, ::tensorflow::Input orig_input,
+              ::tensorflow::Input orig_output, ::tensorflow::Input grad,
+              ::tensorflow::Input ksize, ::tensorflow::Input strides,
+              StringPiece padding);
+  MaxPoolGradV2(const ::tensorflow::Scope& scope, ::tensorflow::Input orig_input,
+              ::tensorflow::Input orig_output, ::tensorflow::Input grad,
+              ::tensorflow::Input ksize, ::tensorflow::Input strides,
+              StringPiece padding, const MaxPoolGradV2::Attrs& attrs);
+  operator ::tensorflow::Output() const { return output; }
+  operator ::tensorflow::Input() const { return output; }
+  ::tensorflow::Node* node() const { return output.node(); }
+
+  static Attrs DataFormat(StringPiece x) {
+    return Attrs().DataFormat(x);
+  }
+
+  ::tensorflow::Output output;
+};
+
+/// Performs max pooling on the input.
+///
+/// Arguments:
+/// * scope: A Scope object
+/// * input: 4-D input to pool over.
+/// * ksize: The size of the window for each dimension of the input tensor.
+/// * strides: The stride of the sliding window for each dimension of the
+/// input tensor.
+/// * padding: The type of padding algorithm to use.
+///
+/// Optional attributes (see `Attrs`):
+/// * data_format: Specify the data format of the input and output data. With the
+/// default format "NHWC", the data is stored in the order of:
+///     [batch, in_height, in_width, in_channels].
+/// Alternatively, the format could be "NCHW", the data storage order of:
+///     [batch, in_channels, in_height, in_width].
+///
+/// Returns:
+/// * `Output`: The max pooled output tensor.
+class MaxPoolV2 {
+ public:
+  /// Optional attribute setters for MaxPoolV2
+  struct Attrs {
+    /// Specify the data format of the input and output data. With the
+    /// default format "NHWC", the data is stored in the order of:
+    ///     [batch, in_height, in_width, in_channels].
+    /// Alternatively, the format could be "NCHW", the data storage order of:
+    ///     [batch, in_channels, in_height, in_width].
+    ///
+    /// Defaults to "NHWC"
+    TF_MUST_USE_RESULT Attrs DataFormat(StringPiece x) {
+      Attrs ret = *this;
+      ret.data_format_ = x;
+      return ret;
+    }
+
+    StringPiece data_format_ = "NHWC";
+  };
+  MaxPoolV2(const ::tensorflow::Scope& scope, ::tensorflow::Input input,
+          ::tensorflow::Input ksize, ::tensorflow::Input strides, StringPiece
+          padding);
+  MaxPoolV2(const ::tensorflow::Scope& scope, ::tensorflow::Input input,
+          ::tensorflow::Input ksize, ::tensorflow::Input strides, StringPiece
+          padding, const MaxPoolV2::Attrs& attrs);
+  operator ::tensorflow::Output() const { return output; }
+  operator ::tensorflow::Input() const { return output; }
+  ::tensorflow::Node* node() const { return output.node(); }
+
+  static Attrs DataFormat(StringPiece x) {
+    return Attrs().DataFormat(x);
+  }
+
+  ::tensorflow::Output output;
+};
+
 /// Performs max pooling on the input and outputs both max values and indices.
 ///
 /// The indices in `argmax` are flattened, so that a maximum value at position
@@ -2201,7 +2960,7 @@ class MaxPoolWithArgmax {
   /// Optional attribute setters for MaxPoolWithArgmax
   struct Attrs {
     /// Defaults to DT_INT64
-    Attrs Targmax(DataType x) {
+    TF_MUST_USE_RESULT Attrs Targmax(DataType x) {
       Attrs ret = *this;
       ret.Targmax_ = x;
       return ret;
@@ -2223,6 +2982,59 @@ class MaxPoolWithArgmax {
 
   ::tensorflow::Output output;
   ::tensorflow::Output argmax;
+};
+
+/// Finds values of the `n`-th order statistic for the last dimension.
+///
+/// If the input is a vector (rank-1), finds the entries which is the nth-smallest
+/// value in the vector and outputs their values as scalar tensor.
+///
+/// For matrices (resp. higher rank input), computes the entries which is the
+/// nth-smallest value in each row (resp. vector along the last dimension). Thus,
+///
+///     values.shape = input.shape[:-1]
+///
+/// Arguments:
+/// * scope: A Scope object
+/// * input: 1-D or higher with last dimension at least `n+1`.
+/// * n: 0-D. Position of sorted vector to select along the last dimension (along
+/// each row for matrices). Valid range of n is `[0, input.shape[:-1])`
+///
+/// Optional attributes (see `Attrs`):
+/// * reverse: When set to True, find the nth-largest value in the vector and vice
+/// versa.
+///
+/// Returns:
+/// * `Output`: The `n`-th order statistic along each last dimensional slice.
+class NthElement {
+ public:
+  /// Optional attribute setters for NthElement
+  struct Attrs {
+    /// When set to True, find the nth-largest value in the vector and vice
+    /// versa.
+    ///
+    /// Defaults to false
+    TF_MUST_USE_RESULT Attrs Reverse(bool x) {
+      Attrs ret = *this;
+      ret.reverse_ = x;
+      return ret;
+    }
+
+    bool reverse_ = false;
+  };
+  NthElement(const ::tensorflow::Scope& scope, ::tensorflow::Input input,
+           ::tensorflow::Input n);
+  NthElement(const ::tensorflow::Scope& scope, ::tensorflow::Input input,
+           ::tensorflow::Input n, const NthElement::Attrs& attrs);
+  operator ::tensorflow::Output() const { return values; }
+  operator ::tensorflow::Input() const { return values; }
+  ::tensorflow::Node* node() const { return values.node(); }
+
+  static Attrs Reverse(bool x) {
+    return Attrs().Reverse(x);
+  }
+
+  ::tensorflow::Output values;
 };
 
 /// Produces the average pool of the input tensor for quantized types.
@@ -2364,6 +3176,13 @@ class QuantizedBiasAdd {
 /// tensor.
 /// * padding: The type of padding algorithm to use.
 ///
+/// Optional attributes (see `Attrs`):
+/// * dilations: 1-D tensor of length 4.  The dilation factor for each dimension of
+/// `input`. If set to k > 1, there will be k-1 skipped cells between each
+/// filter element on that dimension. The dimension order is determined by the
+/// value of `data_format`, see above for details. Dilations in the batch and
+/// depth dimensions must be 1.
+///
 /// Returns:
 /// * `Output` output
 /// * `Output` min_output: The float value that the lowest quantized output value represents.
@@ -2373,13 +3192,32 @@ class QuantizedConv2D {
   /// Optional attribute setters for QuantizedConv2D
   struct Attrs {
     /// Defaults to DT_QINT32
-    Attrs OutType(DataType x) {
+    TF_MUST_USE_RESULT Attrs OutType(DataType x) {
       Attrs ret = *this;
       ret.out_type_ = x;
       return ret;
     }
 
+    /// 1-D tensor of length 4.  The dilation factor for each dimension of
+    /// `input`. If set to k > 1, there will be k-1 skipped cells between each
+    /// filter element on that dimension. The dimension order is determined by the
+    /// value of `data_format`, see above for details. Dilations in the batch and
+    /// depth dimensions must be 1.
+    ///
+    /// Defaults to [1, 1, 1, 1]
+    TF_MUST_USE_RESULT Attrs Dilations(const gtl::ArraySlice<int>& x) {
+      Attrs ret = *this;
+      ret.dilations_ = x;
+      return ret;
+    }
+
     DataType out_type_ = DT_QINT32;
+    gtl::ArraySlice<int> dilations_ = Default_dilations();
+  private:
+    static gtl::ArraySlice<int> Default_dilations() {
+      static const int kStorage[] = {1, 1, 1, 1};
+      return gtl::ArraySlice<int>(kStorage);
+    }
   };
   QuantizedConv2D(const ::tensorflow::Scope& scope, ::tensorflow::Input input,
                 ::tensorflow::Input filter, ::tensorflow::Input min_input,
@@ -2395,6 +3233,9 @@ class QuantizedConv2D {
 
   static Attrs OutType(DataType x) {
     return Attrs().OutType(x);
+  }
+  static Attrs Dilations(const gtl::ArraySlice<int>& x) {
+    return Attrs().Dilations(x);
   }
 
   ::tensorflow::Output output;
@@ -2447,7 +3288,7 @@ class QuantizedRelu {
   /// Optional attribute setters for QuantizedRelu
   struct Attrs {
     /// Defaults to DT_QUINT8
-    Attrs OutType(DataType x) {
+    TF_MUST_USE_RESULT Attrs OutType(DataType x) {
       Attrs ret = *this;
       ret.out_type_ = x;
       return ret;
@@ -2487,7 +3328,7 @@ class QuantizedRelu6 {
   /// Optional attribute setters for QuantizedRelu6
   struct Attrs {
     /// Defaults to DT_QUINT8
-    Attrs OutType(DataType x) {
+    TF_MUST_USE_RESULT Attrs OutType(DataType x) {
       Attrs ret = *this;
       ret.out_type_ = x;
       return ret;
@@ -2527,7 +3368,7 @@ class QuantizedReluX {
   /// Optional attribute setters for QuantizedReluX
   struct Attrs {
     /// Defaults to DT_QUINT8
-    Attrs OutType(DataType x) {
+    TF_MUST_USE_RESULT Attrs OutType(DataType x) {
       Attrs ret = *this;
       ret.out_type_ = x;
       return ret;
@@ -2586,11 +3427,36 @@ class Relu6 {
   ::tensorflow::Output activations;
 };
 
+/// Computes scaled exponential linear: `scale * alpha * (exp(features) - 1)`
+///
+/// if < 0, `scale * features` otherwise.
+///
+/// To be used together with
+/// `initializer = tf.variance_scaling_initializer(factor=1.0, mode='FAN_IN')`.
+/// For correct dropout, use `tf.contrib.nn.alpha_dropout`.
+///
+/// See [Self-Normalizing Neural Networks](https://arxiv.org/abs/1706.02515)
+///
+/// Arguments:
+/// * scope: A Scope object
+///
+/// Returns:
+/// * `Output`: The activations tensor.
+class Selu {
+ public:
+  Selu(const ::tensorflow::Scope& scope, ::tensorflow::Input features);
+  operator ::tensorflow::Output() const { return activations; }
+  operator ::tensorflow::Input() const { return activations; }
+  ::tensorflow::Node* node() const { return activations.node(); }
+
+  ::tensorflow::Output activations;
+};
+
 /// Computes softmax activations.
 ///
 /// For each batch `i` and class `j` we have
 ///
-///     softmax[i, j] = exp(logits[i, j]) / sum_j(exp(logits[i, j]))
+///     $$softmax[i, j] = exp(logits[i, j]) / sum_j(exp(logits[i, j]))$$
 ///
 /// Arguments:
 /// * scope: A Scope object
@@ -2728,7 +3594,7 @@ class TopK {
     /// descending order.
     ///
     /// Defaults to true
-    Attrs Sorted(bool x) {
+    TF_MUST_USE_RESULT Attrs Sorted(bool x) {
       Attrs ret = *this;
       ret.sorted_ = x;
       return ret;

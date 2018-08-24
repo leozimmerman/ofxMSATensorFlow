@@ -13,8 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#ifndef TENSORFLOW_FRAMEWORK_CANCELLATION_H_
-#define TENSORFLOW_FRAMEWORK_CANCELLATION_H_
+#ifndef TENSORFLOW_CORE_FRAMEWORK_CANCELLATION_H_
+#define TENSORFLOW_CORE_FRAMEWORK_CANCELLATION_H_
 
 #include <atomic>
 #include <functional>
@@ -79,7 +79,7 @@ class CancellationManager {
   //     CancellationToken token = cm->get_cancellation_token();
   //     {
   //       mutex_lock(mu_);
-  //       already_cancelled = cm->RegisterCallback(
+  //       already_cancelled = !cm->RegisterCallback(
   //           [this, token]() { Cancel(token); });
   //       if (!already_cancelled) {
   //         // Issue asynchronous operation. Associate the pending operation
@@ -134,4 +134,4 @@ class CancellationManager {
 
 }  // namespace tensorflow
 
-#endif  // TENSORFLOW_FRAMEWORK_CANCELLATION_H_
+#endif  // TENSORFLOW_CORE_FRAMEWORK_CANCELLATION_H_

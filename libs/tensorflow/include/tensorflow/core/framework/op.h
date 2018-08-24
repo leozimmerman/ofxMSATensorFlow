@@ -13,14 +13,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#ifndef TENSORFLOW_FRAMEWORK_OP_H_
-#define TENSORFLOW_FRAMEWORK_OP_H_
+#ifndef TENSORFLOW_CORE_FRAMEWORK_OP_H_
+#define TENSORFLOW_CORE_FRAMEWORK_OP_H_
 
 #include <functional>
 #include <unordered_map>
 
 #include <vector>
-#include "tensorflow/core/framework/op_def.pb.h"  // TODO(b/62899350): Remove
 #include "tensorflow/core/framework/op_def_builder.h"
 #include "tensorflow/core/framework/op_def_util.h"
 #include "tensorflow/core/framework/selective_registration.h"
@@ -76,7 +75,8 @@ class OpRegistry : public OpRegistryInterface {
                 const OpRegistrationData** op_reg_data) const override;
 
   // Fills *ops with all registered OpDefs (except those with names
-  // starting with '_' if include_internal == false).
+  // starting with '_' if include_internal == false) sorted in
+  // ascending alphabetical order.
   void Export(bool include_internal, OpList* ops) const;
 
   // Returns ASCII-format OpList for all registered OpDefs (except
@@ -88,6 +88,9 @@ class OpRegistry : public OpRegistryInterface {
 
   // Get all registered ops.
   void GetRegisteredOps(std::vector<OpDef>* op_defs);
+
+  // Get all `OpRegistrationData`s.
+  void GetOpRegistrationData(std::vector<OpRegistrationData>* op_data);
 
   // Watcher, a function object.
   // The watcher, if set by SetWatcher(), is called every time an op is
@@ -306,4 +309,4 @@ struct OpDefBuilderReceiver {
 
 }  // namespace tensorflow
 
-#endif  // TENSORFLOW_FRAMEWORK_OP_H_
+#endif  // TENSORFLOW_CORE_FRAMEWORK_OP_H_

@@ -45,7 +45,7 @@ class FixedLengthRecordReader {
     /// Number of bytes in the header, defaults to 0.
     ///
     /// Defaults to 0
-    Attrs HeaderBytes(int64 x) {
+    TF_MUST_USE_RESULT Attrs HeaderBytes(int64 x) {
       Attrs ret = *this;
       ret.header_bytes_ = x;
       return ret;
@@ -54,7 +54,7 @@ class FixedLengthRecordReader {
     /// Number of bytes in the footer, defaults to 0.
     ///
     /// Defaults to 0
-    Attrs FooterBytes(int64 x) {
+    TF_MUST_USE_RESULT Attrs FooterBytes(int64 x) {
       Attrs ret = *this;
       ret.footer_bytes_ = x;
       return ret;
@@ -64,7 +64,7 @@ class FixedLengthRecordReader {
     /// record_bytes.
     ///
     /// Defaults to 0
-    Attrs HopBytes(int64 x) {
+    TF_MUST_USE_RESULT Attrs HopBytes(int64 x) {
       Attrs ret = *this;
       ret.hop_bytes_ = x;
       return ret;
@@ -74,7 +74,7 @@ class FixedLengthRecordReader {
     /// Otherwise, a default container is used.
     ///
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
@@ -84,7 +84,7 @@ class FixedLengthRecordReader {
     /// with this shared_name. Otherwise, the node name is used instead.
     ///
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -94,7 +94,7 @@ class FixedLengthRecordReader {
     /// are supported. Defaults to none.
     ///
     /// Defaults to ""
-    Attrs Encoding(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Encoding(StringPiece x) {
       Attrs ret = *this;
       ret.encoding_ = x;
       return ret;
@@ -160,7 +160,7 @@ class IdentityReader {
     /// Otherwise, a default container is used.
     ///
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
@@ -170,7 +170,7 @@ class IdentityReader {
     /// with this shared_name. Otherwise, the node name is used instead.
     ///
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -217,7 +217,7 @@ class LMDBReader {
     /// Otherwise, a default container is used.
     ///
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
@@ -227,7 +227,7 @@ class LMDBReader {
     /// with this shared_name. Otherwise, the node name is used instead.
     ///
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -256,6 +256,7 @@ class LMDBReader {
 ///
 /// Note that this routine only supports wildcard characters in the
 /// basename portion of the pattern, not in the directory portion.
+/// Note also that the order of filenames returned can be non-deterministic.
 ///
 /// Arguments:
 /// * scope: A Scope object
@@ -302,7 +303,7 @@ class MergeV2Checkpoints {
     /// see above.
     ///
     /// Defaults to true
-    Attrs DeleteOldDirs(bool x) {
+    TF_MUST_USE_RESULT Attrs DeleteOldDirs(bool x) {
       Attrs ret = *this;
       ret.delete_old_dirs_ = x;
       return ret;
@@ -533,7 +534,7 @@ class Restore {
     /// `file_pattern`.
     ///
     /// Defaults to -1
-    Attrs PreferredShard(int64 x) {
+    TF_MUST_USE_RESULT Attrs PreferredShard(int64 x) {
       Attrs ret = *this;
       ret.preferred_shard_ = x;
       return ret;
@@ -590,7 +591,7 @@ class RestoreSlice {
     /// `file_pattern`. See the documentation for `Restore`.
     ///
     /// Defaults to -1
-    Attrs PreferredShard(int64 x) {
+    TF_MUST_USE_RESULT Attrs PreferredShard(int64 x) {
       Attrs ret = *this;
       ret.preferred_shard_ = x;
       return ret;
@@ -810,7 +811,7 @@ class TFRecordReader {
     /// Otherwise, a default container is used.
     ///
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
@@ -820,14 +821,14 @@ class TFRecordReader {
     /// with this shared_name. Otherwise, the node name is used instead.
     ///
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
     }
 
     /// Defaults to ""
-    Attrs CompressionType(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs CompressionType(StringPiece x) {
       Attrs ret = *this;
       ret.compression_type_ = x;
       return ret;
@@ -878,7 +879,7 @@ class TextLineReader {
     /// Number of lines to skip from the beginning of every file.
     ///
     /// Defaults to 0
-    Attrs SkipHeaderLines(int64 x) {
+    TF_MUST_USE_RESULT Attrs SkipHeaderLines(int64 x) {
       Attrs ret = *this;
       ret.skip_header_lines_ = x;
       return ret;
@@ -888,7 +889,7 @@ class TextLineReader {
     /// Otherwise, a default container is used.
     ///
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
@@ -898,7 +899,7 @@ class TextLineReader {
     /// with this shared_name. Otherwise, the node name is used instead.
     ///
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;
@@ -952,7 +953,7 @@ class WholeFileReader {
     /// Otherwise, a default container is used.
     ///
     /// Defaults to ""
-    Attrs Container(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs Container(StringPiece x) {
       Attrs ret = *this;
       ret.container_ = x;
       return ret;
@@ -962,7 +963,7 @@ class WholeFileReader {
     /// with this shared_name. Otherwise, the node name is used instead.
     ///
     /// Defaults to ""
-    Attrs SharedName(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs SharedName(StringPiece x) {
       Attrs ret = *this;
       ret.shared_name_ = x;
       return ret;

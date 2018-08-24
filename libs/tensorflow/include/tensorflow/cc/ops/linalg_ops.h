@@ -77,7 +77,36 @@ class CholeskyGrad {
   ::tensorflow::Output output;
 };
 
-/// Computes the determinant of one ore more square matrices.
+/// Computes the sign and the log of the absolute value of the determinant of
+///
+/// one or more square matrices.
+///
+/// The input is a tensor of shape `[N, M, M]` whose inner-most 2 dimensions
+/// form square matrices. The outputs are two tensors containing the signs and
+/// absolute values of the log determinants for all N input submatrices
+/// `[..., :, :]` such that the determinant = sign*exp(log_abs_determinant).
+/// The log_abs_determinant is computed as det(P)*sum(log(diag(LU))) where LU
+/// is the LU decomposition of the input and P is the corresponding
+/// permutation matrix.
+///
+/// Arguments:
+/// * scope: A Scope object
+/// * input: Shape is `[N, M, M]`.
+///
+/// Returns:
+/// * `Output` sign: The signs of the log determinants of the inputs. Shape is `[N]`.
+/// * `Output` log_abs_determinant: The logs of the absolute values of the determinants
+/// of the N input matrices.  Shape is `[N]`.
+class LogMatrixDeterminant {
+ public:
+  LogMatrixDeterminant(const ::tensorflow::Scope& scope, ::tensorflow::Input
+                     input);
+
+  ::tensorflow::Output sign;
+  ::tensorflow::Output log_abs_determinant;
+};
+
+/// Computes the determinant of one or more square matrices.
 ///
 /// The input is a tensor of shape `[..., M, M]` whose inner-most 2 dimensions
 /// form square matrices. The output is a tensor containing the determinants
@@ -92,6 +121,39 @@ class CholeskyGrad {
 class MatrixDeterminant {
  public:
   MatrixDeterminant(const ::tensorflow::Scope& scope, ::tensorflow::Input input);
+  operator ::tensorflow::Output() const { return output; }
+  operator ::tensorflow::Input() const { return output; }
+  ::tensorflow::Node* node() const { return output.node(); }
+
+  ::tensorflow::Output output;
+};
+
+/// Computes the matrix exponential of one or more square matrices:
+///
+/// \\(exp(A) = \sum_{n=0}^\infty A^n/n!\\)
+///
+/// The exponential is computed using a combination of the scaling and squaring
+/// method and the Pade approximation. Details can be founds in:
+/// Nicholas J. Higham, "The scaling and squaring method for the matrix exponential
+/// revisited," SIAM J. Matrix Anal. Applic., 26:1179-1193, 2005.
+///
+/// The input is a tensor of shape `[..., M, M]` whose inner-most 2 dimensions
+/// form square matrices. The output is a tensor of the same shape as the input
+/// containing the exponential for all input submatrices `[..., :, :]`.
+///
+/// Arguments:
+/// * scope: A Scope object
+/// * input: Shape is `[..., M, M]`.
+///
+/// Returns:
+/// * `Output`: Shape is `[..., M, M]`.
+///
+/// @compatibility(scipy)
+/// Equivalent to scipy.linalg.expm
+/// @end_compatibility
+class MatrixExponential {
+ public:
+  MatrixExponential(const ::tensorflow::Scope& scope, ::tensorflow::Input input);
   operator ::tensorflow::Output() const { return output; }
   operator ::tensorflow::Input() const { return output; }
   ::tensorflow::Node* node() const { return output.node(); }
@@ -128,7 +190,7 @@ class MatrixInverse {
   /// Optional attribute setters for MatrixInverse
   struct Attrs {
     /// Defaults to false
-    Attrs Adjoint(bool x) {
+    TF_MUST_USE_RESULT Attrs Adjoint(bool x) {
       Attrs ret = *this;
       ret.adjoint_ = x;
       return ret;
@@ -178,7 +240,7 @@ class MatrixSolve {
     /// adjoint.
     ///
     /// Defaults to false
-    Attrs Adjoint(bool x) {
+    TF_MUST_USE_RESULT Attrs Adjoint(bool x) {
       Attrs ret = *this;
       ret.adjoint_ = x;
       return ret;
@@ -204,29 +266,32 @@ class MatrixSolve {
 /// Solves one or more linear least-squares problems.
 ///
 /// `matrix` is a tensor of shape `[..., M, N]` whose inner-most 2 dimensions
-/// form matrices of size `[M, N]`. Rhs is a tensor of shape `[..., M, K]`.
+/// form real or complex matrices of size `[M, N]`. `Rhs` is a tensor of the same
+/// type as `matrix` and shape `[..., M, K]`.
 /// The output is a tensor shape `[..., N, K]` where each output matrix solves
-/// each of the equations matrix[..., :, :] * output[..., :, :] = rhs[..., :, :]
+/// each of the equations
+/// `matrix[..., :, :]` * `output[..., :, :]` = `rhs[..., :, :]`
 /// in the least squares sense.
 ///
-/// matrix and right-hand sides in the batch:
+/// We use the following notation for (complex) matrix and right-hand sides
+/// in the batch:
 ///
-/// `matrix`=\\(A \in \Re^{m \times n}\\),
-/// `rhs`=\\(B  \in \Re^{m \times k}\\),
-/// `output`=\\(X  \in \Re^{n \times k}\\),
-/// `l2_regularizer`=\\(\lambda\\).
+/// `matrix`=\\(A \in \mathbb{C}^{m \times n}\\),
+/// `rhs`=\\(B  \in \mathbb{C}^{m \times k}\\),
+/// `output`=\\(X  \in \mathbb{C}^{n \times k}\\),
+/// `l2_regularizer`=\\(\lambda \in \mathbb{R}\\).
 ///
 /// If `fast` is `True`, then the solution is computed by solving the normal
 /// equations using Cholesky decomposition. Specifically, if \\(m \ge n\\) then
-/// \\(X = (A^T A + \lambda I)^{-1} A^T B\\), which solves the least-squares
-/// problem \\(X = \mathrm{argmin}_{Z \in \Re^{n \times k} } ||A Z - B||_F^2 +
-/// \lambda ||Z||_F^2\\). If \\(m \lt n\\) then `output` is computed as
-/// \\(X = A^T (A A^T + \lambda I)^{-1} B\\), which (for \\(\lambda = 0\\)) is the
+/// \\(X = (A^H A + \lambda I)^{-1} A^H B\\), which solves the least-squares
+/// problem \\(X = \mathrm{argmin}_{Z \in \Re^{n \times k} } ||A Z - B||_F^2 + \lambda ||Z||_F^2\\).
+/// If \\(m \lt n\\) then `output` is computed as
+/// \\(X = A^H (A A^H + \lambda I)^{-1} B\\), which (for \\(\lambda = 0\\)) is the
 /// minimum-norm solution to the under-determined linear system, i.e.
-/// \\(X = \mathrm{argmin}_{Z \in \Re^{n \times k} } ||Z||_F^2 \\), subject to
-/// \\(A Z = B\\). Notice that the fast path is only numerically stable when
-/// \\(A\\) is numerically full rank and has a condition number
-/// \\(\mathrm{cond}(A) \lt \frac{1}{\sqrt{\epsilon_{mach} } }\\) or\\(\lambda\\) is
+/// \\(X = \mathrm{argmin}_{Z \in \mathbb{C}^{n \times k} } ||Z||_F^2 \\),
+/// subject to \\(A Z = B\\). Notice that the fast path is only numerically stable
+/// when \\(A\\) is numerically full rank and has a condition number
+/// \\(\mathrm{cond}(A) \lt \frac{1}{\sqrt{\epsilon_{mach} } }\\) or \\(\lambda\\) is
 /// sufficiently large.
 ///
 /// If `fast` is `False` an algorithm based on the numerically robust complete
@@ -252,7 +317,7 @@ class MatrixSolveLs {
   /// Optional attribute setters for MatrixSolveLs
   struct Attrs {
     /// Defaults to true
-    Attrs Fast(bool x) {
+    TF_MUST_USE_RESULT Attrs Fast(bool x) {
       Attrs ret = *this;
       ret.fast_ = x;
       return ret;
@@ -288,7 +353,7 @@ class MatrixSolveLs {
 /// `rhs` is a tensor of shape `[..., M, K]`.
 ///
 /// The output is a tensor of shape `[..., M, K]`. If `adjoint` is
-/// `True` then the innermost matrices in output` satisfy matrix equations
+/// `True` then the innermost matrices in `output` satisfy matrix equations
 /// `matrix[..., :, :] * output[..., :, :] = rhs[..., :, :]`.
 /// If `adjoint` is `False` then the strictly then the  innermost matrices in
 /// `output` satisfy matrix equations
@@ -306,7 +371,7 @@ class MatrixSolveLs {
 ///          adjoint.
 ///
 /// @compatibility(numpy)
-/// Equivalent to np.linalg.triangular_solve
+/// Equivalent to scipy.linalg.solve_triangular
 /// @end_compatibility
 ///
 /// Returns:
@@ -319,7 +384,7 @@ class MatrixTriangularSolve {
     /// lower or upper triangular.
     ///
     /// Defaults to true
-    Attrs Lower(bool x) {
+    TF_MUST_USE_RESULT Attrs Lower(bool x) {
       Attrs ret = *this;
       ret.lower_ = x;
       return ret;
@@ -329,11 +394,11 @@ class MatrixTriangularSolve {
     ///          adjoint.
     ///
     /// @compatibility(numpy)
-    /// Equivalent to np.linalg.triangular_solve
+    /// Equivalent to scipy.linalg.solve_triangular
     /// @end_compatibility
     ///
     /// Defaults to false
-    Attrs Adjoint(bool x) {
+    TF_MUST_USE_RESULT Attrs Adjoint(bool x) {
       Attrs ret = *this;
       ret.adjoint_ = x;
       return ret;
@@ -397,7 +462,7 @@ class Qr {
     /// (the default), compute only the leading `P` columns of `q`.
     ///
     /// Defaults to false
-    Attrs FullMatrices(bool x) {
+    TF_MUST_USE_RESULT Attrs FullMatrices(bool x) {
       Attrs ret = *this;
       ret.full_matrices_ = x;
       return ret;
@@ -420,7 +485,8 @@ class Qr {
 /// Computes the eigen decomposition of one or more square self-adjoint matrices.
 ///
 /// Computes the eigenvalues and (optionally) eigenvectors of each inner matrix in
-/// `input` such that `input[..., :, :] = v[..., :, :] * diag(e[..., :])`.
+/// `input` such that `input[..., :, :] = v[..., :, :] * diag(e[..., :])`. The eigenvalues
+/// are sorted in non-decreasing order.
 ///
 /// ```python
 /// # a is a tensor.
@@ -449,7 +515,7 @@ class SelfAdjointEig {
     /// Otherwise, only the eigenvalues will be computed.
     ///
     /// Defaults to true
-    Attrs ComputeV(bool x) {
+    TF_MUST_USE_RESULT Attrs ComputeV(bool x) {
       Attrs ret = *this;
       ret.compute_v_ = x;
       return ret;
@@ -513,7 +579,7 @@ class Svd {
     /// If false, `u` and `v` are not set and should never referenced.
     ///
     /// Defaults to true
-    Attrs ComputeUv(bool x) {
+    TF_MUST_USE_RESULT Attrs ComputeUv(bool x) {
       Attrs ret = *this;
       ret.compute_uv_ = x;
       return ret;
@@ -524,7 +590,7 @@ class Svd {
     /// Ignored if `compute_uv` is `False`.
     ///
     /// Defaults to false
-    Attrs FullMatrices(bool x) {
+    TF_MUST_USE_RESULT Attrs FullMatrices(bool x) {
       Attrs ret = *this;
       ret.full_matrices_ = x;
       return ret;

@@ -13,8 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#ifndef TENSORFLOW_LIB_CORE_THREADPOOL_H_
-#define TENSORFLOW_LIB_CORE_THREADPOOL_H_
+#ifndef TENSORFLOW_CORE_LIB_CORE_THREADPOOL_H_
+#define TENSORFLOW_CORE_LIB_CORE_THREADPOOL_H_
 
 #include <functional>
 #include <memory>
@@ -30,7 +30,7 @@ class ThreadPool {
   // Constructs a pool that contains "num_threads" threads with specified
   // "name". env->StartThread() is used to create individual threads with the
   // given ThreadOptions. If "low_latency_hint" is true the thread pool
-  // implementation may use it as a hint that lower latency if preferred at the
+  // implementation may use it as a hint that lower latency is preferred at the
   // cost of higher CPU usage, e.g. by letting one or more idle threads spin
   // wait. Conversely, if the threadpool is used to schedule high-latency
   // operations like I/O the hint should be set to false.
@@ -108,4 +108,4 @@ class ThreadPool {
 }  // namespace thread
 }  // namespace tensorflow
 
-#endif  // TENSORFLOW_LIB_CORE_THREADPOOL_H_
+#endif  // TENSORFLOW_CORE_LIB_CORE_THREADPOOL_H_

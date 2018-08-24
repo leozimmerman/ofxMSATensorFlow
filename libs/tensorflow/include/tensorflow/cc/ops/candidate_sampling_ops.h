@@ -65,7 +65,7 @@ class AllCandidateSampler {
     /// random seed.
     ///
     /// Defaults to 0
-    Attrs Seed(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed(int64 x) {
       Attrs ret = *this;
       ret.seed_ = x;
       return ret;
@@ -74,7 +74,7 @@ class AllCandidateSampler {
     /// An second seed to avoid seed collision.
     ///
     /// Defaults to 0
-    Attrs Seed2(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed2(int64 x) {
       Attrs ret = *this;
       ret.seed2_ = x;
       return ret;
@@ -136,7 +136,7 @@ class ComputeAccidentalHits {
     /// random seed.
     ///
     /// Defaults to 0
-    Attrs Seed(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed(int64 x) {
       Attrs ret = *this;
       ret.seed_ = x;
       return ret;
@@ -145,7 +145,7 @@ class ComputeAccidentalHits {
     /// An second seed to avoid seed collision.
     ///
     /// Defaults to 0
-    Attrs Seed2(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed2(int64 x) {
       Attrs ret = *this;
       ret.seed2_ = x;
       return ret;
@@ -252,7 +252,7 @@ class FixedUnigramCandidateSampler {
     /// and unigrams needs to be passed to this op.
     ///
     /// Defaults to ""
-    Attrs VocabFile(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs VocabFile(StringPiece x) {
       Attrs ret = *this;
       ret.vocab_file_ = x;
       return ret;
@@ -265,7 +265,7 @@ class FixedUnigramCandidateSampler {
     /// a uniform distribution.
     ///
     /// Defaults to 1
-    Attrs Distortion(float x) {
+    TF_MUST_USE_RESULT Attrs Distortion(float x) {
       Attrs ret = *this;
       ret.distortion_ = x;
       return ret;
@@ -276,7 +276,7 @@ class FixedUnigramCandidateSampler {
     /// word token is used as ID 0. These IDs will have a sampling probability of 0.
     ///
     /// Defaults to 0
-    Attrs NumReservedIds(int64 x) {
+    TF_MUST_USE_RESULT Attrs NumReservedIds(int64 x) {
       Attrs ret = *this;
       ret.num_reserved_ids_ = x;
       return ret;
@@ -288,7 +288,7 @@ class FixedUnigramCandidateSampler {
     /// used in the overall computation.
     ///
     /// Defaults to 1
-    Attrs NumShards(int64 x) {
+    TF_MUST_USE_RESULT Attrs NumShards(int64 x) {
       Attrs ret = *this;
       ret.num_shards_ = x;
       return ret;
@@ -300,7 +300,7 @@ class FixedUnigramCandidateSampler {
     /// sampler op, when partitioning is being used.
     ///
     /// Defaults to 0
-    Attrs Shard(int64 x) {
+    TF_MUST_USE_RESULT Attrs Shard(int64 x) {
       Attrs ret = *this;
       ret.shard_ = x;
       return ret;
@@ -310,7 +310,7 @@ class FixedUnigramCandidateSampler {
     /// order. Exactly one of vocab_file and unigrams should be passed to this op.
     ///
     /// Defaults to []
-    Attrs Unigrams(const gtl::ArraySlice<float>& x) {
+    TF_MUST_USE_RESULT Attrs Unigrams(const gtl::ArraySlice<float>& x) {
       Attrs ret = *this;
       ret.unigrams_ = x;
       return ret;
@@ -321,7 +321,7 @@ class FixedUnigramCandidateSampler {
     /// random seed.
     ///
     /// Defaults to 0
-    Attrs Seed(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed(int64 x) {
       Attrs ret = *this;
       ret.seed_ = x;
       return ret;
@@ -330,7 +330,7 @@ class FixedUnigramCandidateSampler {
     /// An second seed to avoid seed collision.
     ///
     /// Defaults to 0
-    Attrs Seed2(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed2(int64 x) {
       Attrs ret = *this;
       ret.seed2_ = x;
       return ret;
@@ -431,7 +431,7 @@ class LearnedUnigramCandidateSampler {
     /// random seed.
     ///
     /// Defaults to 0
-    Attrs Seed(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed(int64 x) {
       Attrs ret = *this;
       ret.seed_ = x;
       return ret;
@@ -440,7 +440,7 @@ class LearnedUnigramCandidateSampler {
     /// An second seed to avoid seed collision.
     ///
     /// Defaults to 0
-    Attrs Seed2(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed2(int64 x) {
       Attrs ret = *this;
       ret.seed2_ = x;
       return ret;
@@ -519,7 +519,7 @@ class LogUniformCandidateSampler {
     /// random seed.
     ///
     /// Defaults to 0
-    Attrs Seed(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed(int64 x) {
       Attrs ret = *this;
       ret.seed_ = x;
       return ret;
@@ -528,7 +528,7 @@ class LogUniformCandidateSampler {
     /// An second seed to avoid seed collision.
     ///
     /// Defaults to 0
-    Attrs Seed2(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed2(int64 x) {
       Attrs ret = *this;
       ret.seed2_ = x;
       return ret;
@@ -605,7 +605,7 @@ class UniformCandidateSampler {
     /// random seed.
     ///
     /// Defaults to 0
-    Attrs Seed(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed(int64 x) {
       Attrs ret = *this;
       ret.seed_ = x;
       return ret;
@@ -614,7 +614,7 @@ class UniformCandidateSampler {
     /// An second seed to avoid seed collision.
     ///
     /// Defaults to 0
-    Attrs Seed2(int64 x) {
+    TF_MUST_USE_RESULT Attrs Seed2(int64 x) {
       Attrs ret = *this;
       ret.seed2_ = x;
       return ret;

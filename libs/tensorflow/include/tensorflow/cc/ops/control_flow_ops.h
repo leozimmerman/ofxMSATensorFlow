@@ -40,14 +40,14 @@ class Abort {
     /// A string which is the message associated with the exception.
     ///
     /// Defaults to ""
-    Attrs ErrorMsg(StringPiece x) {
+    TF_MUST_USE_RESULT Attrs ErrorMsg(StringPiece x) {
       Attrs ret = *this;
       ret.error_msg_ = x;
       return ret;
     }
 
     /// Defaults to false
-    Attrs ExitWithoutError(bool x) {
+    TF_MUST_USE_RESULT Attrs ExitWithoutError(bool x) {
       Attrs ret = *this;
       ret.exit_without_error_ = x;
       return ret;
