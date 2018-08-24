@@ -30,8 +30,8 @@ common:
 	# but if the addon or addon libraries need special search paths they can be
 	# specified here separated by spaces or one per line using +=
        #ADDON_INCLUDES = src
-       ADDON_INCLUDES += libs/tensorflow/include
-       ADDON_INCLUDES += libs/google/include
+       #ADDON_INCLUDES += libs/tensorflow/include
+       #ADDON_INCLUDES += libs/google/include
 
 	# the last one is different every time the lib is compiled
 	# need to find a fix
