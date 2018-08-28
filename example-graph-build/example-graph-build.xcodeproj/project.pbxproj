@@ -1,0 +1,1204 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		43367147876AE6A60D75FC58 /* ofxMSATFVizUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B3D4EFB341A3A59BE94FA9 /* ofxMSATFVizUtils.cpp */; };
+		681365FFB8176293024B40BC /* ofxMSATFLayerVisualizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CECDFE510794564BF94DF739 /* ofxMSATFLayerVisualizer.cpp */; };
+		7893FEDF30A9EB533C1D0830 /* ofxMSAMathUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50DDC2A110EBFCF8A9C53292 /* ofxMSAMathUtils.cpp */; };
+		80B8378B6CE24A0B78280DE4 /* ofxMSATFUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48670531819BA39F0A72A1A3 /* ofxMSATFUtils.cpp */; };
+		A2DCE4D5DF09E396753744D3 /* ofxMSATFImageClassifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0A65A4E70CCAF80CC66E43CA /* ofxMSATFImageClassifier.cpp */; };
+		CB6F4038D9AE6DB58FFBC0FE /* ofxMSATFSimpleModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 338FD955DA84035BAB0918D1 /* ofxMSATFSimpleModel.cpp */; };
+		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
+		E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1D0A3A1BDC003C02F2 /* main.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E4328147138ABC890047C5CB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E4B27C1510CBEB8E00536013;
+			remoteInfo = openFrameworks;
+		};
+		E4EEB9AB138B136A00A80321 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E4B27C1410CBEB8E00536013;
+			remoteInfo = openFrameworks;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E4C2427710CC5ABF004149E2 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		04B3D4EFB341A3A59BE94FA9 /* ofxMSATFVizUtils.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxMSATFVizUtils.cpp; path = ../../../addons/ofxMSATensorFlow/src/ofxMSATFVizUtils.cpp; sourceTree = SOURCE_ROOT; };
+		0A65A4E70CCAF80CC66E43CA /* ofxMSATFImageClassifier.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxMSATFImageClassifier.cpp; path = ../../../addons/ofxMSATensorFlow/src/ofxMSATFImageClassifier.cpp; sourceTree = SOURCE_ROOT; };
+		338FD955DA84035BAB0918D1 /* ofxMSATFSimpleModel.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxMSATFSimpleModel.cpp; path = ../../../addons/ofxMSATensorFlow/src/ofxMSATFSimpleModel.cpp; sourceTree = SOURCE_ROOT; };
+		3E0AAE287F90D80500BBAEC7 /* ofxMSATFVizUtils.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxMSATFVizUtils.h; path = ../../../addons/ofxMSATensorFlow/src/ofxMSATFVizUtils.h; sourceTree = SOURCE_ROOT; };
+		48670531819BA39F0A72A1A3 /* ofxMSATFUtils.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxMSATFUtils.cpp; path = ../../../addons/ofxMSATensorFlow/src/ofxMSATFUtils.cpp; sourceTree = SOURCE_ROOT; };
+		50DDC2A110EBFCF8A9C53292 /* ofxMSAMathUtils.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxMSAMathUtils.cpp; path = ../../../addons/ofxMSATensorFlow/src/ofxMSAMathUtils.cpp; sourceTree = SOURCE_ROOT; };
+		8047C4701936395671959B29 /* ofxMSATFIncludes.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxMSATFIncludes.h; path = ../../../addons/ofxMSATensorFlow/src/ofxMSATFIncludes.h; sourceTree = SOURCE_ROOT; };
+		952FCF6940D0624E4E0A43C3 /* ofxMSATFImageClassifier.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxMSATFImageClassifier.h; path = ../../../addons/ofxMSATensorFlow/src/ofxMSATFImageClassifier.h; sourceTree = SOURCE_ROOT; };
+		AF442D431CD0A26B51E3D0EA /* ofxMSATFLayerVisualizer.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxMSATFLayerVisualizer.h; path = ../../../addons/ofxMSATensorFlow/src/ofxMSATFLayerVisualizer.h; sourceTree = SOURCE_ROOT; };
+		CABE9199C631B6E230EC4672 /* ofxMSATensorFlow.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxMSATensorFlow.h; path = ../../../addons/ofxMSATensorFlow/src/ofxMSATensorFlow.h; sourceTree = SOURCE_ROOT; };
+		CECDFE510794564BF94DF739 /* ofxMSATFLayerVisualizer.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxMSATFLayerVisualizer.cpp; path = ../../../addons/ofxMSATensorFlow/src/ofxMSATFLayerVisualizer.cpp; sourceTree = SOURCE_ROOT; };
+		D5E8A2446899B2C9F4DD35F2 /* ofxMSAMathUtils.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxMSAMathUtils.h; path = ../../../addons/ofxMSATensorFlow/src/ofxMSAMathUtils.h; sourceTree = SOURCE_ROOT; };
+		DEDA8AFAF5AB713E51D26DA8 /* ofxMSATFSimpleModel.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxMSATFSimpleModel.h; path = ../../../addons/ofxMSATensorFlow/src/ofxMSATFSimpleModel.h; sourceTree = SOURCE_ROOT; };
+		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
+		E4B69B5B0A3A1756003C02F2 /* example-graph-buildDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "example-graph-buildDebug.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
+		E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "openFrameworks-Info.plist"; sourceTree = "<group>"; };
+		E4EB691F138AFCF100A09F29 /* CoreOF.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = CoreOF.xcconfig; path = ../../../libs/openFrameworksCompiled/project/osx/CoreOF.xcconfig; sourceTree = SOURCE_ROOT; };
+		E4EB6923138AFD0F00A09F29 /* Project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Project.xcconfig; sourceTree = "<group>"; };
+		F24C9752A08F209C64C12B37 /* ofxMSATFUtils.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxMSATFUtils.h; path = ../../../addons/ofxMSATensorFlow/src/ofxMSATFUtils.h; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E4B69B590A3A1756003C02F2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		35A52E7CCD02A0358E259E7E /* ofxMSATensorFlow */ = {
+			isa = PBXGroup;
+			children = (
+				63CB5192B46AD7987D95937E /* src */,
+			);
+			name = ofxMSATensorFlow;
+			sourceTree = "<group>";
+		};
+		63CB5192B46AD7987D95937E /* src */ = {
+			isa = PBXGroup;
+			children = (
+				952FCF6940D0624E4E0A43C3 /* ofxMSATFImageClassifier.h */,
+				04B3D4EFB341A3A59BE94FA9 /* ofxMSATFVizUtils.cpp */,
+				DEDA8AFAF5AB713E51D26DA8 /* ofxMSATFSimpleModel.h */,
+				D5E8A2446899B2C9F4DD35F2 /* ofxMSAMathUtils.h */,
+				0A65A4E70CCAF80CC66E43CA /* ofxMSATFImageClassifier.cpp */,
+				AF442D431CD0A26B51E3D0EA /* ofxMSATFLayerVisualizer.h */,
+				3E0AAE287F90D80500BBAEC7 /* ofxMSATFVizUtils.h */,
+				338FD955DA84035BAB0918D1 /* ofxMSATFSimpleModel.cpp */,
+				F24C9752A08F209C64C12B37 /* ofxMSATFUtils.h */,
+				48670531819BA39F0A72A1A3 /* ofxMSATFUtils.cpp */,
+				8047C4701936395671959B29 /* ofxMSATFIncludes.h */,
+				CECDFE510794564BF94DF739 /* ofxMSATFLayerVisualizer.cpp */,
+				CABE9199C631B6E230EC4672 /* ofxMSATensorFlow.h */,
+				50DDC2A110EBFCF8A9C53292 /* ofxMSAMathUtils.cpp */,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
+		6948EE371B920CB800B5AC1A /* local_addons */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = local_addons;
+			sourceTree = "<group>";
+		};
+		BB4B014C10F69532006C3DED /* addons */ = {
+			isa = PBXGroup;
+			children = (
+				35A52E7CCD02A0358E259E7E /* ofxMSATensorFlow */,
+			);
+			name = addons;
+			sourceTree = "<group>";
+		};
+		E4328144138ABC890047C5CB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E4328148138ABC890047C5CB /* openFrameworksDebug.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E4B69B4A0A3A1720003C02F2 = {
+			isa = PBXGroup;
+			children = (
+				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,
+				E4EB6923138AFD0F00A09F29 /* Project.xcconfig */,
+				E4B69E1C0A3A1BDC003C02F2 /* src */,
+				E4EEC9E9138DF44700A80321 /* openFrameworks */,
+				BB4B014C10F69532006C3DED /* addons */,
+				6948EE371B920CB800B5AC1A /* local_addons */,
+				E4B69B5B0A3A1756003C02F2 /* example-graph-buildDebug.app */,
+			);
+			sourceTree = "<group>";
+		};
+		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
+			);
+			path = src;
+			sourceTree = SOURCE_ROOT;
+		};
+		E4EEC9E9138DF44700A80321 /* openFrameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E4EB691F138AFCF100A09F29 /* CoreOF.xcconfig */,
+				E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */,
+			);
+			name = openFrameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E4B69B5A0A3A1756003C02F2 /* example-graph-build */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E4B69B5F0A3A1757003C02F2 /* Build configuration list for PBXNativeTarget "example-graph-build" */;
+			buildPhases = (
+				E4B69B580A3A1756003C02F2 /* Sources */,
+				E4B69B590A3A1756003C02F2 /* Frameworks */,
+				E4B6FFFD0C3F9AB9008CF71C /* ShellScript */,
+				E4C2427710CC5ABF004149E2 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E4EEB9AC138B136A00A80321 /* PBXTargetDependency */,
+			);
+			name = "example-graph-build";
+			productName = myOFApp;
+			productReference = E4B69B5B0A3A1756003C02F2 /* example-graph-buildDebug.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E4B69B4C0A3A1720003C02F2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0600;
+			};
+			buildConfigurationList = E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "example-graph-build" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = E4B69B4A0A3A1720003C02F2;
+			productRefGroup = E4B69B4A0A3A1720003C02F2;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = E4328144138ABC890047C5CB /* Products */;
+					ProjectRef = E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				E4B69B5A0A3A1756003C02F2 /* example-graph-build */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		E4328148138ABC890047C5CB /* openFrameworksDebug.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = openFrameworksDebug.a;
+			remoteRef = E4328147138ABC890047C5CB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E4B6FFFD0C3F9AB9008CF71C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "mkdir -p \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources/\"\n# Copy default icon file into App/Resources\nrsync -aved \"$ICON_FILE\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources/\"\n# Copy libfmod and change install directory for fmod to run\nrsync -aved ../../../libs/fmodex/lib/osx/libfmodex.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/\";\ninstall_name_tool -change @executable_path/libfmodex.dylib @executable_path/../Frameworks/libfmodex.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\";\n# Copy GLUT framework (must remove for AppStore submissions)\nrsync -aved ../../../libs/glut/lib/osx/GLUT.framework \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E4B69B580A3A1756003C02F2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
+				43367147876AE6A60D75FC58 /* ofxMSATFVizUtils.cpp in Sources */,
+				A2DCE4D5DF09E396753744D3 /* ofxMSATFImageClassifier.cpp in Sources */,
+				CB6F4038D9AE6DB58FFBC0FE /* ofxMSATFSimpleModel.cpp in Sources */,
+				80B8378B6CE24A0B78280DE4 /* ofxMSATFUtils.cpp in Sources */,
+				681365FFB8176293024B40BC /* ofxMSATFLayerVisualizer.cpp in Sources */,
+				7893FEDF30A9EB533C1D0830 /* ofxMSAMathUtils.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E4EEB9AC138B136A00A80321 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = openFrameworks;
+			targetProxy = E4EEB9AB138B136A00A80321 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E4B69B4E0A3A1720003C02F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E4EB6923138AFD0F00A09F29 /* Project.xcconfig */;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/bin/";
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				GCC_AUTO_VECTORIZATION = YES;
+				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = YES;
+				GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO = NO;
+				GCC_WARN_ALLOW_INCOMPLETE_PROTOCOL = NO;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				GCC_WARN_UNUSED_VALUE = NO;
+				GCC_WARN_UNUSED_VARIABLE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(OF_CORE_HEADERS)",
+					../../../addons/ofxMSATensorFlow/libs,
+					../../../addons/ofxMSATensorFlow/libs/google,
+					../../../addons/ofxMSATensorFlow/libs/google/include,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/cpp,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/csharp,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/java,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/js,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/js/well_known_types,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/objectivec,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/php,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/python,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/ruby,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/io,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/stubs,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/testdata,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/testing,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/util,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/util/internal,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/util/internal/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/Eigen,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/Eigen/src,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/client,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/framework,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/gradients,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/ops,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/profiler,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/python,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two/00000123,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two/00000123/assets,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two/00000123/variables,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_main_op,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_main_op/00000123,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_main_op/00000123/assets,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_main_op/00000123/variables,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_pbtxt,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_pbtxt/00000123,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_pbtxt/00000123/assets,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_pbtxt/00000123/variables,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/tools,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/training,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/tutorials,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/api_def,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/api_def/base_api,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/api_def/java_api,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/api_def/python_api,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/common_runtime,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/common_runtime/eager,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/common_runtime/gpu,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/common_runtime/sycl,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/debug,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/distributed_runtime,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/distributed_runtime/eager,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/distributed_runtime/rpc,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/distributed_runtime/rpc/eager,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/example,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/example/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/framework,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/graph,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/clusters,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/costs,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/costs/graph_properties_testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/inputs,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/inputs/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/optimizers,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/optimizers/data,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/utils,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/batching_util,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/boosted_trees,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/boosted_trees/quantiles,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/data,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/data/sql,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/fuzzing,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/hexagon,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/neon,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/spectrogram_test_data,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/bfloat16,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/bmp,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/bmp/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/core,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/db,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/gif,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/gif/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/gtl,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/hash,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/histogram,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/io,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/io/snappy,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/jpeg,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/jpeg/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/lmdb,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/lmdb/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/math,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/monitoring,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/png,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/png/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/psnr,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/psnr/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/random,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/ssim,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/ssim/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/strings,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/wav,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/ops,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/ops/compat,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/cloud,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/cloud/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/default,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/default/build_config,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/default/gpu,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/hadoop,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/posix,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/profile_utils,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/s3,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/windows,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/profiler,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/profiler/g3doc,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/profiler/internal,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/profiler/internal/advisor,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/profiler/internal/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/protobuf,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/public,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/user_ops,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/util,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/util/ctc,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/util/proto,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/util/rpc,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/util/sparse,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/util/tensor_bundle,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3/Eigen,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3/unsupported,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3/unsupported/Eigen,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3/unsupported/Eigen/CXX11,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3/unsupported/Eigen/CXX11/src,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3/unsupported/Eigen/CXX11/src/FixedPoint,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11/src,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11/src/Tensor,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11/src/TensorSymmetry,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11/src/TensorSymmetry/util,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11/src/ThreadPool,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11/src/util,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/AutoDiff,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/BVH,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/Eigenvalues,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/EulerAngles,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/FFT,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/IterativeSolvers,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/KroneckerProduct,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/LevenbergMarquardt,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/MatrixFunctions,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/MoreVectorization,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/NonLinearOptimization,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/NumericalDiff,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/Polynomials,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/Skyline,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/SparseExtra,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/SpecialFunctions,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/SpecialFunctions/arch,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/SpecialFunctions/arch/CUDA,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/Splines,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/bench,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/doc,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/doc/examples,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/doc/snippets,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/test,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/test/mpreal,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/lib,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/lib/osx,
+					../../../addons/ofxMSATensorFlow/src,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-D__MACOSX_CORE__",
+					"-mtune=native",
+				);
+				OTHER_LDFLAGS = (
+					"$(OF_CORE_FRAMEWORKS)",
+					"$(OF_CORE_LIBS)",
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/lib/osx/libtensorflow_cc.so,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/lib/osx/libtensorflow_framework.so,
+					"-rpath",
+					"@loader_path/../../../../../../../addons/ofxMSATensorFlow/libs/tensorflow/lib/osx",
+				);
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		E4B69B4F0A3A1720003C02F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E4EB6923138AFD0F00A09F29 /* Project.xcconfig */;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/bin/";
+				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = YES;
+				GCC_AUTO_VECTORIZATION = YES;
+				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_UNROLL_LOOPS = YES;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = YES;
+				GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO = NO;
+				GCC_WARN_ALLOW_INCOMPLETE_PROTOCOL = NO;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				GCC_WARN_UNUSED_VALUE = NO;
+				GCC_WARN_UNUSED_VARIABLE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(OF_CORE_HEADERS)",
+					../../../addons/ofxMSATensorFlow/libs,
+					../../../addons/ofxMSATensorFlow/libs/google,
+					../../../addons/ofxMSATensorFlow/libs/google/include,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/cpp,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/csharp,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/java,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/js,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/js/well_known_types,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/objectivec,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/php,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/python,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/ruby,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/io,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/stubs,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/testdata,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/testing,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/util,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/util/internal,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/util/internal/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/Eigen,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/Eigen/src,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/client,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/framework,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/gradients,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/ops,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/profiler,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/python,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two/00000123,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two/00000123/assets,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two/00000123/variables,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_main_op,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_main_op/00000123,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_main_op/00000123/assets,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_main_op/00000123/variables,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_pbtxt,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_pbtxt/00000123,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_pbtxt/00000123/assets,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_pbtxt/00000123/variables,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/tools,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/training,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/tutorials,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/api_def,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/api_def/base_api,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/api_def/java_api,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/api_def/python_api,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/common_runtime,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/common_runtime/eager,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/common_runtime/gpu,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/common_runtime/sycl,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/debug,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/distributed_runtime,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/distributed_runtime/eager,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/distributed_runtime/rpc,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/distributed_runtime/rpc/eager,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/example,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/example/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/framework,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/graph,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/clusters,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/costs,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/costs/graph_properties_testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/inputs,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/inputs/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/optimizers,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/optimizers/data,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/utils,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/batching_util,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/boosted_trees,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/boosted_trees/quantiles,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/data,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/data/sql,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/fuzzing,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/hexagon,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/neon,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/spectrogram_test_data,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/bfloat16,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/bmp,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/bmp/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/core,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/db,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/gif,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/gif/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/gtl,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/hash,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/histogram,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/io,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/io/snappy,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/jpeg,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/jpeg/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/lmdb,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/lmdb/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/math,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/monitoring,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/png,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/png/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/psnr,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/psnr/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/random,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/ssim,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/ssim/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/strings,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/wav,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/ops,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/ops/compat,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/cloud,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/cloud/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/default,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/default/build_config,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/default/gpu,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/hadoop,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/posix,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/profile_utils,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/s3,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/windows,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/profiler,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/profiler/g3doc,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/profiler/internal,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/profiler/internal/advisor,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/profiler/internal/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/protobuf,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/public,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/user_ops,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/util,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/util/ctc,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/util/proto,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/util/rpc,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/util/sparse,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/util/tensor_bundle,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3/Eigen,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3/unsupported,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3/unsupported/Eigen,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3/unsupported/Eigen/CXX11,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3/unsupported/Eigen/CXX11/src,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3/unsupported/Eigen/CXX11/src/FixedPoint,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11/src,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11/src/Tensor,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11/src/TensorSymmetry,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11/src/TensorSymmetry/util,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11/src/ThreadPool,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11/src/util,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/AutoDiff,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/BVH,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/Eigenvalues,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/EulerAngles,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/FFT,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/IterativeSolvers,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/KroneckerProduct,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/LevenbergMarquardt,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/MatrixFunctions,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/MoreVectorization,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/NonLinearOptimization,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/NumericalDiff,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/Polynomials,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/Skyline,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/SparseExtra,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/SpecialFunctions,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/SpecialFunctions/arch,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/SpecialFunctions/arch/CUDA,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/Splines,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/bench,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/doc,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/doc/examples,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/doc/snippets,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/test,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/test/mpreal,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/lib,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/lib/osx,
+					../../../addons/ofxMSATensorFlow/src,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-D__MACOSX_CORE__",
+					"-mtune=native",
+				);
+				OTHER_LDFLAGS = (
+					"$(OF_CORE_FRAMEWORKS)",
+					"$(OF_CORE_LIBS)",
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/lib/osx/libtensorflow_cc.so,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/lib/osx/libtensorflow_framework.so,
+					"-rpath",
+					"@loader_path/../../../../../../../addons/ofxMSATensorFlow/libs/tensorflow/lib/osx",
+				);
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		E4B69B600A3A1757003C02F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E4EB6923138AFD0F00A09F29 /* Project.xcconfig */;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../libs/glut/lib/osx\"";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = NONE;
+				HEADER_SEARCH_PATHS = (
+					"$(OF_CORE_HEADERS)",
+					../../../addons/ofxMSATensorFlow/libs,
+					../../../addons/ofxMSATensorFlow/libs/google,
+					../../../addons/ofxMSATensorFlow/libs/google/include,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/cpp,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/csharp,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/java,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/js,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/js/well_known_types,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/objectivec,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/php,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/python,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/ruby,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/io,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/stubs,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/testdata,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/testing,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/util,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/util/internal,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/util/internal/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/Eigen,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/Eigen/src,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/client,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/framework,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/gradients,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/ops,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/profiler,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/python,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two/00000123,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two/00000123/assets,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two/00000123/variables,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_main_op,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_main_op/00000123,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_main_op/00000123/assets,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_main_op/00000123/variables,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_pbtxt,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_pbtxt/00000123,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_pbtxt/00000123/assets,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_pbtxt/00000123/variables,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/tools,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/training,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/tutorials,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/api_def,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/api_def/base_api,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/api_def/java_api,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/api_def/python_api,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/common_runtime,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/common_runtime/eager,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/common_runtime/gpu,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/common_runtime/sycl,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/debug,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/distributed_runtime,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/distributed_runtime/eager,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/distributed_runtime/rpc,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/distributed_runtime/rpc/eager,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/example,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/example/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/framework,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/graph,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/clusters,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/costs,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/costs/graph_properties_testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/inputs,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/inputs/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/optimizers,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/optimizers/data,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/utils,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/batching_util,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/boosted_trees,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/boosted_trees/quantiles,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/data,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/data/sql,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/fuzzing,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/hexagon,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/neon,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/spectrogram_test_data,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/bfloat16,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/bmp,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/bmp/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/core,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/db,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/gif,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/gif/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/gtl,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/hash,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/histogram,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/io,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/io/snappy,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/jpeg,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/jpeg/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/lmdb,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/lmdb/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/math,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/monitoring,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/png,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/png/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/psnr,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/psnr/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/random,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/ssim,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/ssim/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/strings,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/wav,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/ops,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/ops/compat,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/cloud,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/cloud/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/default,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/default/build_config,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/default/gpu,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/hadoop,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/posix,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/profile_utils,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/s3,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/windows,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/profiler,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/profiler/g3doc,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/profiler/internal,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/profiler/internal/advisor,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/profiler/internal/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/protobuf,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/public,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/user_ops,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/util,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/util/ctc,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/util/proto,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/util/rpc,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/util/sparse,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/util/tensor_bundle,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3/Eigen,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3/unsupported,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3/unsupported/Eigen,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3/unsupported/Eigen/CXX11,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3/unsupported/Eigen/CXX11/src,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3/unsupported/Eigen/CXX11/src/FixedPoint,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11/src,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11/src/Tensor,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11/src/TensorSymmetry,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11/src/TensorSymmetry/util,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11/src/ThreadPool,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11/src/util,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/AutoDiff,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/BVH,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/Eigenvalues,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/EulerAngles,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/FFT,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/IterativeSolvers,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/KroneckerProduct,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/LevenbergMarquardt,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/MatrixFunctions,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/MoreVectorization,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/NonLinearOptimization,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/NumericalDiff,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/Polynomials,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/Skyline,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/SparseExtra,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/SpecialFunctions,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/SpecialFunctions/arch,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/SpecialFunctions/arch/CUDA,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/Splines,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/bench,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/doc,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/doc/examples,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/doc/snippets,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/test,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/test/mpreal,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/lib,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/lib/osx,
+					../../../addons/ofxMSATensorFlow/src,
+				);
+				ICON = "$(ICON_NAME_DEBUG)";
+				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
+				INFOPLIST_FILE = "openFrameworks-Info.plist";
+				INSTALL_PATH = /Applications;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"$(OF_CORE_FRAMEWORKS)",
+					"$(OF_CORE_LIBS)",
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/lib/osx/libtensorflow_cc.so,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/lib/osx/libtensorflow_framework.so,
+					"-rpath",
+					"@loader_path/../../../../../../../addons/ofxMSATensorFlow/libs/tensorflow/lib/osx",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)Debug";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		E4B69B610A3A1757003C02F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E4EB6923138AFD0F00A09F29 /* Project.xcconfig */;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../libs/glut/lib/osx\"";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = NONE;
+				HEADER_SEARCH_PATHS = (
+					"$(OF_CORE_HEADERS)",
+					../../../addons/ofxMSATensorFlow/libs,
+					../../../addons/ofxMSATensorFlow/libs/google,
+					../../../addons/ofxMSATensorFlow/libs/google/include,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/cpp,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/csharp,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/java,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/js,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/js/well_known_types,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/objectivec,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/php,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/python,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/compiler/ruby,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/io,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/stubs,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/testdata,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/testing,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/util,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/util/internal,
+					../../../addons/ofxMSATensorFlow/libs/google/include/google/protobuf/util/internal/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/Eigen,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/Eigen/src,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/client,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/framework,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/gradients,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/ops,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/profiler,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/python,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two/00000123,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two/00000123/assets,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two/00000123/variables,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_main_op,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_main_op/00000123,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_main_op/00000123/assets,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_main_op/00000123/variables,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_pbtxt,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_pbtxt/00000123,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_pbtxt/00000123/assets,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/saved_model/testdata/half_plus_two_pbtxt/00000123/variables,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/tools,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/training,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/cc/tutorials,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/api_def,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/api_def/base_api,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/api_def/java_api,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/api_def/python_api,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/common_runtime,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/common_runtime/eager,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/common_runtime/gpu,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/common_runtime/sycl,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/debug,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/distributed_runtime,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/distributed_runtime/eager,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/distributed_runtime/rpc,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/distributed_runtime/rpc/eager,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/example,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/example/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/framework,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/graph,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/clusters,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/costs,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/costs/graph_properties_testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/inputs,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/inputs/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/optimizers,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/optimizers/data,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/grappler/utils,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/batching_util,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/boosted_trees,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/boosted_trees/quantiles,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/data,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/data/sql,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/fuzzing,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/hexagon,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/neon,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/kernels/spectrogram_test_data,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/bfloat16,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/bmp,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/bmp/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/core,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/db,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/gif,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/gif/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/gtl,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/hash,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/histogram,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/io,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/io/snappy,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/jpeg,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/jpeg/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/lmdb,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/lmdb/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/math,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/monitoring,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/png,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/png/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/psnr,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/psnr/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/random,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/ssim,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/ssim/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/strings,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/lib/wav,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/ops,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/ops/compat,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/cloud,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/cloud/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/default,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/default/build_config,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/default/gpu,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/hadoop,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/posix,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/profile_utils,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/s3,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/platform/windows,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/profiler,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/profiler/g3doc,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/profiler/internal,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/profiler/internal/advisor,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/profiler/internal/testdata,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/protobuf,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/public,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/user_ops,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/util,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/util/ctc,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/util/proto,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/util/rpc,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/util/sparse,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/tensorflow/core/util/tensor_bundle,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3/Eigen,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3/unsupported,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3/unsupported/Eigen,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3/unsupported/Eigen/CXX11,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3/unsupported/Eigen/CXX11/src,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/third_party/eigen3/unsupported/Eigen/CXX11/src/FixedPoint,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11/src,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11/src/Tensor,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11/src/TensorSymmetry,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11/src/TensorSymmetry/util,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11/src/ThreadPool,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/CXX11/src/util,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/AutoDiff,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/BVH,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/Eigenvalues,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/EulerAngles,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/FFT,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/IterativeSolvers,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/KroneckerProduct,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/LevenbergMarquardt,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/MatrixFunctions,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/MoreVectorization,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/NonLinearOptimization,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/NumericalDiff,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/Polynomials,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/Skyline,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/SparseExtra,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/SpecialFunctions,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/SpecialFunctions/arch,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/SpecialFunctions/arch/CUDA,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/Eigen/src/Splines,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/bench,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/doc,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/doc/examples,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/doc/snippets,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/test,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/include/unsupported/test/mpreal,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/lib,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/lib/osx,
+					../../../addons/ofxMSATensorFlow/src,
+				);
+				ICON = "$(ICON_NAME_RELEASE)";
+				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
+				INFOPLIST_FILE = "openFrameworks-Info.plist";
+				INSTALL_PATH = /Applications;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"$(OF_CORE_FRAMEWORKS)",
+					"$(OF_CORE_LIBS)",
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/lib/osx/libtensorflow_cc.so,
+					../../../addons/ofxMSATensorFlow/libs/tensorflow/lib/osx/libtensorflow_framework.so,
+					"-rpath",
+					"@loader_path/../../../../../../../addons/ofxMSATensorFlow/libs/tensorflow/lib/osx",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+				baseConfigurationReference = E4EB6923138AFD0F00A09F29;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "example-graph-build" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E4B69B4E0A3A1720003C02F2 /* Debug */,
+				E4B69B4F0A3A1720003C02F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E4B69B5F0A3A1757003C02F2 /* Build configuration list for PBXNativeTarget "example-graph-build" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E4B69B600A3A1757003C02F2 /* Debug */,
+				E4B69B610A3A1757003C02F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E4B69B4C0A3A1720003C02F2 /* Project object */;
+}
